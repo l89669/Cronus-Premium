@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module external.linked.project.id="Cronus:test" external.linked.project.path="$MODULE_DIR$/../.." external.root.project.path="$MODULE_DIR$/../.." external.system.id="GRADLE" external.system.module.group="ink.ptms.cronus" external.system.module.type="sourceSet" external.system.module.version="1.3.0.2020.04.11 Premium" type="JAVA_MODULE" version="4">
+  <component name="FacetManager">
+    <facet type="kotlin-language" name="Kotlin">
+      <configuration version="3" platform="JVM 1.8" allPlatforms="JVM [1.8]" useProjectSettings="false">
+        <compilerSettings />
+        <compilerArguments>
+          <option name="destination" value="$MODULE_DIR$/../../build/classes/kotlin/test" />
+          <option name="noStdlib" value="true" />
+          <option name="noReflect" value="true" />
+          <option name="moduleName" value="Cronus" />
+          <option name="jvmTarget" value="1.8" />
+          <option name="languageVersion" value="1.2" />
+          <option name="apiVersion" value="1.2" />
+          <option name="pluginOptions">
+            <array />
+          </option>
+          <option name="pluginClasspaths">
+            <array />
+          </option>
+          <option name="coroutinesState" value="warn" />
+          <option name="errors">
+            <ArgumentParseErrors />
+          </option>
+        </compilerArguments>
+      </configuration>
+    </facet>
+    <facet type="minecraft" name="Minecraft">
+      <configuration>
+        <autoDetectTypes>
+          <platformType>PAPER</platformType>
+          <platformType>BUNGEECORD</platformType>
+        </autoDetectTypes>
+      </configuration>
+    </facet>
+  </component>
+  <component name="NewModuleRootManager">
+    <output-test url="file://$MODULE_DIR$/../../build/classes/java/test" />
+    <exclude-output />
+    <content url="file://$MODULE_DIR$/../../src/test">
+      <sourceFolder url="file://$MODULE_DIR$/../../src/test/java" isTestSource="true" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module" module-name="ink.ptms.cronus.Cronus.main" />
+    <orderEntry type="library" name="Gradle: ink.ptms.core:v11200:all:11200" level="project" />
+    <orderEntry type="library" name="Gradle: ink.ptms.core:v11300:all:11300" level="project" />
+    <orderEntry type="library" name="Gradle: ink.ptms.core:v10800:all:10800" level="project" />
+    <orderEntry type="library" name="Gradle: ink.ptms.core:v11400:all:11400" level="project" />
+    <orderEntry type="library" name="Gradle: io.izzel.taboolib:TabooLib:all:5.21" level="project" />
+    <orderEntry type="library" name="Gradle: io.izzel.taboolib:TabooLibLoader:all:1.7" level="project" />
+    <orderEntry type="library" name="Gradle: org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.2.41" level="project" />
+    <orderEntry type="library" name="Gradle: org.jetbrains.kotlin:kotlin-stdlib:1.2.41" level="project" />
+    <orderEntry type="library" name="Gradle: me.clip:placeholderapi:2.10.4" level="project" />
+    <orderEntry type="library" name="Gradle: net.md_5.bungee:BungeeCord:all:1" level="project" />
+    <orderEntry type="library" name="Gradle: com.sk89q.worldedit:WorldEdit:all:7" level="project" />
+    <orderEntry type="library" name="Gradle: com.mongodb:MongoDB:all:3.12.2" level="project" />
+    <orderEntry type="library" name="Gradle: org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.2.41" level="project" />
+    <orderEntry type="library" name="Gradle: org.jetbrains:annotations:13.0" level="project" />
+  </component>
+  <component name="TestModuleProperties" production-module="Cronus.main" />
+</module>

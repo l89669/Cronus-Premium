@@ -1,0 +1,24 @@
+
+
+#         Powered by TabooLib 5.0         #
+
+
+name: Cronus
+main: ink.ptms.cronus.Cronus
+version: 1.3.0.2020.04.11-PREMIUM
+api-version: 1.13
+
+author: 坏黑
+
+soft-depend:
+- Citizens
+- Shopkeeper
+- MythicMobs
+- Skript
+- SkillAPI
+- WorldEdit
+- WorldGuard
+- PlaceholderAPI
+- Vault
+- SacredItem
+- PurtmarsItem
