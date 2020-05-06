@@ -85,8 +85,10 @@ public class Refresher implements Listener {
                 Quest quest = entry.getValue().getQuest();
                 // 无效任务
                 if (quest == null) {
-                    playerData.getQuest().remove(entry.getKey());
-                    playerData.push();
+                    if (!Cronus.getConf().getBoolean("Settings.keep-invalid-quest")) {
+                        playerData.getQuest().remove(entry.getKey());
+                        playerData.push();
+                    }
                     continue;
                 }
                 // 超时任务

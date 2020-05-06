@@ -149,7 +149,7 @@ class DatabaseMongoDB : Database() {
     fun difference(current: Map<*, *>, origin: Map<*, *>): List<Pair<String, Any?>> {
         val difference = ArrayList<Pair<String, Any?>>()
         // chance & add
-        current.forEach { k, v ->
+        current.forEach { (k, v) ->
             if (v is Map<*, *> && origin[k] is Map<*, *>) {
                 difference.addAll(difference(v as Map<String, Any>, origin[k] as Map<String, Any>).map { "$k.${it.first}" to it.second })
             } else if (v != origin[k]) {
@@ -157,7 +157,7 @@ class DatabaseMongoDB : Database() {
             }
         }
         // delete
-        origin.forEach { k, v ->
+        origin.forEach { (k, v) ->
             if (v is Map<*, *> && current[k] is Map<*, *>) {
                 difference.addAll(difference(v as Map<String, Any>, origin[k] as Map<String, Any>).map { "$k.${it.first}" to it.second })
             } else if (!current.containsKey(k)) {

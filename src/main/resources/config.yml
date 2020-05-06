@@ -36,6 +36,8 @@ Settings:
       - 41
       - 42
       - 43
+  # 是否保留无效任务
+  keep-invalid-quest: false
 
 # 数据储存
 Database:
