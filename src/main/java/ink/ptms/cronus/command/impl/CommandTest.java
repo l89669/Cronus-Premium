@@ -141,11 +141,6 @@ public class CommandTest extends CronusCommand {
                 }
             }
         }
-
-        @Override
-        public CommandType getType() {
-            return CommandType.PLAYER;
-        }
     };
 
     @SubCommand
