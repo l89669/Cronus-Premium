@@ -67,10 +67,12 @@ public class CommandTest extends CronusCommand {
 
         @Override
         public void onCommand(CommandSender sender, Command command, String s, String[] args) {
-            Player player = null;
+            Player player;
             if (args[0].equalsIgnoreCase("me") || args[0].equalsIgnoreCase("self")) {
                 if (sender instanceof Player) {
                     player = (Player) sender;
+                } else {
+                    return;
                 }
             } else {
                 player = Bukkit.getPlayerExact(args[0]);
@@ -85,7 +87,7 @@ public class CommandTest extends CronusCommand {
             } else {
                 CronusMirror.Data data = new CronusMirror.Data().check(() -> {
                     try {
-                        normal(sender, "条件执行结果: " + (parse.check((Player) sender, new DataQuest(), null) ? "&a成功" : "&c失败"));
+                        normal(sender, "条件执行结果: " + (parse.check(player, new DataQuest(), null) ? "&a成功" : "&c失败"));
                     } catch (Throwable t) {
                         error(sender, "条件执行失败: " + t.getMessage());
                     }
@@ -112,10 +114,12 @@ public class CommandTest extends CronusCommand {
 
         @Override
         public void onCommand(CommandSender sender, Command command, String s, String[] args) {
-            Player player = null;
+            Player player;
             if (args[0].equalsIgnoreCase("me") || args[0].equalsIgnoreCase("self")) {
                 if (sender instanceof Player) {
                     player = (Player) sender;
+                } else {
+                    return;
                 }
             } else {
                 player = Bukkit.getPlayerExact(args[0]);
@@ -131,7 +135,7 @@ public class CommandTest extends CronusCommand {
             } else {
                 CronusMirror.Data data = new CronusMirror.Data().check(() -> {
                     try {
-                        parse.eval(new QuestProgram((Player) sender, new DataQuest()));
+                        parse.eval(new QuestProgram(player, new DataQuest()));
                     } catch (Throwable t) {
                         error(sender, "动作执行失败: " + t.getMessage());
                     }
