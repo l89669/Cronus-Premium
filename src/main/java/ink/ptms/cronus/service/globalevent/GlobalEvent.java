@@ -20,6 +20,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -84,8 +85,12 @@ public class GlobalEvent implements Service, Listener {
         handle(e.getPlayer(), e, "player_quit");
     }
 
-    public void handle0(Player player, Event event, List<Class<? extends QuestTask>> tasks) {
-        handle(player, event, tasks.stream().map(t -> t.getAnnotation(Task.class).name()).collect(Collectors.toList()));
+    public void handle0(Player player, Event event, List<Class<? extends QuestTask<?>>> tasks) {
+        List<String> list = new ArrayList<>();
+        for (Class<? extends QuestTask<?>> t : tasks) {
+            list.add(t.getAnnotation(Task.class).name());
+        }
+        handle(player, event, list);
     }
 
 
@@ -97,19 +102,23 @@ public class GlobalEvent implements Service, Listener {
         if (tasks == null || tasks.isEmpty() || event == null) {
             return;
         }
-        (CronusMirror.isIgnored(event.getClass()) ? CronusMirror.getMirror() : CronusMirror.getMirror("GlobalEvent:" + event.getEventName())).check(() -> {
-            // 获取所有全局事件
-            for (GlobalEventPack eventPack : packs) {
-                // 判断事件名称
-                if (tasks.stream().anyMatch(eventPack.getName()::equalsIgnoreCase)
-                        // 条件
-                        && (eventPack.getCondition() == null || eventPack.getCondition().check(player))
-                        // 数据
-                        && (eventPack.getQuestTask() == null || eventPack.getQuestTask().check(player, event))) {
-                    try {
-                        eventPack.getEffect().eval(player);
-                    } catch (Throwable t) {
-                        t.printStackTrace();
+        (CronusMirror.isIgnored(event.getClass()) ? CronusMirror.getMirror() : CronusMirror.getMirror("GlobalEvent:" + event.getEventName())).check(new Runnable() {
+
+            @Override
+            public void run() {
+                // 获取所有全局事件
+                for (GlobalEventPack eventPack : packs) {
+                    // 判断事件名称
+                    if (tasks.stream().anyMatch(eventPack.getName()::equalsIgnoreCase)
+                            // 条件
+                            && (eventPack.getCondition() == null || eventPack.getCondition().check(player))
+                            // 数据
+                            && (eventPack.getQuestTask() == null || eventPack.getQuestTask().check(player, event))) {
+                        try {
+                            eventPack.getEffect().eval(player);
+                        } catch (Throwable t) {
+                            t.printStackTrace();
+                        }
                     }
                 }
             }

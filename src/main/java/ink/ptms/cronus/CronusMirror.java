@@ -4,6 +4,7 @@ import com.google.common.collect.Maps;
 
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Function;
 
 /**
  * @Author 坏黑
@@ -11,14 +12,20 @@ import java.util.concurrent.TimeUnit;
  */
 public class CronusMirror {
 
-    private static Map<String, Data> dataMap = Maps.newTreeMap();
+    private static Map<String, Data> dataMap = Maps.newConcurrentMap();
 
     public static Map<String, Data> getMirrors() {
         return dataMap;
     }
 
     public static Data getMirror(String id) {
-        return dataMap.computeIfAbsent(id, i -> new Data());
+        return dataMap.computeIfAbsent(id, new Function<String, Data>() {
+
+            @Override
+            public Data apply(String i) {
+                return new Data();
+            }
+        });
     }
 
     public static Data getMirror() {

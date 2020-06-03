@@ -6,7 +6,7 @@ plugins {
 
 configurations {
     group = 'ink.ptms.cronus'
-    version = '1.3.0.2020.05.27-PREMIUM'
+    version = '1.3.0.2020.06.03-PREMIUM'
 
     sourceCompatibility = 1.8
     targetCompatibility = 1.8 
