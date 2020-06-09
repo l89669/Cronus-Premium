@@ -49,15 +49,15 @@ public class CronusService {
     @TInject("PurtmarsItem")
     private static boolean purtmarsHooked;
     private DatabaseType databaseType;
-    private Map<String, Service> services = Maps.newHashMap();
-    private Map<String, Quest> registeredQuest = Maps.newHashMap();
-    private Map<String, QuestBook> registeredQuestBook = Maps.newHashMap();
-    private Map<String, TaskCache> registeredTask = Maps.newHashMap();
-    private Map<String, ConditionCache> registeredCondition = Maps.newHashMap();
-    private Map<String, DataPlayer> playerData = Maps.newConcurrentMap();
-    private List<ItemStorage> registeredItemStorage = Lists.newArrayList();
-    private ExecutorService executorService = Executors.newSingleThreadExecutor();
-    private ConcurrentSkipListSet<DataPlayer> uploadQueue = new ConcurrentSkipListSet();
+    private final Map<String, Service> services = Maps.newHashMap();
+    private final Map<String, Quest> registeredQuest = Maps.newHashMap();
+    private final Map<String, QuestBook> registeredQuestBook = Maps.newHashMap();
+    private final Map<String, TaskCache> registeredTask = Maps.newHashMap();
+    private final Map<String, ConditionCache> registeredCondition = Maps.newHashMap();
+    private final Map<String, DataPlayer> playerData = Maps.newConcurrentMap();
+    private final List<ItemStorage> registeredItemStorage = Lists.newArrayList();
+    private final ExecutorService executorService = Executors.newCachedThreadPool();
+    private final ConcurrentSkipListSet<DataPlayer> uploadQueue = new ConcurrentSkipListSet<>();
 
     public CronusService() {
         registeredItemStorage.add(new StorageAsgard());
