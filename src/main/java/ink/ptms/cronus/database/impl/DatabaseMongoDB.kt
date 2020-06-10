@@ -13,6 +13,7 @@ import ink.ptms.cronus.database.data.DataPlayer
 import io.izzel.taboolib.internal.gson.*
 import io.izzel.taboolib.internal.gson.annotations.JsonAdapter
 import io.izzel.taboolib.internal.gson.internal.ConstructorConstructor
+import io.izzel.taboolib.module.db.local.SecuredFile
 import io.izzel.taboolib.util.Files
 import io.izzel.taboolib.util.serialize.TSerializer
 import org.bson.BsonArray
@@ -49,12 +50,7 @@ class DatabaseMongoDB : Database() {
     var mongoCollectionData: MongoCollection<Document>? = null
     val serializer = GsonBuilder().excludeFieldsWithoutExposeAnnotation()
             .registerTypeAdapter(YamlConfiguration::class.java, JsonSerializer<YamlConfiguration> { a, _, _ -> JsonPrimitive(a.saveToString()) })
-            .registerTypeAdapter(YamlConfiguration::class.java, JsonDeserializer<YamlConfiguration> { a, _, _ ->
-                YamlConfiguration().run {
-                    this.loadFromString(a.asString)
-                    this
-                }
-            }).create()
+            .registerTypeAdapter(YamlConfiguration::class.java, JsonDeserializer<YamlConfiguration> { a, _, _ -> SecuredFile.loadConfiguration(a.asString) }).create()
 
     override fun init() {
         uniqueId = Cronus.getConf().getBoolean("Database.uniqueId")

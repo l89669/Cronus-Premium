@@ -15,7 +15,7 @@ import org.bukkit.util.NumberConversions;
  */
 public class EngineG extends VariableEngine {
 
-    private Database database = Cronus.getCronusService().getDatabase();
+    private final Database database = Cronus.getCronusService().getDatabase();
 
     @Override
     public void reset(String key) {

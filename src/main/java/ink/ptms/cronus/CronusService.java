@@ -56,7 +56,6 @@ public class CronusService {
     private final Map<String, ConditionCache> registeredCondition = Maps.newHashMap();
     private final Map<String, DataPlayer> playerData = Maps.newConcurrentMap();
     private final List<ItemStorage> registeredItemStorage = Lists.newArrayList();
-    private final ExecutorService executorService = Executors.newCachedThreadPool();
     private final ConcurrentSkipListSet<DataPlayer> uploadQueue = new ConcurrentSkipListSet<>();
 
     public CronusService() {
@@ -120,14 +119,9 @@ public class CronusService {
 
     void cancel() {
         // 上传数据
-        playerData.values().forEach(DataPlayer::pushForce);
+        playerData.values().forEach(DataPlayer::push);
         // 卸载
         services.values().forEach(Service::cancel);
-        executorService.shutdown();
-    }
-
-    public void async(Runnable runnable) {
-        executorService.submit(runnable);
     }
 
     public void refreshData(Player player) {

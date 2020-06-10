@@ -22,7 +22,7 @@ public class PlayerData {
     private List<File> files;
     private List<String> lines;
     private List<IActionEdit> actionEdit;
-    private LinkedList<File> history;
+    private final LinkedList<File> history;
     private Map<String, Pattern> filter;
     private int index;
     private boolean saved;

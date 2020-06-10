@@ -11,8 +11,8 @@ import java.util.List;
  */
 public class ReplyMap {
 
-    private DialogPack current;
-    private List<Reply> reply;
+    private final DialogPack current;
+    private final List<Reply> reply;
 
     public ReplyMap(DialogPack current) {
         this.current = current;

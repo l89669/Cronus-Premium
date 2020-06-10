@@ -13,7 +13,7 @@ import java.util.Map;
 public class PlayerDataHandler {
 
     @PlayerContainer
-    private static Map<String, PlayerData> playerData = Maps.newConcurrentMap();
+    private static final Map<String, PlayerData> playerData = Maps.newConcurrentMap();
 
     public static PlayerData getPlayerData(Player player) {
         return playerData.computeIfAbsent(player.getName(), n -> new PlayerData(player.getName()));

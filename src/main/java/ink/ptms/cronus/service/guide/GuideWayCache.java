@@ -10,9 +10,9 @@ import java.util.List;
  */
 public class GuideWayCache {
 
-    private double distance;
-    private Location target;
-    private List<String> text;
+    private final double distance;
+    private final Location target;
+    private final List<String> text;
 
     public GuideWayCache(double distance, Location target, List<String> text) {
         this.distance = distance;

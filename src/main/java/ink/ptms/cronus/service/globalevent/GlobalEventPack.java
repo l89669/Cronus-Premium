@@ -6,6 +6,7 @@ import ink.ptms.cronus.internal.QuestTask;
 import ink.ptms.cronus.internal.condition.Condition;
 import ink.ptms.cronus.internal.program.QuestEffect;
 import ink.ptms.cronus.internal.task.TaskCache;
+import io.izzel.taboolib.module.db.local.SecuredFile;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.util.Map;
@@ -16,10 +17,10 @@ import java.util.Map;
  */
 public class GlobalEventPack {
 
-    private String name;
-    private Condition condition;
-    private QuestEffect effect;
-    private Map<String, Object> data = Maps.newHashMap();
+    private final String name;
+    private final Condition condition;
+    private final QuestEffect effect;
+    private final Map<String, Object> data = Maps.newHashMap();
     private QuestTask questTask;
 
     public GlobalEventPack(String name, Condition condition, QuestEffect effect) {
@@ -32,12 +33,10 @@ public class GlobalEventPack {
         if (!data.isEmpty()) {
             TaskCache taskCache = Cronus.getCronusService().getRegisteredTask().get(name.toLowerCase());
             if (taskCache != null) {
-                YamlConfiguration yamlConfiguration = new YamlConfiguration();
+                YamlConfiguration yamlConfiguration = new SecuredFile();
                 data.forEach((k, v) -> yamlConfiguration.set("data." + k, v));
                 try {
-                    System.out.println(data);
                     questTask = taskCache.newInstance(yamlConfiguration);
-                    System.out.println(questTask);
                     return true;
                 } catch (Exception e) {
                     e.printStackTrace();

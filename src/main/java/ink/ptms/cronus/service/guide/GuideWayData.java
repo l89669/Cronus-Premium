@@ -20,14 +20,14 @@ import java.util.List;
  */
 public class GuideWayData {
 
-    private static GuideWay service = Cronus.getCronusService().getService(GuideWay.class);
-    private static DecimalFormat doubleFormat = new DecimalFormat("#.##");
-    private Player player;
-    private String owner;
-    private Location target;
-    private List<Hologram> entity;
-    private List<String> text;
-    private double distance;
+    private static final GuideWay service = Cronus.getCronusService().getService(GuideWay.class);
+    private static final DecimalFormat doubleFormat = new DecimalFormat("#.##");
+    private final Player player;
+    private final String owner;
+    private final Location target;
+    private final List<Hologram> entity;
+    private final List<String> text;
+    private final double distance;
 
     GuideWayData(String owner, Location target, List<Hologram> entity, List<String> text, double distance) {
         this.owner = owner;

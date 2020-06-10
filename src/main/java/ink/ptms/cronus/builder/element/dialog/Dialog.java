@@ -8,7 +8,7 @@ import ink.ptms.cronus.builder.element.BuilderCondition;
 import ink.ptms.cronus.builder.element.BuilderDialog;
 import ink.ptms.cronus.builder.element.BuilderList;
 import ink.ptms.cronus.builder.element.condition.MatchEntry;
-import ink.ptms.cronus.internal.version.MaterialControl;
+import io.izzel.taboolib.util.lite.Materials;
 import ink.ptms.cronus.util.Utils;
 import io.izzel.taboolib.Version;
 import io.izzel.taboolib.module.locale.TLocale;
@@ -36,13 +36,13 @@ public class Dialog extends BuilderDialog {
 
     private List<String> text = Lists.newArrayList();
     private List<String> effect = Lists.newArrayList();
-    private List<Dialog> reply = Lists.newArrayList();
+    private final List<Dialog> reply = Lists.newArrayList();
     private MatchEntry condition;
     private Dialog conditionDialog;
     private Dialog dialog;
-    private Dialog parent;
+    private final Dialog parent;
     private ItemStack item;
-    private boolean inReply;
+    private final boolean inReply;
     private boolean toggle;
     private CloseTask closeTask = e -> {
     };
@@ -58,6 +58,7 @@ public class Dialog extends BuilderDialog {
         this.item = new ItemStack(inReply ? Material.PAPER : Material.BOOK);
     }
 
+    @SuppressWarnings("rawtypes")
     public void import0(Map<String, Object> map) {
         if (map.get("text") instanceof List) {
             text = (List) map.get("text");
@@ -84,7 +85,7 @@ public class Dialog extends BuilderDialog {
             conditionDialog.import0((Map) map.get("condition-dialog"));
         }
         if (map.containsKey("item")) {
-            item = MaterialControl.fromString(map.get("item")).parseItem();
+            item = Materials.matchMaterials(map.get("item").toString()).orElse(Materials.STONE).parseItem();
         }
     }
 
@@ -210,7 +211,7 @@ public class Dialog extends BuilderDialog {
                 .build());
         // 对话动作（无跳转）
         if (inReply && dialog == null) {
-            inventory.setItem(11, new ItemBuilder(MaterialControl.REPEATER.parseMaterial())
+            inventory.setItem(11, new ItemBuilder(Materials.REPEATER.parseMaterial())
                     .name("§b对话动作")
                     .lore(toLore(effect))
                     .build());
@@ -222,7 +223,7 @@ public class Dialog extends BuilderDialog {
         }
         // 对话跳转（无动作）
         if (inReply && effect.isEmpty()) {
-            inventory.setItem(12, new ItemBuilder(MaterialControl.MAP.parseMaterial())
+            inventory.setItem(12, new ItemBuilder(Materials.MAP.parseMaterial())
                     .name("§b对话跳转")
                     .lore("", dialog == null ? "§f无" : "§f...", "§8§m                  ", "§7修改: §8点击", "§7删除: §8SHIFT+点击")
                     .build());
@@ -234,7 +235,7 @@ public class Dialog extends BuilderDialog {
         }
         // 对话回复
         if (!inReply) {
-            inventory.setItem(13, new ItemBuilder(MaterialControl.PAPER.parseMaterial())
+            inventory.setItem(13, new ItemBuilder(Materials.PAPER.parseMaterial())
                     .name("§b对话回复")
                     .lore("", "§f共 " + reply.size() + " 项")
                     .build());
@@ -246,7 +247,7 @@ public class Dialog extends BuilderDialog {
         }
         // 特殊条件
         if (inReply) {
-            inventory.setItem(14, new ItemBuilder(MaterialControl.TRIPWIRE_HOOK.parseMaterial())
+            inventory.setItem(14, new ItemBuilder(Materials.TRIPWIRE_HOOK.parseMaterial())
                     .name("§b特殊条件")
                     .lore(toLore(condition == null ? Lists.newArrayList() : condition.asList(0)))
                     .build());
@@ -258,7 +259,7 @@ public class Dialog extends BuilderDialog {
         }
         // 特殊条件达成显示
         if (inReply) {
-            inventory.setItem(15, new ItemBuilder(MaterialControl.TRIPWIRE_HOOK.parseMaterial())
+            inventory.setItem(15, new ItemBuilder(Materials.TRIPWIRE_HOOK.parseMaterial())
                     .name("§b特殊条件达成显示")
                     .lore("", conditionDialog == null ? "§f无" : "§f...", "§8§m                  ", "§7修改: §8点击", "§7删除: §8SHIFT+点击")
                     .build());
@@ -272,7 +273,7 @@ public class Dialog extends BuilderDialog {
                 .name("§b显示材质")
                 .lore("", "§f" + (Items.isNull(item) ? "隐藏" : Items.getName(item)), "§8§m                  ", "§7修改: §8左键", "§7隐藏: §8右键")
                 .build());
-        inventory.setItem(49, new ItemBuilder(MaterialControl.RED_STAINED_GLASS_PANE.parseItem())
+        inventory.setItem(49, new ItemBuilder(Materials.RED_STAINED_GLASS_PANE.parseItem())
                 .name("§c上级目录")
                 .lore("", "§7点击")
                 .build());

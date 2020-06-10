@@ -2,7 +2,7 @@ package ink.ptms.cronus.builder.task;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import ink.ptms.cronus.internal.version.MaterialControl;
+import io.izzel.taboolib.util.lite.Materials;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
@@ -67,9 +67,9 @@ public class Cache {
         NOT_ITEM.add("POTTED_WITHER_ROSE");
         NOT_ITEM.add("SWEET_BERRY_BUSH");
         // 获取方块
-        if (MaterialControl.isNewVersion()) {
+        if (Materials.isNewVersion()) {
             for (Material material : Material.values()) {
-                if (material.isBlock() && !material.isTransparent() && MaterialControl.matchMaterialControl(material) != null && NOT_ITEM.stream().noneMatch(s -> material.name().endsWith(s))) {
+                if (material.isBlock() && !material.isTransparent() && Materials.matchMaterials(material) != null && NOT_ITEM.stream().noneMatch(s -> material.name().endsWith(s))) {
                     try {
                         BLOCKS.add(new ItemStack(material));
                     } catch (Throwable ignored) {
@@ -117,7 +117,7 @@ public class Cache {
             }
             // 获取物品
             for (Material material : Material.values()) {
-                if (material.isBlock() && !material.isTransparent() && MaterialControl.matchMaterialControl(material) != null && !NOT_ITEM.contains(material.name())) {
+                if (material.isBlock() && !material.isTransparent() && Materials.matchMaterials(material) != null && !NOT_ITEM.contains(material.name())) {
                     try {
                         if (DAMAGEABLE.containsKey(material)) {
                             int damage = DAMAGEABLE.get(material);

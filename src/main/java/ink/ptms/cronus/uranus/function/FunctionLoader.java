@@ -15,7 +15,7 @@ import java.util.List;
 @TFunction(enable = "init")
 public class FunctionLoader {
 
-    private static List<Function> functions = Lists.newArrayList();
+    private static final List<Function> functions = Lists.newArrayList();
 
     private static void init() {
         TabooLibLoader.getPluginClasses(Uranus.getInst()).ifPresent(classes -> {
@@ -30,7 +30,12 @@ public class FunctionLoader {
     }
 
     public static Function getFunction(String name) {
-        return FunctionLoader.getFunctions().stream().filter(f -> f.getName().equalsIgnoreCase(name)).findFirst().orElse(null);
+        for (Function function : functions) {
+            if (function.getName().equalsIgnoreCase(name)) {
+                return function;
+            }
+        }
+        return null;
     }
 
     public static void registerFunction(Function function) throws IllegalAccessException {

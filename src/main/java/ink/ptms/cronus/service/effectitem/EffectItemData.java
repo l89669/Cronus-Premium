@@ -14,14 +14,14 @@ import org.bukkit.configuration.ConfigurationSection;
  */
 public class EffectItemData {
 
-    private String id;
-    private Condition condition;
-    private QuestEffect effect;
-    private QuestEffect effectCondition;
-    private QuestEffect effectCooldown;
-    private EffectItemEvent event;
-    private ItemStack item;
-    private long cooldown;
+    private final String id;
+    private final Condition condition;
+    private final QuestEffect effect;
+    private final QuestEffect effectCondition;
+    private final QuestEffect effectCooldown;
+    private final EffectItemEvent event;
+    private final ItemStack item;
+    private final long cooldown;
 
     public EffectItemData(ConfigurationSection config) {
         id = config.getName();

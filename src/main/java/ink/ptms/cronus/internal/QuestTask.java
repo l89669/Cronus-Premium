@@ -9,6 +9,7 @@ import ink.ptms.cronus.internal.condition.ConditionParser;
 import ink.ptms.cronus.internal.program.Actionable;
 import ink.ptms.cronus.service.guide.GuideWayCache;
 import io.izzel.taboolib.module.locale.TLocale;
+import io.izzel.taboolib.util.KV;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
@@ -27,6 +28,7 @@ public abstract class QuestTask<E extends Event> extends Actionable {
     protected Condition conditionRestart;
     protected GuideWayCache guide;
     protected String status;
+    protected KV<String, String> statusInput;
 
     public QuestTask(ConfigurationSection config) {
         this.id = config.getName();
@@ -34,6 +36,9 @@ public abstract class QuestTask<E extends Event> extends Actionable {
         this.condition = ConditionParser.fromObject(config.get("condition"));
         this.conditionRestart = ConditionParser.fromObject(config.get("restart"));
         this.status = TLocale.Translate.setColored(config.getString("status", "<no-status>"));
+        if (config.contains("status-input")) {
+            this.statusInput = new KV<>(config.getString("status-input.current", "0"), config.getString("status-input.max", "0"));
+        }
         if (config.contains("data")) {
             init(config.getConfigurationSection("data").getValues(false));
         }
@@ -99,5 +104,9 @@ public abstract class QuestTask<E extends Event> extends Actionable {
 
     public String getStatus() {
         return status;
+    }
+
+    public KV<String, String> getStatusInput() {
+        return statusInput;
     }
 }

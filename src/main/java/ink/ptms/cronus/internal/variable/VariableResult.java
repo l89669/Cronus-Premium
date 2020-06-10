@@ -6,8 +6,8 @@ package ink.ptms.cronus.internal.variable;
  */
 public class VariableResult {
 
-    private VariableType type;
-    private Object value;
+    private final VariableType type;
+    private final Object value;
 
     public VariableResult(VariableType type, Object value) {
         this.type = type;

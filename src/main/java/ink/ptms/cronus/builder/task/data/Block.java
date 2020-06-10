@@ -8,7 +8,7 @@ import ink.ptms.cronus.builder.element.BuilderTaskData;
 import ink.ptms.cronus.builder.task.Cache;
 import ink.ptms.cronus.builder.task.TaskData;
 import ink.ptms.cronus.internal.bukkit.parser.BukkitParser;
-import ink.ptms.cronus.internal.version.MaterialControl;
+import io.izzel.taboolib.util.lite.Materials;
 import ink.ptms.cronus.util.Utils;
 import io.izzel.taboolib.module.lite.SimpleIterator;
 import io.izzel.taboolib.util.Strings;
@@ -52,7 +52,7 @@ public class Block extends TaskData {
             return;
         }
         for (ink.ptms.cronus.internal.bukkit.Block.Point point : BukkitParser.toBlock(data).getPoints()) {
-            selected.add(MaterialControl.isNewVersion() ? new ItemStack(Items.asMaterial(point.getName())) : new ItemStack(Items.asMaterial(point.getName()), 1, (short) point.getData()));
+            selected.add(Materials.isNewVersion() ? new ItemStack(Items.asMaterial(point.getName())) : new ItemStack(Items.asMaterial(point.getName()), 1, (short) point.getData()));
         }
     }
 
@@ -77,7 +77,7 @@ public class Block extends TaskData {
         lore.add("§7选择: §8左键");
         lore.add("§7导入: §8右键");
         lore.add("§7删除: §8中键");
-        return new ItemBuilder(MaterialControl.GRASS_BLOCK.parseMaterial())
+        return new ItemBuilder(Materials.GRASS_BLOCK.parseMaterial())
                 .name("§7方块类型")
                 .lore(lore).build();
     }
@@ -104,7 +104,7 @@ public class Block extends TaskData {
                             if (Items.isNull(itemStack) || !itemStack.getType().isBlock()) {
                                 continue;
                             }
-                            if (!selected.contains(MaterialControl.isNewVersion() ? new ItemStack(itemStack.getType()) : new ItemStack(itemStack.getType(), 1, itemStack.getDurability()))) {
+                            if (!selected.contains(Materials.isNewVersion() ? new ItemStack(itemStack.getType()) : new ItemStack(itemStack.getType(), 1, itemStack.getDurability()))) {
                                 selected.add(itemStack);
                                 i++;
                             }
@@ -126,7 +126,7 @@ public class Block extends TaskData {
     }
 
     public void save() {
-        String block = selected.stream().filter(Objects::nonNull).map(s -> MaterialControl.isNewVersion() ? s.getType().name() : s.getType().name() + ":" + s.getDurability()).collect(Collectors.joining(","));
+        String block = selected.stream().filter(Objects::nonNull).map(s -> Materials.isNewVersion() ? s.getType().name() : s.getType().name() + ":" + s.getDurability()).collect(Collectors.joining(","));
         saveData(!block.isEmpty() ? block : null);
     }
 
@@ -137,9 +137,9 @@ public class Block extends TaskData {
                 c -> {
                     if (c.getClickType() == ClickType.CLICK) {
                         c.castClick().setCancelled(true);
-                        if (c.castClick().getRawSlot() == 46 && MaterialControl.GREEN_STAINED_GLASS_PANE.isSimilar(c.castClick().getCurrentItem())) {
+                        if (c.castClick().getRawSlot() == 46 && Materials.GREEN_STAINED_GLASS_PANE.isSimilar(c.castClick().getCurrentItem())) {
                             openSelect(page - 1);
-                        } else if (c.castClick().getRawSlot() == 52 && MaterialControl.GREEN_STAINED_GLASS_PANE.isSimilar(c.castClick().getCurrentItem())) {
+                        } else if (c.castClick().getRawSlot() == 52 && Materials.GREEN_STAINED_GLASS_PANE.isSimilar(c.castClick().getCurrentItem())) {
                             openSelect(page + 1);
                         } else if (c.castClick().getRawSlot() == 49) {
                             toggle = true;
@@ -181,12 +181,12 @@ public class Block extends TaskData {
             }
         }
         if (page > 0) {
-            inventory.setItem(46, new ItemBuilder(MaterialControl.GREEN_STAINED_GLASS_PANE.parseItem()).name("§a上一页").lore("", "§7点击").build());
+            inventory.setItem(46, new ItemBuilder(Materials.GREEN_STAINED_GLASS_PANE.parseItem()).name("§a上一页").lore("", "§7点击").build());
         }
         if (Utils.next(page, Cache.BLOCKS.size(), 28)) {
-            inventory.setItem(52, new ItemBuilder(MaterialControl.GREEN_STAINED_GLASS_PANE.parseItem()).name("§a下一页").lore("", "§7点击").build());
+            inventory.setItem(52, new ItemBuilder(Materials.GREEN_STAINED_GLASS_PANE.parseItem()).name("§a下一页").lore("", "§7点击").build());
         }
-        inventory.setItem(49, new ItemBuilder(MaterialControl.RED_STAINED_GLASS_PANE.parseItem()).name("§c上级目录").lore("", "§7点击").build());
+        inventory.setItem(49, new ItemBuilder(Materials.RED_STAINED_GLASS_PANE.parseItem()).name("§c上级目录").lore("", "§7点击").build());
         player.openInventory(inventory);
         player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1f, 1f);
         toggle = false;
@@ -199,9 +199,9 @@ public class Block extends TaskData {
                 c -> {
                     if (c.getClickType() == ClickType.CLICK) {
                         c.castClick().setCancelled(true);
-                        if (c.castClick().getRawSlot() == 46 && MaterialControl.GREEN_STAINED_GLASS_PANE.isSimilar(c.castClick().getCurrentItem())) {
+                        if (c.castClick().getRawSlot() == 46 && Materials.GREEN_STAINED_GLASS_PANE.isSimilar(c.castClick().getCurrentItem())) {
                             openDelete(page - 1);
-                        } else if (c.castClick().getRawSlot() == 52 && MaterialControl.GREEN_STAINED_GLASS_PANE.isSimilar(c.castClick().getCurrentItem())) {
+                        } else if (c.castClick().getRawSlot() == 52 && Materials.GREEN_STAINED_GLASS_PANE.isSimilar(c.castClick().getCurrentItem())) {
                             openDelete(page + 1);
                         } else if (c.castClick().getRawSlot() == 49) {
                             toggle = true;
@@ -234,12 +234,12 @@ public class Block extends TaskData {
             }
         }
         if (page > 0) {
-            inventory.setItem(46, new ItemBuilder(MaterialControl.GREEN_STAINED_GLASS_PANE.parseItem()).name("§a上一页").lore("", "§7点击").build());
+            inventory.setItem(46, new ItemBuilder(Materials.GREEN_STAINED_GLASS_PANE.parseItem()).name("§a上一页").lore("", "§7点击").build());
         }
         if (Utils.next(page, selected.size(), 28)) {
-            inventory.setItem(52, new ItemBuilder(MaterialControl.GREEN_STAINED_GLASS_PANE.parseItem()).name("§a下一页").lore("", "§7点击").build());
+            inventory.setItem(52, new ItemBuilder(Materials.GREEN_STAINED_GLASS_PANE.parseItem()).name("§a下一页").lore("", "§7点击").build());
         }
-        inventory.setItem(49, new ItemBuilder(MaterialControl.RED_STAINED_GLASS_PANE.parseItem()).name("§c上级目录").lore("", "§7点击").build());
+        inventory.setItem(49, new ItemBuilder(Materials.RED_STAINED_GLASS_PANE.parseItem()).name("§c上级目录").lore("", "§7点击").build());
         player.openInventory(inventory);
         player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1f, 1f);
         toggle = false;

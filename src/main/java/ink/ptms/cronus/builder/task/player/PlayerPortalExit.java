@@ -6,7 +6,7 @@ import ink.ptms.cronus.builder.task.data.location.LocationFrom;
 import ink.ptms.cronus.builder.task.data.location.LocationTo;
 import ink.ptms.cronus.internal.QuestTask;
 import ink.ptms.cronus.internal.task.player.TaskPlayerPortalExit;
-import ink.ptms.cronus.internal.version.MaterialControl;
+import io.izzel.taboolib.util.lite.Materials;
 import ink.ptms.cronus.uranus.annotations.Auto;
 import io.izzel.taboolib.util.item.ItemBuilder;
 import org.bukkit.inventory.ItemFlag;
@@ -27,7 +27,7 @@ public class PlayerPortalExit extends TaskEntry {
 
     @Override
     public ItemStack getItem() {
-        return new ItemBuilder(MaterialControl.ENDER_PEARL.parseMaterial()).name("§f离开地狱门").lore("", "§7点击选择").flags(ItemFlag.values()).build();
+        return new ItemBuilder(Materials.ENDER_PEARL.parseMaterial()).name("§f离开地狱门").lore("", "§7点击选择").flags(ItemFlag.values()).build();
     }
 
     @Override

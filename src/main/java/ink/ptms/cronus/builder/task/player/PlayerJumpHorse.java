@@ -6,7 +6,7 @@ import ink.ptms.cronus.builder.task.data.expression.ExpressionPower;
 import ink.ptms.cronus.builder.task.data.entity.EntityHorse;
 import ink.ptms.cronus.internal.QuestTask;
 import ink.ptms.cronus.internal.task.player.TaskPlayerJumpHorse;
-import ink.ptms.cronus.internal.version.MaterialControl;
+import io.izzel.taboolib.util.lite.Materials;
 import ink.ptms.cronus.uranus.annotations.Auto;
 import io.izzel.taboolib.util.item.ItemBuilder;
 import org.bukkit.inventory.ItemFlag;
@@ -27,7 +27,7 @@ public class PlayerJumpHorse extends TaskEntry {
 
     @Override
     public ItemStack getItem() {
-        return new ItemBuilder(MaterialControl.IRON_HORSE_ARMOR.parseMaterial()).name("§f骑乘跳跃").lore("", "§7点击选择").flags(ItemFlag.values()).build();
+        return new ItemBuilder(Materials.IRON_HORSE_ARMOR.parseMaterial()).name("§f骑乘跳跃").lore("", "§7点击选择").flags(ItemFlag.values()).build();
     }
 
     @Override

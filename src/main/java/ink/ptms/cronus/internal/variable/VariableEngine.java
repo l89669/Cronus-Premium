@@ -18,14 +18,13 @@ public abstract class VariableEngine {
 
     abstract public VariableResult select(String key);
 
-    protected List add(List list, Object element) {
+    protected <T> List<T> add(List<T> list, T element) {
         list.add(element);
         return list;
     }
 
-    protected List remove(List list, Object element) {
+    protected <T> List<T> remove(List<T> list, T element) {
         list.remove(element);
         return list;
     }
-
 }

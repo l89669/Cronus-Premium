@@ -40,7 +40,7 @@ public class Scoreboard implements Service, Listener {
     private BukkitTask scoreboardTask;
     private List<String> content;
     private List<String> format;
-    private Map<String, Integer> list = Maps.newHashMap();
+    private final Map<String, Integer> list = Maps.newHashMap();
 
     @Override
     public void init() {
@@ -75,15 +75,17 @@ public class Scoreboard implements Service, Listener {
 
     public void update(Player player) {
         if (isEnabled()) {
-            List<String> build = build(player);
-            // 空行检查
-            for (int i = 0; i < build.size(); i++) {
-                if (build.get(i).isEmpty()) {
-                    build.set(i, Arrays.stream(String.valueOf(Numbers.getRandomInteger(1000, 9999)).split("")).map(s -> "§" + s).collect(Collectors.joining()));
+            Bukkit.getScheduler().runTaskAsynchronously(Cronus.getPlugin(), () -> {
+                List<String> build = build(player);
+                // 空行检查
+                for (int i = 0; i < build.size(); i++) {
+                    if (build.get(i).isEmpty()) {
+                        build.set(i, Arrays.stream(String.valueOf(Numbers.getRandomInteger(1000, 9999)).split("")).map(s -> "§" + s).collect(Collectors.joining()));
+                    }
                 }
-            }
-            // 返回主线程发送计分板
-            Bukkit.getScheduler().runTask(Cronus.getInst(), () -> Scoreboards.display(player, build.toArray(new String[0])));
+                // 返回主线程发送计分板
+                Bukkit.getScheduler().runTask(Cronus.getInst(), () -> Scoreboards.display(player, build.toArray(new String[0])));
+            });
         }
     }
 

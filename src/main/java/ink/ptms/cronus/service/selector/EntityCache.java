@@ -8,8 +8,8 @@ import ink.ptms.cronus.service.selector.impl.Selector;
  */
 public class EntityCache {
 
-    private String fullyName;
-    private Selector selector;
+    private final String fullyName;
+    private final Selector selector;
 
     public EntityCache(String fullyName, Selector selector) {
         this.fullyName = fullyName;

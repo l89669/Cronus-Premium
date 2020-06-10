@@ -1,8 +1,7 @@
 <component name="libraryTable">
   <library name="Gradle: me.clip:placeholderapi:2.10.4">
     <CLASSES>
-      <root url="jar://$PROJECT_DIR$/Could not find me.clip:placeholderapi:2.10.4.&#13;&#10;Searched in the following locations:&#13;&#10;  - http:/repo.ptms.ink/repository/codemc-nms/me/clip/placeholderapi/2.10.4/placeholderapi-2.10.4.pom&#13;&#10;  - http:/repo.ptms.ink/repository/codemc-nms/me/clip/placeholderapi/2.10.4/placeholderapi-2.10.4.jar&#13;&#10;  - http:/repo.ptms.ink/repository/maven-releases/me/clip/placeholderapi/2.10.4/placeholderapi-2.10.4.pom&#13;&#10;  - http:/repo.ptms.ink/repository/maven-releases/me/clip/placeholderapi/2.10.4/placeholderapi-2.10.4.jar&#13;&#10;  - https:/repo.maven.apache.org/maven2/me/clip/placeholderapi/2.10.4/placeholderapi-2.10.4.pom&#13;&#10;  - https:/repo.maven.apache.org/maven2/me/clip/placeholderapi/2.10.4/placeholderapi-2.10.4.jar!/" />
-      <root url="jar://D:/development/Gradle/repo/caches/modules-2/files-2.1/me.clip/placeholderapi/2.10.4/4d27326c321be563d02e458834296b1e455c26f2/placeholderapi-2.10.4.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../../development/Gradle/repo/caches/modules-2/files-2.1/me.clip/placeholderapi/2.10.4/4d27326c321be563d02e458834296b1e455c26f2/placeholderapi-2.10.4.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

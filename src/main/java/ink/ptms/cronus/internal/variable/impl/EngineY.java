@@ -15,7 +15,7 @@ import java.util.List;
  */
 public class EngineY extends VariableEngine {
 
-    private YamlConfiguration yaml;
+    private final YamlConfiguration yaml;
 
     public EngineY(YamlConfiguration yaml) {
         this.yaml = yaml;
@@ -55,7 +55,7 @@ public class EngineY extends VariableEngine {
                 yaml.set(key, current + String.valueOf(value));
             }
         } else if (current instanceof List) {
-            yaml.set(key, add((List) current, value));
+            yaml.set(key, add((List<Object>) current, value));
         } else {
             yaml.set(key, current + String.valueOf(value));
         }
@@ -71,7 +71,7 @@ public class EngineY extends VariableEngine {
         if (current instanceof Number && type.isNumber()) {
             yaml.set(key, Utils.parseInt(NumberConversions.toDouble(current) - NumberConversions.toDouble(value)));
         } else if (current instanceof List) {
-            yaml.set(key, remove((List) current, value));
+            yaml.set(key, remove((List<Object>) current, value));
         } else {
             return false;
         }

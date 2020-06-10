@@ -3,7 +3,7 @@ package ink.ptms.cronus.builder.task.data.item;
 import ink.ptms.cronus.builder.element.BuilderTaskData;
 import ink.ptms.cronus.builder.task.data.Item;
 import ink.ptms.cronus.internal.bukkit.parser.BukkitParser;
-import ink.ptms.cronus.internal.version.MaterialControl;
+import io.izzel.taboolib.util.lite.Materials;
 import io.izzel.taboolib.util.item.ItemBuilder;
 import io.izzel.taboolib.util.item.Items;
 import org.bukkit.entity.Player;
@@ -21,7 +21,7 @@ public class ItemResult extends Item {
     @Override
     public org.bukkit.inventory.ItemStack getItem() {
         ink.ptms.cronus.internal.bukkit.ItemStack cronusItem = data == null ? null : BukkitParser.toItemStack(data);
-        return new ItemBuilder(MaterialControl.APPLE.parseMaterial())
+        return new ItemBuilder(Materials.APPLE.parseMaterial())
                 .name("§7目标物品 (产出)")
                 .lore(
                         "",

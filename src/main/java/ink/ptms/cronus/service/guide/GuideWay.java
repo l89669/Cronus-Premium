@@ -21,6 +21,8 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * @Author 坏黑
@@ -30,7 +32,8 @@ import java.util.UUID;
 public class GuideWay implements Service, Listener {
 
     private boolean performance;
-    private Map<String, List<GuideWayData>> data = Maps.newConcurrentMap();
+    private final Map<String, List<GuideWayData>> data = Maps.newConcurrentMap();
+    private final ExecutorService executorService = Executors.newCachedThreadPool();
 
     public void cancel(Player player) {
         List<GuideWayData> list = data.remove(player.getName());
@@ -122,7 +125,7 @@ public class GuideWay implements Service, Listener {
         if (performance ? !e.getFrom().getBlock().equals(e.getTo().getBlock()) : isMoved(e)) {
             List<GuideWayData> list = data.get(e.getPlayer().getName());
             if (list != null) {
-                Cronus.getCronusService().async(() -> list.forEach(GuideWayData::update));
+                executorService.submit(() -> list.forEach(GuideWayData::update));
             }
         }
     }

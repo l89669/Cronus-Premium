@@ -4,7 +4,7 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import ink.ptms.cronus.Cronus;
-import ink.ptms.cronus.internal.version.MaterialControl;
+import io.izzel.taboolib.util.lite.Materials;
 import ink.ptms.cronus.service.dialog.DialogPack;
 import ink.ptms.cronus.service.dialog.api.DisplayBase;
 import ink.ptms.cronus.service.dialog.api.Reply;
@@ -32,9 +32,9 @@ import java.util.Map;
  */
 public class DisplayMenu extends DisplayBase {
 
-    private CompiledScript rowsScript;
-    private Integer slotMessage;
-    private Integer[] slotReply;
+    private final CompiledScript rowsScript;
+    private final Integer slotMessage;
+    private final Integer[] slotReply;
 
     public DisplayMenu() {
         rowsScript = Scripts.compile(Cronus.getConf().getString("Settings.dialog-chest.rows-script"));
@@ -81,11 +81,11 @@ public class DisplayMenu extends DisplayBase {
                 .items()
                 .build();
         // 对话物品
-        inventory.setItem(slotMessage, toItem(MaterialControl.fromString(dialogPack.getConfig().getOrDefault("item", "BOOK")), dialogPack.getText()));
+        inventory.setItem(slotMessage, toItem(Materials.matchMaterials(dialogPack.getConfig().getOrDefault("item", "BOOK").toString()).orElse(Materials.STONE), dialogPack.getText()));
         // 回复物品
         for (int i = 0; i < slotReply.length && i < replyMap.getReply().size(); i++) {
             DialogPack reply = replyMap.getReply().get(i).getDialogPack();
-            inventory.setItem(slotReply[i], toItem(MaterialControl.fromString(reply.getConfig().getOrDefault("item", reply.isQuest() ? "MAP" : "PAPER")), reply.getText()));
+            inventory.setItem(slotReply[i], toItem(Materials.matchMaterials(reply.getConfig().getOrDefault("item", reply.isQuest() ? "MAP" : "PAPER").toString()).orElse(Materials.STONE), reply.getText()));
             slots.put(slotReply[i], replyMap.getReply().get(i));
         }
         player.openInventory(inventory);
@@ -100,7 +100,7 @@ public class DisplayMenu extends DisplayBase {
         return 0;
     }
 
-    public ItemStack toItem(MaterialControl material, List<String> list) {
+    public ItemStack toItem(Materials material, List<String> list) {
         ItemStack itemStack = material.parseItem();
         if (Items.isNull(itemStack)) {
             itemStack.setType(Material.STONE);

@@ -25,8 +25,8 @@ import java.util.Optional;
 public class Utils {
 
     @TInject
-    private static Cooldown actionCooldown = new Cooldown("Cronus:Action", 100);
-    private static Color[] colors = new Color[] {
+    private static final Cooldown actionCooldown = new Cooldown("Cronus:Action", 100);
+    private static final Color[] colors = new Color[] {
             Color.WHITE,
             Color.SILVER,
             Color.GRAY,

@@ -8,10 +8,11 @@ import ink.ptms.cronus.builder.element.condition.MatchAppend;
 import ink.ptms.cronus.builder.element.condition.MatchEntry;
 import ink.ptms.cronus.builder.element.condition.MatchType;
 import ink.ptms.cronus.command.CronusCommand;
+import ink.ptms.cronus.internal.api.Helper;
 import ink.ptms.cronus.internal.condition.Cond;
 import ink.ptms.cronus.internal.condition.CondNull;
 import ink.ptms.cronus.internal.condition.ConditionParser;
-import ink.ptms.cronus.internal.version.MaterialControl;
+import io.izzel.taboolib.util.lite.Materials;
 import ink.ptms.cronus.util.Utils;
 import io.izzel.taboolib.module.lite.SimpleIterator;
 import io.izzel.taboolib.module.locale.TLocale;
@@ -35,13 +36,13 @@ import java.util.Map;
  * @Author 坏黑
  * @Since 2019-06-20 23:39
  */
-public class BuilderCondition extends CronusCommand {
+public class BuilderCondition implements Helper {
 
-    private Player player;
-    private String display;
+    private final Player player;
+    private final String display;
     private MatchEntry entry;
     private BuilderCondition parent;
-    private Map<Integer, MatchEntry> entryMap = Maps.newHashMap();
+    private final Map<Integer, MatchEntry> entryMap = Maps.newHashMap();
     private ClickTask clickTask;
     private CloseTask closeTask;
     private boolean toggle;
@@ -66,12 +67,12 @@ public class BuilderCondition extends CronusCommand {
                 return;
             }
             // 下一页
-            else if (e.castClick().getRawSlot() == 52 && MaterialControl.GREEN_STAINED_GLASS_PANE.isSimilar(e.castClick().getCurrentItem())) {
+            else if (e.castClick().getRawSlot() == 52 && Materials.GREEN_STAINED_GLASS_PANE.isSimilar(e.castClick().getCurrentItem())) {
                 open(player, page + 1);
                 return;
             }
             // 上一页
-            else if (e.castClick().getRawSlot() == 46 && MaterialControl.GREEN_STAINED_GLASS_PANE.isSimilar(e.castClick().getCurrentItem())) {
+            else if (e.castClick().getRawSlot() == 46 && Materials.GREEN_STAINED_GLASS_PANE.isSimilar(e.castClick().getCurrentItem())) {
                 open(player, page - 1);
                 return;
             }
@@ -208,14 +209,14 @@ public class BuilderCondition extends CronusCommand {
                 entryMap.put(Items.INVENTORY_CENTER[i], entry);
             }
             if (page > 0) {
-                inventory.setItem(46, new ItemBuilder(MaterialControl.GREEN_STAINED_GLASS_PANE.parseItem()).name("§a上一页").lore("", "§7点击").build());
+                inventory.setItem(46, new ItemBuilder(Materials.GREEN_STAINED_GLASS_PANE.parseItem()).name("§a上一页").lore("", "§7点击").build());
             }
             if (Utils.next(page, entryCollect.size(), 28)) {
-                inventory.setItem(52, new ItemBuilder(MaterialControl.GREEN_STAINED_GLASS_PANE.parseItem()).name("§a下一页").lore("", "§7点击").build());
+                inventory.setItem(52, new ItemBuilder(Materials.GREEN_STAINED_GLASS_PANE.parseItem()).name("§a下一页").lore("", "§7点击").build());
             }
             inventory.setItem(4, entry.getType().getItemStack());
         }
-        inventory.setItem(49, new ItemBuilder(MaterialControl.RED_STAINED_GLASS_PANE.parseItem()).name("§c上级目录").lore("", "§7点击").build());
+        inventory.setItem(49, new ItemBuilder(Materials.RED_STAINED_GLASS_PANE.parseItem()).name("§c上级目录").lore("", "§7点击").build());
         player.openInventory(inventory);
         player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1f, 1f);
         this.toggle = false;
@@ -228,7 +229,7 @@ public class BuilderCondition extends CronusCommand {
                 toggle = true;
                 player.closeInventory();
                 TellrawJson.create().append("§7§l[§f§lCronus§7§l] §7在对话框中输入新的" + display + ". ")
-                        .append("§8(取消)").hoverText("§7点击").clickCommand("quit()")
+                        .append("§8(取消)").hoverText("§7点击").clickCommand("cancel")
                         .send(player);
                 TellrawJson.create().append("§7§l[§f§lCronus§7§l] §7当前: ")
                         .append("§f" + Utils.NonNull(origin)).hoverText("§7点击").clickSuggest(Utils.NonNull(origin))
@@ -255,7 +256,7 @@ public class BuilderCondition extends CronusCommand {
             @Override
             public boolean after(String s) {
                 if (ConditionParser.parse(s) instanceof CondNull) {
-                    error(player, "条件格式错误.");
+                    Helper.error(player, "条件格式错误.");
                     return true;
                 }
                 edit.run(s);

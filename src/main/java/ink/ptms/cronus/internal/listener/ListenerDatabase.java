@@ -32,7 +32,7 @@ public class ListenerDatabase implements Listener {
     public void e(PlayerQuitEvent e) {
         DataPlayer dataPlayer = Cronus.getCronusService().getPlayerData().remove(e.getPlayer().getName());
         if (dataPlayer != null) {
-            dataPlayer.pushForce();
+            dataPlayer.push();
         }
         e.getPlayer().removeMetadata("cronus:downloaded", Cronus.getPlugin());
     }

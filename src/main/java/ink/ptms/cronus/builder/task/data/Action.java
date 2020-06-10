@@ -2,7 +2,7 @@ package ink.ptms.cronus.builder.task.data;
 
 import ink.ptms.cronus.builder.element.BuilderTaskData;
 import ink.ptms.cronus.builder.task.TaskData;
-import ink.ptms.cronus.internal.version.MaterialControl;
+import io.izzel.taboolib.util.lite.Materials;
 import io.izzel.taboolib.util.item.ItemBuilder;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -36,7 +36,7 @@ public class Action extends TaskData {
 
     @Override
     public ItemStack getItem() {
-        return new ItemBuilder(MaterialControl.LEVER.parseMaterial())
+        return new ItemBuilder(Materials.LEVER.parseMaterial())
                 .name("§7交互方式")
                 .lore(
                         "",

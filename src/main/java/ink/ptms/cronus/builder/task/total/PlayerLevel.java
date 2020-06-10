@@ -1,12 +1,11 @@
 package ink.ptms.cronus.builder.task.total;
 
 import ink.ptms.cronus.builder.task.TaskEntry;
-import ink.ptms.cronus.builder.task.data.Item;
 import ink.ptms.cronus.builder.task.data.expression.ExpressionLevel;
 import ink.ptms.cronus.builder.task.data.expression.ExpressionTotal;
 import ink.ptms.cronus.internal.QuestTask;
 import ink.ptms.cronus.internal.task.player.total.TaskPlayerLevel;
-import ink.ptms.cronus.internal.version.MaterialControl;
+import io.izzel.taboolib.util.lite.Materials;
 import ink.ptms.cronus.uranus.annotations.Auto;
 import io.izzel.taboolib.util.item.ItemBuilder;
 import org.bukkit.inventory.ItemFlag;
@@ -26,7 +25,7 @@ public class PlayerLevel extends TaskEntry {
 
     @Override
     public ItemStack getItem() {
-        return new ItemBuilder(MaterialControl.GOLD_NUGGET.parseMaterial()).name("§f等级变化").lore("", "§7点击选择").flags(ItemFlag.values()).build();
+        return new ItemBuilder(Materials.GOLD_NUGGET.parseMaterial()).name("§f等级变化").lore("", "§7点击选择").flags(ItemFlag.values()).build();
     }
 
     @Override

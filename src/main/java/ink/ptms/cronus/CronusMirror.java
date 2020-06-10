@@ -12,7 +12,7 @@ import java.util.function.Function;
  */
 public class CronusMirror {
 
-    private static Map<String, Data> dataMap = Maps.newConcurrentMap();
+    private final static Map<String, Data> dataMap = Maps.newConcurrentMap();
 
     public static Map<String, Data> getMirrors() {
         return dataMap;
@@ -32,7 +32,7 @@ public class CronusMirror {
         return new Data();
     }
 
-    public static boolean isIgnored(Class clazz) {
+    public static boolean isIgnored(Class<?> clazz) {
         return clazz.isAnnotationPresent(Ignore.class);
     }
 

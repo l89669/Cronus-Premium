@@ -12,11 +12,11 @@ import org.bukkit.util.NumberConversions;
  */
 public class QuestItemData {
 
-    private ConfigurationSection conf;
-    private boolean enable;
-    private QuestEffect effect;
-    private ItemStack item;
-    private int slot;
+    private final ConfigurationSection conf;
+    private final boolean enable;
+    private final QuestEffect effect;
+    private final ItemStack item;
+    private final int slot;
 
     public QuestItemData(ConfigurationSection conf) {
         this.conf = conf;

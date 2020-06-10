@@ -4,7 +4,7 @@ import com.google.common.collect.Maps;
 import ink.ptms.cronus.Cronus;
 import ink.ptms.cronus.builder.Builders;
 import ink.ptms.cronus.builder.task.TaskData;
-import ink.ptms.cronus.internal.version.MaterialControl;
+import io.izzel.taboolib.util.lite.Materials;
 import io.izzel.taboolib.util.item.ItemBuilder;
 import io.izzel.taboolib.util.item.Items;
 import io.izzel.taboolib.util.item.inventory.ClickType;
@@ -24,11 +24,11 @@ import java.util.stream.Collectors;
  */
 public class BuilderTaskData {
 
-    private BuilderTask builderTask;
-    private Player player;
+    private final BuilderTask builderTask;
+    private final Player player;
     private boolean toggle;
-    private List<TaskData> dataInstance;
-    private Map<Integer, TaskData> map = Maps.newHashMap();
+    private final List<TaskData> dataInstance;
+    private final Map<Integer, TaskData> map = Maps.newHashMap();
 
     public BuilderTaskData(Player player, BuilderTask builderTask) {
         this.player = player;
@@ -83,7 +83,7 @@ public class BuilderTaskData {
             inventory.setItem(Items.INVENTORY_CENTER[i], taskData.getItem());
             map.put(Items.INVENTORY_CENTER[i], taskData);
         }
-        inventory.setItem(49, new ItemBuilder(MaterialControl.RED_STAINED_GLASS_PANE.parseItem()).name("§c上级目录").lore("", "§7点击").build());
+        inventory.setItem(49, new ItemBuilder(Materials.RED_STAINED_GLASS_PANE.parseItem()).name("§c上级目录").lore("", "§7点击").build());
         player.openInventory(inventory);
         player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1f, 1f);
     }

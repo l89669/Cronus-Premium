@@ -256,7 +256,13 @@ public class CronusAPI {
         return FailureResult.SUCCESS;
     }
 
-    public enum AcceptResult {NULL, INVALID, INVALID_CONFIG, ACCEPTED, SUCCESS}
+    public enum AcceptResult {
 
-    public enum FailureResult {NOT_ACCEPT, COMPLETED, SUCCESS}
+        NULL, INVALID, INVALID_CONFIG, ACCEPTED, SUCCESS
+    }
+
+    public enum FailureResult {
+
+        NOT_ACCEPT, COMPLETED, SUCCESS
+    }
 }

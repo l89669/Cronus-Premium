@@ -8,6 +8,10 @@ public enum Action {
 
     ACCEPT, ACCEPT_FAIL, SUCCESS, FAILURE, COOLDOWN, RESTART, NEXT;
 
+    public static Action[] v() {
+        return values();
+    }
+
     public static Action fromName(String name) {
         try {
             return valueOf(name.toUpperCase().replace("-", "_"));

@@ -1,5 +1,6 @@
 package ink.ptms.cronus.builder.element;
 
+import ink.ptms.cronus.internal.api.Helper;
 import ink.ptms.cronus.internal.program.effect.EffectNull;
 import ink.ptms.cronus.internal.program.effect.EffectParser;
 import ink.ptms.cronus.util.Utils;
@@ -29,7 +30,7 @@ public class BuilderListEffect extends BuilderList {
                 toggle = true;
                 player.closeInventory();
                 TellrawJson.create().append("§7§l[§f§lCronus§7§l] §7在对话框中输入新的" + display + ". ")
-                        .append("§8(取消)").hoverText("§7点击").clickCommand("quit()")
+                        .append("§8(取消)").hoverText("§7点击").clickCommand("cancel")
                         .send(player);
                 TellrawJson.create().append("§7§l[§f§lCronus§7§l] §7当前: ")
                         .append("§f" + Utils.NonNull(origin)).hoverText("§7点击").clickSuggest(Utils.NonNull(origin))
@@ -54,7 +55,7 @@ public class BuilderListEffect extends BuilderList {
             @Override
             public boolean after(String s) {
                 if (EffectParser.parse(s) instanceof EffectNull) {
-                    error(player, "动作格式错误.");
+                    Helper.error(player, "动作格式错误.");
                     return true;
                 }
                 edit.run(s);

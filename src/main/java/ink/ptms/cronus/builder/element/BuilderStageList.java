@@ -1,6 +1,7 @@
 package ink.ptms.cronus.builder.element;
 
 import com.google.common.collect.Lists;
+import ink.ptms.cronus.internal.api.Helper;
 import io.izzel.taboolib.module.tellraw.TellrawJson;
 import io.izzel.taboolib.util.item.inventory.CloseTask;
 import io.izzel.taboolib.util.lite.Catchers;
@@ -16,7 +17,7 @@ import java.util.stream.Collectors;
  */
 public class BuilderStageList extends BuilderList {
 
-    private List<BuilderStage> stages = Lists.newArrayList();
+    private final List<BuilderStage> stages = Lists.newArrayList();
 
     public BuilderStageList(ConfigurationSection section) {
         super("任务阶段", Lists.newArrayList());
@@ -56,7 +57,7 @@ public class BuilderStageList extends BuilderList {
                         toggle = true;
                         player.closeInventory();
                         TellrawJson.create().append("§7§l[§f§lCronus§7§l] §7在对话框中输入新的任务阶段名称. ")
-                                .append("§8(取消)").hoverText("§7点击").clickCommand("quit()")
+                                .append("§8(取消)").hoverText("§7点击").clickCommand("cancel")
                                 .send(player);
                         return this;
                     }
@@ -64,7 +65,7 @@ public class BuilderStageList extends BuilderList {
                     @Override
                     public boolean after(String s) {
                         if (list.contains(s)) {
-                            error(player, "任务阶段名称重复.");
+                            Helper.error(player, "任务阶段名称重复.");
                             return true;
                         } else {
                             stages.add(new BuilderStage(s));

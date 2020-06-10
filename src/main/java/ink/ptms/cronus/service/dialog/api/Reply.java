@@ -8,9 +8,9 @@ import ink.ptms.cronus.service.dialog.DialogPack;
  */
 public class Reply {
 
-    private String id;
-    private DialogPack dialogPack;
-    private DialogPack dialogPackOrigin;
+    private final String id;
+    private final DialogPack dialogPack;
+    private final DialogPack dialogPackOrigin;
 
     public Reply(String id, DialogPack dialogPack, DialogPack dialogPackOrigin) {
         this.id = id;

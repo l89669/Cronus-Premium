@@ -17,7 +17,7 @@ public class PeriodTask {
 
     @TSchedule(period = 20, async = true)
     static void check20() {
-        Bukkit.getOnlinePlayers().forEach(player -> CronusAPI.stageHandle(player, event, TaskLocation.class, TaskPermission.class, TaskPlayerVal.class, TaskPlayerVar.class, TaskQuestVal.class, TaskQuestVar.class));
+        Bukkit.getOnlinePlayers().forEach(player -> CronusAPI.stageHandle(player, event, TaskLocation.class, TaskPermission.class, TaskPlayerVal.class, TaskPlayerVar.class, TaskQuestVal.class, TaskQuestVar.class, TaskAlways.class));
     }
 
     @TSchedule(period = 1200, async = true)

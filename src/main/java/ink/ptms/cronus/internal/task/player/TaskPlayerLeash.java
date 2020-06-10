@@ -6,7 +6,7 @@ import ink.ptms.cronus.internal.bukkit.parser.BukkitParser;
 import ink.ptms.cronus.internal.listener.ListenerInternal;
 import ink.ptms.cronus.internal.task.Task;
 import ink.ptms.cronus.internal.task.special.Countable;
-import ink.ptms.cronus.internal.version.MaterialControl;
+import io.izzel.taboolib.util.lite.Materials;
 import ink.ptms.cronus.util.Utils;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
@@ -37,7 +37,7 @@ public class TaskPlayerLeash extends Countable<PlayerMoveEvent> {
 
     @Override
     public boolean check(Player player, DataQuest dataQuest, PlayerMoveEvent e) {
-        return (item == null || item.isItem(Utils.NonNull(Utils.getUsingItem(e.getPlayer(), MaterialControl.LEAD.parseMaterial())))) && (entity == null || ListenerInternal.getLeashedEntity(player).stream().allMatch(i -> entitySelector.isSelect(i, entity)));
+        return (item == null || item.isItem(Utils.NonNull(Utils.getUsingItem(e.getPlayer(), Materials.LEAD.parseMaterial())))) && (entity == null || ListenerInternal.getLeashedEntity(player).stream().allMatch(i -> entitySelector.isSelect(i, entity)));
     }
 
     @Override

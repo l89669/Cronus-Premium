@@ -8,7 +8,7 @@ import ink.ptms.cronus.builder.editor.EditorAPI;
 import ink.ptms.cronus.builder.editor.data.PlayerData;
 import ink.ptms.cronus.builder.editor.data.PlayerDataHandler;
 import ink.ptms.cronus.builder.element.condition.MatchEntry;
-import ink.ptms.cronus.internal.version.MaterialControl;
+import io.izzel.taboolib.util.lite.Materials;
 import io.izzel.taboolib.util.item.ItemBuilder;
 import io.izzel.taboolib.util.item.inventory.ClickType;
 import org.bukkit.Bukkit;
@@ -27,8 +27,8 @@ import java.util.List;
 public class BuilderStage extends BuilderQuest {
 
     private List<String> actionRestart = Lists.newArrayList();
-    private List<List<String>> content = Lists.newCopyOnWriteArrayList();
-    private List<List<String>> contentCompeted = Lists.newCopyOnWriteArrayList();
+    private final List<List<String>> content = Lists.newCopyOnWriteArrayList();
+    private final List<List<String>> contentCompeted = Lists.newCopyOnWriteArrayList();
     private List<String> contentGlobal = Lists.newArrayList();
     private MatchEntry conditionRestart;
     private Player player;
@@ -181,31 +181,31 @@ public class BuilderStage extends BuilderQuest {
                         }, 1);
                     }
                 });
-        inventory.setItem(10, new ItemBuilder(MaterialControl.REPEATER.parseMaterial())
+        inventory.setItem(10, new ItemBuilder(Materials.REPEATER.parseMaterial())
                 .name("§b阶段开始动作")
                 .lore(toLore(actionAccept))
                 .build());
-        inventory.setItem(11, new ItemBuilder(MaterialControl.REPEATER.parseMaterial())
+        inventory.setItem(11, new ItemBuilder(Materials.REPEATER.parseMaterial())
                 .name("§b阶段完成动作")
                 .lore(toLore(actionSuccess))
                 .build());
-        inventory.setItem(12, new ItemBuilder(MaterialControl.REPEATER.parseMaterial())
+        inventory.setItem(12, new ItemBuilder(Materials.REPEATER.parseMaterial())
                 .name("§b阶段失败动作")
                 .lore(toLore(actionFailure))
                 .build());
-        inventory.setItem(13, new ItemBuilder(MaterialControl.REPEATER.parseMaterial())
+        inventory.setItem(13, new ItemBuilder(Materials.REPEATER.parseMaterial())
                 .name("§b阶段重置动作")
                 .lore(toLore(actionRestart))
                 .build());
-        inventory.setItem(19, new ItemBuilder(MaterialControl.WRITABLE_BOOK.parseMaterial())
+        inventory.setItem(19, new ItemBuilder(Materials.WRITABLE_BOOK.parseMaterial())
                 .name("§b阶段笔记")
                 .lore("", content.isEmpty() ? "§f无内容" : "§f...")
                 .build());
-        inventory.setItem(20, new ItemBuilder(MaterialControl.WRITABLE_BOOK.parseMaterial())
+        inventory.setItem(20, new ItemBuilder(Materials.WRITABLE_BOOK.parseMaterial())
                 .name("§b阶段笔记 (完成)")
                 .lore("", contentCompeted.isEmpty() ? "§f无内容" : "§f...")
                 .build());
-        inventory.setItem(21, new ItemBuilder(MaterialControl.WRITABLE_BOOK.parseMaterial())
+        inventory.setItem(21, new ItemBuilder(Materials.WRITABLE_BOOK.parseMaterial())
                 .name("§b阶段笔记 (纵览)")
                 .lore(toLore(contentGlobal))
                 .build());
@@ -217,7 +217,7 @@ public class BuilderStage extends BuilderQuest {
                 .name("§b阶段条目")
                 .lore(toLore(listTask.getListOrigin()))
                 .build());
-        inventory.setItem(49, new ItemBuilder(MaterialControl.RED_STAINED_GLASS_PANE.parseItem())
+        inventory.setItem(49, new ItemBuilder(Materials.RED_STAINED_GLASS_PANE.parseItem())
                 .name("§c上级目录")
                 .lore("", "§7点击")
                 .build());

@@ -4,7 +4,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import ink.ptms.cronus.Cronus;
 import ink.ptms.cronus.builder.Builders;
-import ink.ptms.cronus.internal.version.MaterialControl;
+import io.izzel.taboolib.util.lite.Materials;
 import ink.ptms.cronus.util.Utils;
 import io.izzel.taboolib.module.lite.SimpleIterator;
 import io.izzel.taboolib.module.locale.TLocale;
@@ -90,11 +90,11 @@ public class BuilderList extends BuilderQuest {
                     if (e.getClickType() == ClickType.CLICK && !Items.isNull(e.castClick().getCurrentItem())) {
                         e.castClick().setCancelled(true);
                         // 上一页
-                        if (e.castClick().getRawSlot() == 46 && MaterialControl.GREEN_STAINED_GLASS_PANE.isSimilar(e.castClick().getCurrentItem())) {
+                        if (e.castClick().getRawSlot() == 46 && Materials.GREEN_STAINED_GLASS_PANE.isSimilar(e.castClick().getCurrentItem())) {
                             open(player, page - 1, close);
                         }
                         // 下一页
-                        else if (e.castClick().getRawSlot() == 52 && MaterialControl.GREEN_STAINED_GLASS_PANE.isSimilar(e.castClick().getCurrentItem())) {
+                        else if (e.castClick().getRawSlot() == 52 && Materials.GREEN_STAINED_GLASS_PANE.isSimilar(e.castClick().getCurrentItem())) {
                             open(player, page + 1, close);
                         }
                         // 返回
@@ -166,12 +166,12 @@ public class BuilderList extends BuilderQuest {
             map.put(Items.INVENTORY_CENTER[i], page * 28 + i);
         }
         if (page > 0) {
-            inventory.setItem(46, new ItemBuilder(MaterialControl.GREEN_STAINED_GLASS_PANE.parseItem()).name("§a上一页").lore("", "§7点击").build());
+            inventory.setItem(46, new ItemBuilder(Materials.GREEN_STAINED_GLASS_PANE.parseItem()).name("§a上一页").lore("", "§7点击").build());
         }
         if (Utils.next(page, list.size(), 28)) {
-            inventory.setItem(52, new ItemBuilder(MaterialControl.GREEN_STAINED_GLASS_PANE.parseItem()).name("§a下一页").lore("", "§7点击").build());
+            inventory.setItem(52, new ItemBuilder(Materials.GREEN_STAINED_GLASS_PANE.parseItem()).name("§a下一页").lore("", "§7点击").build());
         }
-        inventory.setItem(49, new ItemBuilder(MaterialControl.RED_STAINED_GLASS_PANE.parseItem()).name("§c上级目录").lore("", "§7点击").build());
+        inventory.setItem(49, new ItemBuilder(Materials.RED_STAINED_GLASS_PANE.parseItem()).name("§c上级目录").lore("", "§7点击").build());
         player.openInventory(inventory);
         player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1f, 1f);
         this.toggle = false;
@@ -192,7 +192,7 @@ public class BuilderList extends BuilderQuest {
                 toggle = true;
                 player.closeInventory();
                 TellrawJson.create().append("§7§l[§f§lCronus§7§l] §7在对话框中输入新的" + display + ". ")
-                        .append("§8(取消)").hoverText("§7点击").clickCommand("quit()")
+                        .append("§8(取消)").hoverText("§7点击").clickCommand("cancel")
                         .send(player);
                 TellrawJson.create().append("§7§l[§f§lCronus§7§l] §7当前: ")
                         .append("§f" + Utils.NonNull(origin)).hoverText("§7点击").clickSuggest(Utils.NonNull(origin))

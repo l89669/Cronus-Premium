@@ -4,7 +4,7 @@ import com.google.common.collect.Lists;
 import ink.ptms.cronus.builder.element.BuilderTaskData;
 import ink.ptms.cronus.builder.task.TaskData;
 import ink.ptms.cronus.internal.bukkit.parser.BukkitParser;
-import ink.ptms.cronus.internal.version.MaterialControl;
+import io.izzel.taboolib.util.lite.Materials;
 import ink.ptms.cronus.util.Utils;
 import io.izzel.taboolib.module.tellraw.TellrawJson;
 import io.izzel.taboolib.util.item.ItemBuilder;
@@ -38,7 +38,7 @@ public class Effect extends TaskData {
         } else {
             BukkitParser.toPotionEffect(data).getPoints().stream().map(e -> "§f" + e.asString()).forEach(lore::add);
         }
-        return new ItemBuilder(MaterialControl.POTION.parseMaterial()).name("§7目标效果").lore(lore).build();
+        return new ItemBuilder(Materials.POTION.parseMaterial()).name("§7目标效果").lore(lore).build();
     }
 
     @Override

@@ -44,7 +44,7 @@ public class MatchEntry {
             if (predicate == null) {
                 return;
             }
-            for (Object element : ((List) predicate)) {
+            for (Object element : ((List<?>) predicate)) {
                 collect.add(new MatchEntry(element));
             }
         }

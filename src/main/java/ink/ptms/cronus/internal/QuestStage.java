@@ -6,6 +6,7 @@ import ink.ptms.cronus.event.CronusInitQuestStageEvent;
 import ink.ptms.cronus.internal.condition.Condition;
 import ink.ptms.cronus.internal.condition.ConditionParser;
 import ink.ptms.cronus.internal.program.Actionable;
+import ink.ptms.cronus.util.UtilsKt;
 import io.izzel.taboolib.module.locale.TLocale;
 import org.bukkit.configuration.ConfigurationSection;
 
@@ -17,7 +18,7 @@ import java.util.List;
  */
 public class QuestStage extends Actionable {
 
-    protected List<QuestTask> task = Lists.newArrayList();
+    protected List<QuestTask<?>> task = Lists.newArrayList();
     protected String id;
     protected List<List<String>> content = Lists.newArrayList();
     protected List<List<String>> contentCompleted = Lists.newArrayList();
@@ -52,14 +53,14 @@ public class QuestStage extends Actionable {
     }
 
     public boolean isCompleted(DataQuest quest) {
-        return task.stream().allMatch(t -> t.isCompleted(quest));
+        return UtilsKt.INSTANCE.all(task, t -> t.isCompleted(quest));
     }
 
     public String getId() {
         return id;
     }
 
-    public List<QuestTask> getTask() {
+    public List<QuestTask<?>> getTask() {
         return task;
     }
 

@@ -7,6 +7,7 @@ import ink.ptms.cronus.internal.QuestBook;
 import ink.ptms.cronus.internal.QuestStage;
 import ink.ptms.cronus.internal.QuestTask;
 import ink.ptms.cronus.internal.condition.Cond;
+import ink.ptms.cronus.internal.condition.Condition;
 import ink.ptms.cronus.internal.condition.ConditionCache;
 import ink.ptms.cronus.internal.program.Action;
 import ink.ptms.cronus.internal.program.Actionable;
@@ -35,16 +36,16 @@ public class CronusLoader {
 
     void init() {
         TabooLibLoader.getPluginClasses(Cronus.getInst()).ifPresent(classes -> {
-            for (Class pClass : classes) {
+            for (Class<?> pClass : classes) {
                 // task
                 if (pClass.isAnnotationPresent(Task.class)) {
-                    Task task = (Task) pClass.getAnnotation(Task.class);
-                    Cronus.getCronusService().getRegisteredTask().put(task.name(), new TaskCache(pClass));
+                    Task task = pClass.getAnnotation(Task.class);
+                    Cronus.getCronusService().getRegisteredTask().put(task.name(), new TaskCache((Class<QuestTask<?>>) pClass));
                 }
                 // condition
                 else if (pClass.isAnnotationPresent(Cond.class)) {
-                    Cond cond = (Cond) pClass.getAnnotation(Cond.class);
-                    Cronus.getCronusService().getRegisteredCondition().put(cond.name(), new ConditionCache(cond.pattern(), pClass));
+                    Cond cond = pClass.getAnnotation(Cond.class);
+                    Cronus.getCronusService().getRegisteredCondition().put(cond.name(), new ConditionCache(cond.pattern(), (Class<Condition>) pClass));
                 }
             }
         });
@@ -55,7 +56,7 @@ public class CronusLoader {
     public void start() {
         long time = System.currentTimeMillis();
         folder = new File(Cronus.getInst().getDataFolder(), "quests");
-        if (!folder.exists()){
+        if (!folder.exists()) {
             Cronus.getInst().saveResource("quests/def.yml", true);
         }
         Cronus.getCronusService().getRegisteredQuest().clear();
@@ -121,7 +122,7 @@ public class CronusLoader {
         for (String type : actionConfig.getKeys(false)) {
             Action actionType = Action.fromName(type);
             if (actionType != null) {
-                actionable.load(actionType, actionConfig.isList(type) ? (List) actionConfig.get(type) : Lists.newArrayList(actionConfig.getString(type)));
+                actionable.load(actionType, actionConfig.isList(type) ? (List<String>) actionConfig.get(type) : Lists.newArrayList(actionConfig.getString(type)));
             }
         }
     }
@@ -159,7 +160,7 @@ public class CronusLoader {
                 logger.error("Task " + id + " failed to load. (Invalid Type:" + config.getString("type") + ")");
                 return;
             }
-            QuestTask questTask = taskCache.newInstance(config);
+            QuestTask<?> questTask = taskCache.newInstance(config);
             if (questTask.getConfig().contains("action")) {
                 try {
                     loadAction(questTask, questTask.getConfig().getConfigurationSection("action"));

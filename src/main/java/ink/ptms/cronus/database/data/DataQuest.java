@@ -14,6 +14,7 @@ import ink.ptms.cronus.internal.program.Action;
 import ink.ptms.cronus.internal.program.QuestProgram;
 import io.izzel.taboolib.internal.gson.annotations.Expose;
 import io.izzel.taboolib.internal.gson.annotations.JsonAdapter;
+import io.izzel.taboolib.module.db.local.SecuredFile;
 import io.izzel.taboolib.module.inject.TInject;
 import io.izzel.taboolib.module.locale.logger.TLogger;
 import io.izzel.taboolib.module.tellraw.TellrawJson;
@@ -40,9 +41,9 @@ public class DataQuest implements TSerializable {
     @TInject
     private static TLogger logger;
     @Expose
-    private YamlConfiguration dataQuest = new YamlConfiguration();
+    private YamlConfiguration dataQuest = new SecuredFile();
     @Expose
-    private YamlConfiguration dataStage = new YamlConfiguration();
+    private YamlConfiguration dataStage = new SecuredFile();
     @Expose
     private String currentQuest;
     @Expose
@@ -101,7 +102,7 @@ public class DataQuest implements TSerializable {
             CronusStageSuccessEvent.call(player, quest, stage);
             stage.eval(new QuestProgram(player, this), Action.SUCCESS);
             // 清空阶段数据
-            dataStage = new YamlConfiguration();
+            dataStage = new SecuredFile();
             // 执行阶段奖励
             CronusStageAcceptEvent.call(player, quest, stageNext);
             stageNext.eval(new QuestProgram(player, this), Action.ACCEPT);

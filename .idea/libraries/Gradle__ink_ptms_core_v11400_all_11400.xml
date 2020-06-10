@@ -1,7 +1,7 @@
 <component name="libraryTable">
   <library name="Gradle: ink.ptms.core:v11400:all:11400">
     <CLASSES>
-      <root url="jar://D:/development/Gradle/repo/caches/modules-2/files-2.1/ink.ptms.core/v11400/11400/984a8dc4c4e90482340526b82bb40c3f4b7b7d7e/v11400-11400-all.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../../development/Gradle/repo/caches/modules-2/files-2.1/ink.ptms.core/v11400/11400/984a8dc4c4e90482340526b82bb40c3f4b7b7d7e/v11400-11400-all.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

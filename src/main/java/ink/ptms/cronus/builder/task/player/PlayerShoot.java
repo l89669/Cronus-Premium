@@ -7,7 +7,7 @@ import ink.ptms.cronus.builder.task.data.item.ItemBow;
 import ink.ptms.cronus.builder.task.data.entity.EntityProjectile;
 import ink.ptms.cronus.internal.QuestTask;
 import ink.ptms.cronus.internal.task.player.TaskPlayerShoot;
-import ink.ptms.cronus.internal.version.MaterialControl;
+import io.izzel.taboolib.util.lite.Materials;
 import ink.ptms.cronus.uranus.annotations.Auto;
 import io.izzel.taboolib.util.item.ItemBuilder;
 import org.bukkit.inventory.ItemFlag;
@@ -29,7 +29,7 @@ public class PlayerShoot extends TaskEntry {
 
     @Override
     public ItemStack getItem() {
-        return new ItemBuilder(MaterialControl.BOW.parseMaterial()).name("§f射击").lore("", "§7点击选择").flags(ItemFlag.values()).build();
+        return new ItemBuilder(Materials.BOW.parseMaterial()).name("§f射击").lore("", "§7点击选择").flags(ItemFlag.values()).build();
     }
 
     @Override

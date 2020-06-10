@@ -66,7 +66,7 @@ public class Refresher implements Listener {
     public static void upload() {
         DataPlayer poll;
         while ((poll = Cronus.getCronusService().getUploadQueue().pollFirst()) != null) {
-            poll.pushForce();
+            poll.push();
         }
     }
 
@@ -118,7 +118,7 @@ public class Refresher implements Listener {
                 }
                 // 条目检查
                 else {
-                    for (QuestTask task : stage.getTask()) {
+                    for (QuestTask<?> task : stage.getTask()) {
                         // 条目重置
                         if (task.getConditionRestart() != null && task.getConditionRestart().check(player, entry.getValue())) {
                             task.reset(entry.getValue());

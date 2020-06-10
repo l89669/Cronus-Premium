@@ -64,7 +64,7 @@ open class Command : CronusCommand() {
         override fun onCommand(sender: CommandSender, command: org.bukkit.command.Command, s: String, args: Array<String>) {
             val player = Bukkit.getPlayerExact(args[0])
             if (player == null) {
-                CronusCommand.error(sender, "玩家 &7" + args[0] + " &c离线.")
+                error(sender, "玩家 &7" + args[0] + " &c离线.")
                 return
             }
             val playerData = CronusAPI.getData(player)
@@ -126,13 +126,13 @@ open class Command : CronusCommand() {
         override fun onCommand(sender: CommandSender, command: org.bukkit.command.Command, s: String, args: Array<String>) {
             val player = Bukkit.getPlayerExact(args[0])
             if (player == null) {
-                CronusCommand.error(sender, "玩家 &7" + args[0] + " &c离线.")
+                error(sender, "玩家 &7" + args[0] + " &c离线.")
                 return
             }
             when (CronusAPI.acceptQuest(player, args[1])) {
-                CronusAPI.AcceptResult.ACCEPTED -> CronusCommand.error(sender, "玩家 &7" + args[0] + " &c已接受该任务.")
-                CronusAPI.AcceptResult.INVALID -> CronusCommand.error(sender, "任务 &7" + args[1] + " &c无效.")
-                CronusAPI.AcceptResult.INVALID_CONFIG -> CronusCommand.error(sender, "任务 &7" + args[1] + " &c缺少必要配置.")
+                CronusAPI.AcceptResult.ACCEPTED -> error(sender, "玩家 &7" + args[0] + " &c已接受该任务.")
+                CronusAPI.AcceptResult.INVALID -> error(sender, "任务 &7" + args[1] + " &c无效.")
+                CronusAPI.AcceptResult.INVALID_CONFIG -> error(sender, "任务 &7" + args[1] + " &c缺少必要配置.")
                 else -> {
                 }
             }
@@ -153,12 +153,12 @@ open class Command : CronusCommand() {
         override fun onCommand(sender: CommandSender, command: org.bukkit.command.Command, s: String, args: Array<String>) {
             val player = Bukkit.getPlayerExact(args[0])
             if (player == null) {
-                CronusCommand.error(sender, "玩家 &7" + args[0] + " &c离线.")
+                error(sender, "玩家 &7" + args[0] + " &c离线.")
                 return
             }
             when (CronusAPI.failureQuest(player, args[1])) {
-                CronusAPI.FailureResult.NOT_ACCEPT -> CronusCommand.error(sender, "玩家 &7" + args[0] + " &c未接受该任务.")
-                CronusAPI.FailureResult.COMPLETED -> CronusCommand.error(sender, "玩家 &7" + args[0] + " &c已完成该任务.")
+                CronusAPI.FailureResult.NOT_ACCEPT -> error(sender, "玩家 &7" + args[0] + " &c未接受该任务.")
+                CronusAPI.FailureResult.COMPLETED -> error(sender, "玩家 &7" + args[0] + " &c已完成该任务.")
                 else -> {
                 }
             }
@@ -179,7 +179,7 @@ open class Command : CronusCommand() {
         override fun onCommand(sender: CommandSender, command: org.bukkit.command.Command, s: String, args: Array<String>) {
             val player = Bukkit.getPlayerExact(args[0])
             if (player == null) {
-                CronusCommand.error(sender, "玩家 &7" + args[0] + " &c离线.")
+                error(sender, "玩家 &7" + args[0] + " &c离线.")
                 return
             }
             val dataPlayer = CronusAPI.getData(player)
@@ -188,7 +188,7 @@ open class Command : CronusCommand() {
             } else {
                 val dataQuest = dataPlayer.getQuest(args[1])
                 if (dataQuest == null) {
-                    CronusCommand.error(sender, "玩家 &7" + args[0] + " &c未接受该任务.")
+                    error(sender, "玩家 &7" + args[0] + " &c未接受该任务.")
                     return
                 }
                 dataPlayer.stopQuest(dataQuest.quest)
@@ -211,17 +211,17 @@ open class Command : CronusCommand() {
         override fun onCommand(sender: CommandSender, command: org.bukkit.command.Command, s: String, args: Array<String>) {
             val player = Bukkit.getPlayerExact(args[0])
             if (player == null) {
-                CronusCommand.error(sender, "玩家 &7" + args[0] + " &c离线.")
+                error(sender, "玩家 &7" + args[0] + " &c离线.")
                 return
             }
             val dataPlayer = CronusAPI.getData(player)
             val dataQuest = dataPlayer.getQuest(args[1])
             if (dataQuest == null) {
-                CronusCommand.error(sender, "玩家 &7" + args[0] + " &c未接受该任务.")
+                error(sender, "玩家 &7" + args[0] + " &c未接受该任务.")
                 return
             }
             if (dataPlayer.isQuestCompleted(args[1])) {
-                CronusCommand.error(sender, "玩家 &7" + args[0] + " &c已完成该任务.")
+                error(sender, "玩家 &7" + args[0] + " &c已完成该任务.")
                 return
             }
             dataPlayer.completeQuest(dataQuest.quest)
@@ -243,7 +243,7 @@ open class Command : CronusCommand() {
         override fun onCommand(sender: CommandSender, command: org.bukkit.command.Command, s: String, args: Array<String>) {
             val player = Bukkit.getPlayerExact(args[0])
             if (player == null) {
-                CronusCommand.error(sender, "玩家 &7" + args[0] + " &c离线.")
+                error(sender, "玩家 &7" + args[0] + " &c离线.")
                 return
             }
             val dataPlayer = CronusAPI.getData(player)
@@ -266,12 +266,12 @@ open class Command : CronusCommand() {
         override fun onCommand(sender: CommandSender, command: org.bukkit.command.Command, s: String, args: Array<String>) {
             val player = Bukkit.getPlayerExact(args[0])
             if (player == null) {
-                CronusCommand.error(sender, "玩家 &7" + args[0] + " &c离线.")
+                error(sender, "玩家 &7" + args[0] + " &c离线.")
                 return
             }
             val dataQuest = CronusAPI.getData(player).getQuest(args[1])
             if (dataQuest == null) {
-                CronusCommand.error(sender, "玩家 &7" + args[0] + " &c未接受该任务.")
+                error(sender, "玩家 &7" + args[0] + " &c未接受该任务.")
                 return
             }
             dataQuest.open(player)
@@ -292,12 +292,12 @@ open class Command : CronusCommand() {
         override fun onCommand(sender: CommandSender, command: org.bukkit.command.Command, s: String, args: Array<String>) {
             val player = Bukkit.getPlayerExact(args[0])
             if (player == null) {
-                CronusCommand.error(sender, "玩家 &7" + args[0] + " &c离线.")
+                error(sender, "玩家 &7" + args[0] + " &c离线.")
                 return
             }
             val questBook = Cronus.getCronusService().registeredQuestBook[args[1]]
             if (questBook == null) {
-                CronusCommand.error(sender, "纵览 &7" + args[1] + " &c无效.")
+                error(sender, "纵览 &7" + args[1] + " &c无效.")
                 return
             }
             questBook.open(player)
@@ -318,17 +318,17 @@ open class Command : CronusCommand() {
         override fun onCommand(sender: CommandSender, command: org.bukkit.command.Command, s: String, args: Array<String>) {
             val player = Bukkit.getPlayerExact(args[0])
             if (player == null) {
-                CronusCommand.error(sender, "玩家 &7" + args[0] + " &c离线.")
+                error(sender, "玩家 &7" + args[0] + " &c离线.")
                 return
             }
             val quest = Cronus.getCronusService().registeredQuest[args[1]]
             if (quest == null) {
-                CronusCommand.error(sender, "任务 &7" + args[1] + " &c无效.")
+                error(sender, "任务 &7" + args[1] + " &c无效.")
                 return
             }
             val playerData = CronusAPI.getData(player)
             if (!playerData.quest.containsKey(args[1])) {
-                CronusCommand.error(sender, "玩家 &7" + args[0] + " &c未接受该任务.")
+                error(sender, "玩家 &7" + args[0] + " &c未接受该任务.")
                 return
             }
             if (playerData.questHide.contains(quest.id)) {
@@ -345,7 +345,7 @@ open class Command : CronusCommand() {
     var action: BaseSubCommand = object : BaseSubCommand() {
 
         override fun getArguments(): Array<Argument> {
-            return arrayOf(Argument("玩家"), Argument("任务") { Lists.newArrayList(Cronus.getCronusService().registeredQuest.keys) }, Argument("状态") { Action.values().map { it.name } })
+            return arrayOf(Argument("玩家"), Argument("任务") { Lists.newArrayList(Cronus.getCronusService().registeredQuest.keys) }, Argument("状态") { Action.v().map { it.name } })
         }
 
         override fun getDescription(): String {
@@ -355,17 +355,17 @@ open class Command : CronusCommand() {
         override fun onCommand(sender: CommandSender, command: org.bukkit.command.Command, s: String, args: Array<String>) {
             val player = Bukkit.getPlayerExact(args[0])
             if (player == null) {
-                CronusCommand.error(sender, "玩家 &7" + args[0] + " &c离线.")
+                error(sender, "玩家 &7" + args[0] + " &c离线.")
                 return
             }
             val quest = Cronus.getCronusService().registeredQuest[args[1]]
             if (quest == null) {
-                CronusCommand.error(sender, "任务 &7" + args[1] + " &c无效.")
+                error(sender, "任务 &7" + args[1] + " &c无效.")
                 return
             }
             val action = Action.fromName(args[2])
             if (action == null) {
-                CronusCommand.error(sender, "状态 &7" + args[2] + " &c无效.")
+                error(sender, "状态 &7" + args[2] + " &c无效.")
                 return
             }
             quest.eval(QuestProgram(player, CronusAPI.getData(player).quest.getOrDefault(quest.id, DataQuest(quest.id, quest.firstStage))), action)
@@ -386,12 +386,12 @@ open class Command : CronusCommand() {
         override fun onCommand(sender: CommandSender, command: org.bukkit.command.Command, s: String, args: Array<String>) {
             val player = Bukkit.getPlayerExact(args[0])
             if (player == null) {
-                CronusCommand.error(sender, "玩家 &7" + args[0] + " &c离线.")
+                error(sender, "玩家 &7" + args[0] + " &c离线.")
                 return
             }
             val dialog = Cronus.getCronusService().getService(Dialog::class.java).getDialog(args[1])
             if (dialog == null) {
-                CronusCommand.error(sender, "对话 &7" + args[1] + " &c无效.")
+                error(sender, "对话 &7" + args[1] + " &c无效.")
                 return
             }
             if (dialog.condition == null || dialog.condition.check(player)) {
@@ -408,7 +408,7 @@ open class Command : CronusCommand() {
         }
 
         override fun onCommand(sender: CommandSender, command: org.bukkit.command.Command, s: String, args: Array<String>) {
-            CronusCommand.normal(sender, "正在创建统计...")
+            normal(sender, "正在创建统计...")
             val bookBuilder = BookFormatter.writtenBook()
             bookBuilder.addPages(PageBuilder()
                     .add("").newLine()
@@ -419,8 +419,10 @@ open class Command : CronusCommand() {
                     .build())
             CronusMirror.getMirrors().keys.toList().sortedByDescending { CronusMirror.getMirror(it).timeTotal }.forEach { k ->
                 val v = CronusMirror.getMirror(k)
+                val type = k.substring(0, k.indexOf(":"))
                 val name = k.substring(k.indexOf(":") + 1)
                 bookBuilder.addPages(ComponentSerializer.parse(TellrawJson.create()
+                        .append("  §1§l§n" + Utils.toSimple(type)).hoverText(type).newLine()
                         .append("  §1§l§n" + Utils.toSimple(name)).hoverText(name).newLine()
                         .append("").newLine()
                         .append("  执行 " + v.times + " 次").newLine()
@@ -428,7 +430,7 @@ open class Command : CronusCommand() {
                         .append("  总计 " + v.timeTotal + " 毫秒").newLine()
                         .toRawMessage(sender as Player)))
             }
-            CronusCommand.normal(sender, "创建完成!")
+            normal(sender, "创建完成!")
             BookFormatter.forceOpen(sender as Player, bookBuilder.build())
         }
 
@@ -447,7 +449,7 @@ open class Command : CronusCommand() {
         override fun onCommand(sender: CommandSender, command: org.bukkit.command.Command, s: String, args: Array<String>) {
             Cronus.getConf().reload()
             Cronus.reloadQuest()
-            CronusCommand.normal(sender, "重载完成.")
+            normal(sender, "重载完成.")
         }
     }
 }

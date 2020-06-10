@@ -7,7 +7,7 @@ import ink.ptms.cronus.builder.task.data.Item;
 import ink.ptms.cronus.builder.task.data.text.TextColor;
 import ink.ptms.cronus.internal.QuestTask;
 import ink.ptms.cronus.internal.task.player.TaskPlayerShear;
-import ink.ptms.cronus.internal.version.MaterialControl;
+import io.izzel.taboolib.util.lite.Materials;
 import ink.ptms.cronus.uranus.annotations.Auto;
 import io.izzel.taboolib.util.item.ItemBuilder;
 import org.bukkit.inventory.ItemFlag;
@@ -29,7 +29,7 @@ public class PlayerShear extends TaskEntry {
 
     @Override
     public ItemStack getItem() {
-        return new ItemBuilder(MaterialControl.SHEARS.parseMaterial()).name("§f修剪羊毛").lore("", "§7点击选择").flags(ItemFlag.values()).build();
+        return new ItemBuilder(Materials.SHEARS.parseMaterial()).name("§f修剪羊毛").lore("", "§7点击选择").flags(ItemFlag.values()).build();
     }
 
     @Override

@@ -3,7 +3,7 @@ package ink.ptms.cronus.builder.task.data.enums;
 import ink.ptms.cronus.builder.element.BuilderTaskData;
 import ink.ptms.cronus.builder.task.TaskEnum;
 import ink.ptms.cronus.internal.bukkit.parser.BukkitParser;
-import ink.ptms.cronus.internal.version.MaterialControl;
+import io.izzel.taboolib.util.lite.Materials;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerTeleportEvent;
@@ -40,6 +40,6 @@ public class TeleportCause extends TaskEnum {
 
     @Override
     public Material getMaterial() {
-        return MaterialControl.ENDER_PEARL.parseMaterial();
+        return Materials.ENDER_PEARL.parseMaterial();
     }
 }

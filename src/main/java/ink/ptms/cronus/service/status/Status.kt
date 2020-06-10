@@ -29,9 +29,11 @@ import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.player.PlayerQuitEvent
 import org.bukkit.scheduler.BukkitTask
+import org.bukkit.util.NumberConversions
 import java.util.Optional
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.TimeUnit
+import kotlin.math.min
 
 /**
  * @Author 坏黑
@@ -47,8 +49,8 @@ class Status : Service, Listener {
     var sound: SoundPack? = null
 
     init {
-        Bukkit.getScheduler().runTaskTimer(Cronus.getPlugin(), Runnable {
-            barMap.filterValues { System.currentTimeMillis() > it.right }.forEach { k, _ -> barMap.remove(k)!!.left.removeAll() }
+        Bukkit.getScheduler().runTaskTimer(Cronus.getPlugin(), {
+            barMap.filterValues { System.currentTimeMillis() > it.right }.forEach { (k, _) -> barMap.remove(k)!!.left.removeAll() }
         }, 20, 20);
     }
 
@@ -64,19 +66,24 @@ class Status : Service, Listener {
 
     @EventHandler
     fun e(e: CronusTaskNextEvent) {
-        Bukkit.getScheduler().runTask(Cronus.getInst(), Runnable {
+        Bukkit.getScheduler().runTask(Cronus.getInst()) {
             if (!e.isCancelled && e.questTask.status != "<no-status>") {
                 display(e.player, e.dataQuest, e.questTask)
             }
-        })
+        }
     }
 
     fun display(player: Player, dataQuest: DataQuest, questTask: QuestTask<*>) {
-        val parsed = FunctionParser.parseAll(QuestProgram(player, dataQuest), TLocale.Translate.setColored(questTask.status))
+        val questProgram = QuestProgram(player, dataQuest)
+        val parsed = FunctionParser.parseAll(questProgram, TLocale.Translate.setColored(questTask.status))
         when (type) {
             StatusType.BOSSBAR -> {
                 val newBar = Bukkit.createBossBar(parsed, barColor!!, barStyle!!)
-                if (questTask is TaskPlayerAttack) {
+                if (questTask.statusInput != null) {
+                    val current = NumberConversions.toDouble(FunctionParser.parseAll(questProgram, questTask.statusInput.key))
+                    val max = NumberConversions.toDouble(FunctionParser.parseAll(questProgram, questTask.statusInput.value))
+                    newBar.progress = (current / max).coerceAtMost(1.0)
+                } else if (questTask is TaskPlayerAttack) {
                     newBar.progress = questTask.getDamage(dataQuest) / questTask.damage
                 } else if (questTask is TaskPlayerDamaged) {
                     newBar.progress = questTask.getDamage(dataQuest) / questTask.damage
@@ -90,9 +97,9 @@ class Status : Service, Listener {
                         val totalNumber = total.number.number.toDouble()
                         val totalCurrent = questTask.getTotal(dataQuest)
                         if (totalNumber >= 0) {
-                            newBar.progress = Math.min(totalCurrent / totalNumber, 1.0)
+                            newBar.progress = (totalCurrent / totalNumber).coerceAtMost(1.0)
                         } else {
-                            newBar.progress = Math.min(if (totalCurrent > 0) 0.0 else totalCurrent * -1 / (totalNumber * -1), 1.0)
+                            newBar.progress = if (totalCurrent > 0) 0.0 else totalCurrent * -1 / (totalNumber * -1).coerceAtMost(1.0)
                         }
                     }
                 } else {

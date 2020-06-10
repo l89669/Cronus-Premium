@@ -18,7 +18,7 @@ import java.nio.charset.StandardCharsets;
  * @Author 坏黑
  * @Since 2019-05-23 18:06
  */
-@Plugin.Version(5.23)
+@Plugin.Version(5.28)
 @Dependency(maven = "com.mongodb:mongodb:3.12.2", url = "https://skymc.oss-cn-shanghai.aliyuncs.com/libs/mongo-java-driver-3.12.2.jar")
 public class Cronus extends Plugin {
 

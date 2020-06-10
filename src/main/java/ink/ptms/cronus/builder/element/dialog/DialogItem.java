@@ -1,7 +1,7 @@
 package ink.ptms.cronus.builder.element.dialog;
 
 import ink.ptms.cronus.Cronus;
-import ink.ptms.cronus.internal.version.MaterialControl;
+import io.izzel.taboolib.util.lite.Materials;
 import io.izzel.taboolib.util.item.ItemBuilder;
 import io.izzel.taboolib.util.item.Items;
 import io.izzel.taboolib.util.item.inventory.ClickType;
@@ -24,10 +24,10 @@ public class DialogItem {
                 .title("结构编辑 : 显示材质")
                 .rows(3)
                 .items("#########", "$$$$%$$$$", "####@####")
-                .put('%', Items.isNull(dialog.getItem()) ? null : MaterialControl.fromItem(dialog.getItem()).parseItem())
-                .put('#', new ItemBuilder(MaterialControl.BLACK_STAINED_GLASS_PANE.parseItem()).build())
-                .put('$', new ItemBuilder(MaterialControl.BLUE_STAINED_GLASS_PANE.parseItem()).build())
-                .put('@', new ItemBuilder(MaterialControl.RED_STAINED_GLASS_PANE.parseItem()).name("§c上级目录").lore("", "§7点击").build())
+                .put('%', Items.isNull(dialog.getItem()) ? null : Materials.matchMaterials(dialog.getItem()).parseItem())
+                .put('#', new ItemBuilder(Materials.BLACK_STAINED_GLASS_PANE.parseItem()).build())
+                .put('$', new ItemBuilder(Materials.BLUE_STAINED_GLASS_PANE.parseItem()).build())
+                .put('@', new ItemBuilder(Materials.RED_STAINED_GLASS_PANE.parseItem()).name("§c上级目录").lore("", "§7点击").build())
                 .event(e -> {
                     if (e.getClickType() == ClickType.CLICK) {
                         int slot = e.castClick().getRawSlot();
@@ -37,7 +37,7 @@ public class DialogItem {
                         if (slot == 22) {
                             toggle = true;
                             ItemStack item = e.castClick().getInventory().getItem(13);
-                            dialog.setItem(Items.isNull(item) ? null : MaterialControl.fromItem(item).parseItem());
+                            dialog.setItem(Items.isNull(item) ? null : Materials.matchMaterials(item).parseItem());
                             dialog.open(player);
                         }
                     }
@@ -45,7 +45,7 @@ public class DialogItem {
                     if (!toggle) {
                         Bukkit.getScheduler().runTaskLater(Cronus.getInst(), () -> {
                             ItemStack item = e.getInventory().getItem(13);
-                            dialog.setItem(Items.isNull(item) ? null : MaterialControl.fromItem(item).parseItem());
+                            dialog.setItem(Items.isNull(item) ? null : Materials.matchMaterials(item).parseItem());
                             dialog.open(player);
                         }, 1);
                     }

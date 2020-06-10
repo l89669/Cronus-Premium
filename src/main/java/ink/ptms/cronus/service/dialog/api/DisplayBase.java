@@ -19,7 +19,7 @@ import java.util.UUID;
 public abstract class DisplayBase extends DialogDisplay {
 
     @PlayerContainer
-    private static Map<String, ReplyMap> map = Maps.newHashMap();
+    private static final Map<String, ReplyMap> map = Maps.newHashMap();
 
     abstract public String getName();
 

@@ -5,7 +5,7 @@ import ink.ptms.cronus.builder.task.data.Count;
 import ink.ptms.cronus.builder.task.data.Entity;
 import ink.ptms.cronus.internal.QuestTask;
 import ink.ptms.cronus.internal.task.player.TaskPlayerTame;
-import ink.ptms.cronus.internal.version.MaterialControl;
+import io.izzel.taboolib.util.lite.Materials;
 import ink.ptms.cronus.uranus.annotations.Auto;
 import io.izzel.taboolib.util.item.ItemBuilder;
 import org.bukkit.inventory.ItemFlag;
@@ -25,7 +25,7 @@ public class PlayerTame extends TaskEntry {
 
     @Override
     public ItemStack getItem() {
-        return new ItemBuilder(MaterialControl.BONE.parseMaterial()).name("§f驯服").lore("", "§7点击选择").flags(ItemFlag.values()).build();
+        return new ItemBuilder(Materials.BONE.parseMaterial()).name("§f驯服").lore("", "§7点击选择").flags(ItemFlag.values()).build();
     }
 
     @Override

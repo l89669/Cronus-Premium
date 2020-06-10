@@ -6,7 +6,8 @@ import ink.ptms.cronus.builder.Builders;
 import ink.ptms.cronus.builder.element.condition.MatchEntry;
 import ink.ptms.cronus.builder.element.dialog.Dialog;
 import ink.ptms.cronus.builder.task.data.Entity;
-import ink.ptms.cronus.internal.version.MaterialControl;
+import ink.ptms.cronus.internal.api.Helper;
+import io.izzel.taboolib.util.lite.Materials;
 import ink.ptms.cronus.service.selector.EntitySelector;
 import io.izzel.taboolib.util.Files;
 import io.izzel.taboolib.util.item.ItemBuilder;
@@ -131,13 +132,13 @@ public class BuilderDialog extends BuilderQuest {
                                 break;
                             case 49:
                                 player.closeInventory();
-                                normal(player, "正在导出...");
+                                Helper.normal(player, "正在导出...");
                                 try {
                                     export();
-                                    normal(player, "导出完成!");
+                                    Helper.normal(player, "导出完成!");
                                 } catch (Throwable t) {
                                     t.printStackTrace();
-                                    error(player, "导出失败: " + t.getMessage());
+                                    Helper.error(player, "导出失败: " + t.getMessage());
                                 }
                                 break;
                         }
@@ -154,23 +155,23 @@ public class BuilderDialog extends BuilderQuest {
                 .name("§b对话目标")
                 .lore("", "§f" + (target == null ? "无" : getTargetDisplay()), "§8§m                  ", "§7选择: §8左键", "§7删除: §8左键")
                 .build());
-        inventory.setItem(12, new ItemBuilder(MaterialControl.TRIPWIRE_HOOK.parseMaterial())
+        inventory.setItem(12, new ItemBuilder(Materials.TRIPWIRE_HOOK.parseMaterial())
                 .name("§b对话条件")
                 .lore(toLore(condition == null ? Lists.newArrayList() : condition.asList(0)))
                 .build());
-        inventory.setItem(13, new ItemBuilder(MaterialControl.REPEATER.parseMaterial())
+        inventory.setItem(13, new ItemBuilder(Materials.REPEATER.parseMaterial())
                 .name("§b对话开始动作")
                 .lore(toLore(actionOpen))
                 .build());
-        inventory.setItem(14, new ItemBuilder(MaterialControl.REPEATER.parseMaterial())
+        inventory.setItem(14, new ItemBuilder(Materials.REPEATER.parseMaterial())
                 .name("§b对话结束动作")
                 .lore(toLore(actionClose))
                 .build());
-        inventory.setItem(15, new ItemBuilder(MaterialControl.BOOK.parseMaterial())
+        inventory.setItem(15, new ItemBuilder(Materials.BOOK.parseMaterial())
                 .name("§b对话结构")
                 .lore("", dialog == null ? "§f无" : "§f...")
                 .build());
-        inventory.setItem(49, new ItemBuilder(MaterialControl.WRITABLE_BOOK.parseMaterial())
+        inventory.setItem(49, new ItemBuilder(Materials.WRITABLE_BOOK.parseMaterial())
                 .name("§a保存配置")
                 .lore("", "§7文件位置", "§8§nplugins/Cronus/dialog/builder/" + id + ".yml")
                 .build());

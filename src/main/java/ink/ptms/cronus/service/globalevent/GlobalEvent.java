@@ -9,6 +9,7 @@ import ink.ptms.cronus.internal.program.QuestEffect;
 import ink.ptms.cronus.internal.task.Task;
 import ink.ptms.cronus.service.Service;
 import ink.ptms.cronus.uranus.annotations.Auto;
+import ink.ptms.cronus.util.UtilsKt;
 import io.izzel.taboolib.module.config.TConfig;
 import io.izzel.taboolib.module.inject.TInject;
 import io.izzel.taboolib.module.locale.logger.TLogger;
@@ -36,7 +37,8 @@ public class GlobalEvent implements Service, Listener {
     private static TConfig conf;
     @TInject
     private static TLogger logger;
-    private List<GlobalEventPack> packs = Lists.newArrayList();
+
+    private final List<GlobalEventPack> packs = Lists.newArrayList();
 
     @Override
     public void active() {
@@ -44,7 +46,7 @@ public class GlobalEvent implements Service, Listener {
         for (Object element : conf.getList("Events")) {
             Map<String, Object> map;
             if (element instanceof Map) {
-                map = (Map) element;
+                map = (Map<String, Object>) element;
             } else if (element instanceof ConfigurationSection) {
                 map = ((ConfigurationSection) element).getValues(false);
             } else {
@@ -57,10 +59,10 @@ public class GlobalEvent implements Service, Listener {
                 continue;
             }
             try {
-                GlobalEventPack eventPack = new GlobalEventPack(String.valueOf(map.get("name")), ConditionParser.fromObject(map.get("condition")), new QuestEffect((List) map.get("effect")));
+                GlobalEventPack eventPack = new GlobalEventPack(String.valueOf(map.get("name")), ConditionParser.fromObject(map.get("condition")), new QuestEffect((List<String>) map.get("effect")));
                 // 特殊条件
                 if (map.get("data") instanceof Map) {
-                    eventPack.getData().putAll((Map) map.get("data"));
+                    eventPack.getData().putAll((Map<String, Object>) map.get("data"));
                     // 特殊条件初始化失败
                     if (!eventPack.setupData()) {
                         logger.error("Event " + map.get("name") + " data setup failed.");
@@ -93,7 +95,6 @@ public class GlobalEvent implements Service, Listener {
         handle(player, event, list);
     }
 
-
     public void handle(Player player, Event event, String... tasks) {
         handle(player, event, Lists.newArrayList(tasks));
     }
@@ -109,7 +110,7 @@ public class GlobalEvent implements Service, Listener {
                 // 获取所有全局事件
                 for (GlobalEventPack eventPack : packs) {
                     // 判断事件名称
-                    if (tasks.stream().anyMatch(eventPack.getName()::equalsIgnoreCase)
+                    if (UtilsKt.INSTANCE.any(tasks, i -> eventPack.getName().equalsIgnoreCase(i))
                             // 条件
                             && (eventPack.getCondition() == null || eventPack.getCondition().check(player))
                             // 数据
@@ -125,8 +126,8 @@ public class GlobalEvent implements Service, Listener {
         });
     }
 
-    public boolean isSelect(List<Class<? extends QuestTask>> tasks, String name) {
-        return tasks.stream().anyMatch(task -> task.getAnnotation(Task.class).name().equalsIgnoreCase(name));
+    public boolean isSelect(List<Class<? extends QuestTask<?>>> tasks, String name) {
+        return UtilsKt.INSTANCE.any(tasks, task -> task.getAnnotation(Task.class).name().equalsIgnoreCase(name));
     }
 
     public List<GlobalEventPack> getPacks() {

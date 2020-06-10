@@ -10,6 +10,7 @@ import ink.ptms.cronus.internal.QuestTask;
 import ink.ptms.cronus.internal.program.Action;
 import ink.ptms.cronus.internal.program.QuestProgram;
 import io.izzel.taboolib.internal.gson.annotations.Expose;
+import io.izzel.taboolib.module.db.local.SecuredFile;
 import io.izzel.taboolib.util.serialize.DoNotSerialize;
 import io.izzel.taboolib.util.serialize.TSerializable;
 import io.izzel.taboolib.util.serialize.TSerializeCollection;
@@ -22,11 +23,14 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * @Author 坏黑
  * @Since 2019-05-24 0:29
  */
+@SuppressWarnings("rawtypes")
 public class DataPlayer implements TSerializable, Comparable {
 
     @DoNotSerialize
@@ -34,27 +38,31 @@ public class DataPlayer implements TSerializable, Comparable {
     private Player player;
     @DoNotSerialize
     @Expose(serialize = false, deserialize = false)
-    private YamlConfiguration dataTemp = new YamlConfiguration();
+    private YamlConfiguration dataTemp = new SecuredFile();
     @Expose
-    private YamlConfiguration dataGlobal = new YamlConfiguration();
+    private YamlConfiguration dataGlobal = new SecuredFile();
     @TSerializeMap
     @Expose
-    private ConcurrentMap<String, DataQuest> quest = Maps.newConcurrentMap();
+    private final ConcurrentMap<String, DataQuest> quest = Maps.newConcurrentMap();
     @TSerializeMap
     @Expose
-    private ConcurrentMap<String, Long> questCompleted = Maps.newConcurrentMap();
+    private final ConcurrentMap<String, Long> questCompleted = Maps.newConcurrentMap();
     @TSerializeMap
     @Expose
-    private ConcurrentMap<String, Long> itemCooldown = Maps.newConcurrentMap();
+    private final ConcurrentMap<String, Long> itemCooldown = Maps.newConcurrentMap();
     @TSerializeCollection
     @Expose
-    private List<String> questHide = Lists.newArrayList();
+    private final List<String> questHide = Lists.newArrayList();
     @TSerializeCollection
     @Expose
-    private List<String> questLogs = Lists.newArrayList();
+    private final List<String> questLogs = Lists.newArrayList();
     @DoNotSerialize
     @Expose(serialize = false, deserialize = false)
-    private Map<Object, Object> latestUpdate = Maps.newHashMap();
+    private final Map<Object, Object> latestUpdate = Maps.newHashMap();
+    @DoNotSerialize
+    @Expose(serialize = false, deserialize = false)
+    private final ExecutorService executorService = Executors.newSingleThreadExecutor();
+
 
     public DataPlayer() {
     }
@@ -77,11 +85,11 @@ public class DataPlayer implements TSerializable, Comparable {
     }
 
     public void clearDataTemp() {
-        dataTemp = new YamlConfiguration();
+        dataTemp = new SecuredFile();
     }
 
     public void clearDataGlobal() {
-        dataGlobal = new YamlConfiguration();
+        dataGlobal = new SecuredFile();
     }
 
     public void acceptQuest(Quest quest) {
@@ -214,17 +222,12 @@ public class DataPlayer implements TSerializable, Comparable {
     }
 
     public DataPlayer push() {
-        pushForce();
-        return this;
-    }
-
-    public DataPlayer pushForce() {
         if (!player.hasMetadata("cronus:downloaded")) {
             System.out.println("[Cronus] 玩家 " + player.getName() + " 在数据同步之前写入数据");
             return this;
         }
         CronusDataPushEvent.call(player, this);
-        Cronus.getCronusService().async(() -> Cronus.getCronusService().getDatabase().upload(player, this));
+        executorService.submit(() -> Cronus.getCronusService().getDatabase().upload(player, this));
         return this;
     }
 

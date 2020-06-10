@@ -13,7 +13,7 @@ import ink.ptms.cronus.internal.condition.ConditionParser;
 import ink.ptms.cronus.internal.program.QuestProgram;
 import ink.ptms.cronus.internal.program.effect.EffectNull;
 import ink.ptms.cronus.internal.program.effect.EffectParser;
-import ink.ptms.cronus.internal.version.MaterialControl;
+import io.izzel.taboolib.util.lite.Materials;
 import ink.ptms.cronus.uranus.program.ProgramLoader;
 import ink.ptms.cronus.uranus.program.effect.Effect;
 import ink.ptms.cronus.util.Utils;
@@ -128,7 +128,6 @@ public class CommandTest extends CronusCommand {
                 error(sender, "无效的玩家.");
                 return;
             }
-
             Effect parse = effectMap.computeIfAbsent(ArrayUtil.arrayJoin(args, 1), EffectParser::parse);
             if (parse instanceof EffectNull) {
                 error(sender, "动作格式错误.");
@@ -360,7 +359,7 @@ public class CommandTest extends CronusCommand {
 
         @Override
         public void onCommand(CommandSender sender, Command command, String s, String[] args) {
-            Set<Material> blocks = Sets.newHashSet(Material.AIR, MaterialControl.CAVE_AIR.parseMaterial(), MaterialControl.VOID_AIR.parseMaterial()).stream().filter(Objects::nonNull).collect(Collectors.toSet());
+            Set<Material> blocks = Sets.newHashSet(Material.AIR, Materials.CAVE_AIR.parseMaterial(), Materials.VOID_AIR.parseMaterial()).stream().filter(Objects::nonNull).collect(Collectors.toSet());
             Block targetBlock = ((Player) sender).getTargetBlock(blocks, 10);
             if (targetBlock == null) {
                 normal(sender, "无效的方块.");

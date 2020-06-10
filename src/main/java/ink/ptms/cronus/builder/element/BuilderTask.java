@@ -8,7 +8,8 @@ import ink.ptms.cronus.builder.element.condition.MatchEntry;
 import ink.ptms.cronus.builder.task.TaskEntry;
 import ink.ptms.cronus.internal.bukkit.Location;
 import ink.ptms.cronus.internal.bukkit.parser.BukkitParser;
-import ink.ptms.cronus.internal.version.MaterialControl;
+import io.izzel.taboolib.util.KV;
+import io.izzel.taboolib.util.lite.Materials;
 import ink.ptms.cronus.util.Utils;
 import io.izzel.taboolib.module.locale.TLocale;
 import io.izzel.taboolib.util.item.ItemBuilder;
@@ -46,6 +47,7 @@ public class BuilderTask extends BuilderQuest {
     private Location guideTarget;
     private List<String> guideText = Lists.newArrayList(id, "距离 {distance}m");
     private String status;
+    private KV<String, String> statusInput;
     private boolean toggle;
 
     public BuilderTask(String id) {
@@ -87,6 +89,9 @@ public class BuilderTask extends BuilderQuest {
         if (section.contains("status")) {
             status = section.getString("status");
         }
+        if (section.contains("status-input")) {
+            statusInput = new KV<>(section.getString("status-input.current", "0"), section.getString("status-input.max", "0"));
+        }
     }
 
     public void export(ConfigurationSection section) {
@@ -116,6 +121,10 @@ public class BuilderTask extends BuilderQuest {
         }
         if (status != null) {
             section.set("status", status);
+        }
+        if (statusInput != null) {
+            section.set("status-input.current", statusInput.getKey());
+            section.set("status-input.max", statusInput.getValue());
         }
     }
 
@@ -166,6 +175,26 @@ public class BuilderTask extends BuilderQuest {
                             case 14:
                                 toggle = true;
                                 editString(e.getClicker(), "任务状态显示", status, r -> status = r);
+                                break;
+                            case 15:
+                                toggle = true;
+                                if (e.castClick().getClick() == org.bukkit.event.inventory.ClickType.LEFT) {
+                                    editString(e.getClicker(), "任务状态接口(输入)", statusInput == null ? "-" : statusInput.getKey(), r -> statusInput = new KV<>(r, statusInput == null ? "0" : statusInput.getValue()));
+                                } else if (e.castClick().getClick() == org.bukkit.event.inventory.ClickType.RIGHT) {
+                                    editString(e.getClicker(), "任务状态接口(最大)", statusInput == null ? "-" : statusInput.getValue(), r -> statusInput = new KV<>(statusInput == null ? "0" : statusInput.getKey(), r));
+                                } else if (e.castClick().getClick() == org.bukkit.event.inventory.ClickType.MIDDLE) {
+                                    statusInput = null;
+                                    e.setCurrentItem(new ItemBuilder(Material.HOPPER)
+                                            .name("§b任务状态接口")
+                                            .lore("",
+                                                    "§7输入: §f" + (statusInput == null ? "无" : statusInput.getKey()),
+                                                    "§7最大: §f" + (statusInput == null ? "无" : statusInput.getValue()),
+                                                    "§8§m                  ",
+                                                    "§7输入: §8左键",
+                                                    "§7最大: §8右键",
+                                                    "§7清空: §8中键"
+                                            ).build());
+                                }
                                 break;
                             case 19:
                                 toggle = true;
@@ -250,15 +279,25 @@ public class BuilderTask extends BuilderQuest {
                 .name("§b任务状态显示")
                 .lore("", "§f" + (status == null ? "无" : status))
                 .build());
-        inventory.setItem(19, new ItemBuilder(MaterialControl.REPEATER.parseMaterial())
+        inventory.setItem(15, new ItemBuilder(Material.HOPPER)
+                .name("§b任务状态接口")
+                .lore("",
+                        "§7输入: §f" + (statusInput == null ? "无" : statusInput.getKey()),
+                        "§7最大: §f" + (statusInput == null ? "无" : statusInput.getValue()),
+                        "§8§m                  ",
+                        "§7输入: §8左键",
+                        "§7最大: §8右键",
+                        "§7清空: §8中键"
+                ).build());
+        inventory.setItem(19, new ItemBuilder(Materials.REPEATER.parseMaterial())
                 .name("§b条目进行动作")
                 .lore(toLore(actionNext))
                 .build());
-        inventory.setItem(20, new ItemBuilder(MaterialControl.REPEATER.parseMaterial())
+        inventory.setItem(20, new ItemBuilder(Materials.REPEATER.parseMaterial())
                 .name("§b条目完成动作")
                 .lore(toLore(actionSuccess))
                 .build());
-        inventory.setItem(21, new ItemBuilder(MaterialControl.REPEATER.parseMaterial())
+        inventory.setItem(21, new ItemBuilder(Materials.REPEATER.parseMaterial())
                 .name("§b条目重置动作")
                 .lore(toLore(actionRestart))
                 .build());
@@ -280,7 +319,7 @@ public class BuilderTask extends BuilderQuest {
                 .name("§b引导显示内容")
                 .lore(toLore(guideText))
                 .build());
-        inventory.setItem(49, new ItemBuilder(MaterialControl.RED_STAINED_GLASS_PANE.parseItem())
+        inventory.setItem(49, new ItemBuilder(Materials.RED_STAINED_GLASS_PANE.parseItem())
                 .name("§c上级目录")
                 .lore("", "§7点击")
                 .build());

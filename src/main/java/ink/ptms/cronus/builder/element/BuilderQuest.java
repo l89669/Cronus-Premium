@@ -7,7 +7,8 @@ import ink.ptms.cronus.builder.element.condition.MatchEntry;
 import ink.ptms.cronus.command.CronusCommand;
 import ink.ptms.cronus.database.data.time.Time;
 import ink.ptms.cronus.database.data.time.TimeType;
-import ink.ptms.cronus.internal.version.MaterialControl;
+import ink.ptms.cronus.internal.api.Helper;
+import io.izzel.taboolib.util.lite.Materials;
 import ink.ptms.cronus.uranus.program.ProgramLoader;
 import ink.ptms.cronus.util.Utils;
 import io.izzel.taboolib.module.locale.TLocale;
@@ -34,7 +35,7 @@ import java.util.stream.Collectors;
  * @Author 坏黑
  * @Since 2019-06-18 19:50
  */
-public class BuilderQuest extends CronusCommand {
+public class BuilderQuest implements Helper {
 
     protected String id;
     protected String display;
@@ -148,8 +149,8 @@ public class BuilderQuest extends CronusCommand {
         player.openInventory(MenuBuilder.builder(Cronus.getInst())
                 .title("任务构建 : " + id)
                 .rows(6)
-                .put('#', MaterialControl.BLACK_STAINED_GLASS_PANE.parseItem())
-                .put('$', MaterialControl.BLUE_STAINED_GLASS_PANE.parseItem())
+                .put('#', Materials.BLACK_STAINED_GLASS_PANE.parseItem())
+                .put('$', Materials.BLUE_STAINED_GLASS_PANE.parseItem())
                 .put('0', new ItemBuilder(Material.NAME_TAG)
                         .name("§b任务名称")
                         .lore("", (display == null ? "§f无" : "§f" + display))
@@ -162,31 +163,31 @@ public class BuilderQuest extends CronusCommand {
                         .name("§b任务标签")
                         .lore("", (label == null ? "§f无" : "§f" + label))
                         .build())
-                .put('3', new ItemBuilder(MaterialControl.CLOCK.parseMaterial())
+                .put('3', new ItemBuilder(Materials.CLOCK.parseMaterial())
                         .name("§b任务冷却时间")
                         .lore("", "§f" + (cooldown == null ? "无" : displayCooldown()))
                         .build())
-                .put('4', new ItemBuilder(MaterialControl.CLOCK.parseMaterial())
+                .put('4', new ItemBuilder(Materials.CLOCK.parseMaterial())
                         .name("§b任务超时时间")
                         .lore("", "§f" + (timeout == null ? "无" : displayTimeout()))
                         .build())
-                .put('5', new ItemBuilder(MaterialControl.REPEATER.parseMaterial())
+                .put('5', new ItemBuilder(Materials.REPEATER.parseMaterial())
                         .name("§b任务接受动作")
                         .lore(toLore(actionAccept))
                         .build())
-                .put('6', new ItemBuilder(MaterialControl.REPEATER.parseMaterial())
+                .put('6', new ItemBuilder(Materials.REPEATER.parseMaterial())
                         .name("§b任务接受动作 (条件不足)")
                         .lore(toLore(actionAcceptFail))
                         .build())
-                .put('7', new ItemBuilder(MaterialControl.REPEATER.parseMaterial())
+                .put('7', new ItemBuilder(Materials.REPEATER.parseMaterial())
                         .name("§b任务完成动作")
                         .lore(toLore(actionSuccess))
                         .build())
-                .put('8', new ItemBuilder(MaterialControl.REPEATER.parseMaterial())
+                .put('8', new ItemBuilder(Materials.REPEATER.parseMaterial())
                         .name("§b任务失败动作")
                         .lore(toLore(actionFailure))
                         .build())
-                .put('9', new ItemBuilder(MaterialControl.REPEATER.parseMaterial())
+                .put('9', new ItemBuilder(Materials.REPEATER.parseMaterial())
                         .name("§b任务冷却动作")
                         .lore(toLore(actionCooldown))
                         .build())
@@ -202,7 +203,7 @@ public class BuilderQuest extends CronusCommand {
                         .name("§b任务阶段")
                         .lore(toLore(stageList.getStages().stream().map(BuilderStage::getId).collect(Collectors.toList())))
                         .build())
-                .put('%', new ItemBuilder(MaterialControl.WRITABLE_BOOK.parseMaterial())
+                .put('%', new ItemBuilder(Materials.WRITABLE_BOOK.parseMaterial())
                         .name("§a保存配置")
                         .lore("", "§7文件位置", "§8§nplugins/Cronus/quests/builder/" + id + ".yml")
                         .build())
@@ -228,7 +229,7 @@ public class BuilderQuest extends CronusCommand {
                                 break;
                             case 13:
                                 editString(e.getClicker(), "任务冷却时间", cooldown, r -> cooldown = r);
-                                normal(e.getClicker(), "可用：");
+                                CronusCommand.normal(e.getClicker(), "可用：");
                                 TellrawJson.create()
                                         .append("§7§l[§f§lCronus§7§l] §7- ")
                                         .append(formatTime("[number][time]"))
@@ -249,7 +250,7 @@ public class BuilderQuest extends CronusCommand {
                                 break;
                             case 14:
                                 editString(e.getClicker(), "任务超时时间", timeout, r -> timeout = r);
-                                normal(e.getClicker(), "可用：");
+                                CronusCommand.normal(e.getClicker(), "可用：");
                                 TellrawJson.create()
                                         .append("§7§l[§f§lCronus§7§l] §7- ")
                                         .append(formatTime("[number][time]"))
@@ -348,13 +349,13 @@ public class BuilderQuest extends CronusCommand {
                                 break;
                             case 49:
                                 player.closeInventory();
-                                normal(player, "正在导出...");
+                                CronusCommand.normal(player, "正在导出...");
                                 try {
                                     export();
-                                    normal(player, "导出完成!");
+                                    CronusCommand.normal(player, "导出完成!");
                                 } catch (Throwable t) {
+                                    CronusCommand.error(player, "导出失败: " + t.getMessage());
                                     t.printStackTrace();
-                                    error(player, "导出失败: " + t.getMessage());
                                 }
                                 break;
                         }
@@ -444,7 +445,7 @@ public class BuilderQuest extends CronusCommand {
             public Catchers.Catcher before() {
                 player.closeInventory();
                 TellrawJson.create().append("§7§l[§f§lCronus§7§l] §7在对话框中输入新的" + display + ". ")
-                        .append("§8(取消)").hoverText("§7点击").clickCommand("quit()")
+                        .append("§8(取消)").hoverText("§7点击").clickCommand("cancel")
                         .send(player);
                 TellrawJson.create().append("§7§l[§f§lCronus§7§l] §7当前: ")
                         .append("§f" + Utils.NonNull(origin)).hoverText("§7点击").clickSuggest(Utils.NonNull(origin))

@@ -7,7 +7,7 @@ import ink.ptms.cronus.builder.task.data.enums.DamageCause;
 import ink.ptms.cronus.builder.task.data.item.ItemWeapon;
 import ink.ptms.cronus.internal.QuestTask;
 import ink.ptms.cronus.internal.task.player.damage.TaskPlayerDamaged;
-import ink.ptms.cronus.internal.version.MaterialControl;
+import io.izzel.taboolib.util.lite.Materials;
 import ink.ptms.cronus.uranus.annotations.Auto;
 import io.izzel.taboolib.util.item.ItemBuilder;
 import org.bukkit.inventory.ItemFlag;
@@ -29,7 +29,7 @@ public class PlayerDamaged extends TaskEntry {
 
     @Override
     public ItemStack getItem() {
-        return new ItemBuilder(MaterialControl.IRON_CHESTPLATE.parseMaterial()).name("§f承受伤害").lore("", "§7点击选择").flags(ItemFlag.values()).build();
+        return new ItemBuilder(Materials.IRON_CHESTPLATE.parseMaterial()).name("§f承受伤害").lore("", "§7点击选择").flags(ItemFlag.values()).build();
     }
 
     @Override

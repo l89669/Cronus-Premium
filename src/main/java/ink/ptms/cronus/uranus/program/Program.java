@@ -1,5 +1,6 @@
 package ink.ptms.cronus.uranus.program;
 
+import io.izzel.taboolib.module.db.local.SecuredFile;
 import io.izzel.taboolib.module.inject.TInject;
 import io.izzel.taboolib.module.locale.logger.TLogger;
 import org.bukkit.command.CommandSender;
@@ -14,7 +15,7 @@ public class Program {
 
     @TInject
     protected static TLogger logger;
-    protected YamlConfiguration data = new YamlConfiguration();
+    protected YamlConfiguration data = new SecuredFile();
     protected ProgramFile programFile;
     protected CommandSender sender;
     protected String[] args;

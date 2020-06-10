@@ -4,7 +4,7 @@ import com.google.common.collect.Maps;
 import ink.ptms.cronus.Cronus;
 import ink.ptms.cronus.builder.Builders;
 import ink.ptms.cronus.builder.task.TaskEntry;
-import ink.ptms.cronus.internal.version.MaterialControl;
+import io.izzel.taboolib.util.lite.Materials;
 import ink.ptms.cronus.util.Utils;
 import io.izzel.taboolib.module.lite.SimpleIterator;
 import io.izzel.taboolib.util.item.ItemBuilder;
@@ -24,11 +24,11 @@ import java.util.Map;
  */
 public class BuilderTaskType {
 
-    private BuilderTask builderTask;
+    private final BuilderTask builderTask;
     private Player player;
     private int page;
     private boolean toggle;
-    private Map<Integer, TaskEntry> map = Maps.newHashMap();
+    private final Map<Integer, TaskEntry> map = Maps.newHashMap();
 
     public BuilderTaskType(BuilderTask builderTask) {
         this.builderTask = builderTask;
@@ -49,11 +49,11 @@ public class BuilderTaskType {
                     if (e.getClickType() == ClickType.CLICK) {
                         e.castClick().setCancelled(true);
                         // 上一页
-                        if (e.castClick().getRawSlot() == 46 && MaterialControl.GREEN_STAINED_GLASS_PANE.isSimilar(e.castClick().getCurrentItem())) {
+                        if (e.castClick().getRawSlot() == 46 && Materials.GREEN_STAINED_GLASS_PANE.isSimilar(e.castClick().getCurrentItem())) {
                             open(player, page - 1);
                         }
                         // 下一页
-                        else if (e.castClick().getRawSlot() == 52 && MaterialControl.GREEN_STAINED_GLASS_PANE.isSimilar(e.castClick().getCurrentItem())) {
+                        else if (e.castClick().getRawSlot() == 52 && Materials.GREEN_STAINED_GLASS_PANE.isSimilar(e.castClick().getCurrentItem())) {
                             open(player, page + 1);
                         }
                         // 返回
@@ -84,12 +84,12 @@ public class BuilderTaskType {
             map.put(Items.INVENTORY_CENTER[i], iterator.get(i));
         }
         if (page > 0) {
-            inventory.setItem(46, new ItemBuilder(MaterialControl.GREEN_STAINED_GLASS_PANE.parseItem()).name("§a上一页").lore("", "§7点击").build());
+            inventory.setItem(46, new ItemBuilder(Materials.GREEN_STAINED_GLASS_PANE.parseItem()).name("§a上一页").lore("", "§7点击").build());
         }
         if (Utils.next(page, Builders.getTaskEntries().size(), 28)) {
-            inventory.setItem(52, new ItemBuilder(MaterialControl.GREEN_STAINED_GLASS_PANE.parseItem()).name("§a下一页").lore("", "§7点击").build());
+            inventory.setItem(52, new ItemBuilder(Materials.GREEN_STAINED_GLASS_PANE.parseItem()).name("§a下一页").lore("", "§7点击").build());
         }
-        inventory.setItem(49, new ItemBuilder(MaterialControl.RED_STAINED_GLASS_PANE.parseItem()).name("§c上级目录").lore("", "§7点击").build());
+        inventory.setItem(49, new ItemBuilder(Materials.RED_STAINED_GLASS_PANE.parseItem()).name("§c上级目录").lore("", "§7点击").build());
         player.openInventory(inventory);
         player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1f, 1f);
         this.toggle = false;

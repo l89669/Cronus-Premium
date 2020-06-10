@@ -3,7 +3,7 @@ package ink.ptms.cronus.builder.task.data.block;
 import com.google.common.collect.Lists;
 import ink.ptms.cronus.builder.element.BuilderTaskData;
 import ink.ptms.cronus.builder.task.data.Block;
-import ink.ptms.cronus.internal.version.MaterialControl;
+import io.izzel.taboolib.util.lite.Materials;
 import io.izzel.taboolib.util.item.ItemBuilder;
 import io.izzel.taboolib.util.item.Items;
 import org.bukkit.entity.Player;
@@ -42,7 +42,7 @@ public class BlockAnvil extends Block {
         lore.add("§7选择: §8左键");
         lore.add("§7导入: §8右键");
         lore.add("§7删除: §8中键");
-        return new ItemBuilder(MaterialControl.ANVIL.parseMaterial())
+        return new ItemBuilder(Materials.ANVIL.parseMaterial())
                 .name("§7方块类型 (铁砧)")
                 .lore(lore).build();
     }

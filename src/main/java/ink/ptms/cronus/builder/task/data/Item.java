@@ -5,7 +5,7 @@ import ink.ptms.cronus.Cronus;
 import ink.ptms.cronus.builder.element.BuilderTaskData;
 import ink.ptms.cronus.builder.task.TaskData;
 import ink.ptms.cronus.internal.bukkit.parser.BukkitParser;
-import ink.ptms.cronus.internal.version.MaterialControl;
+import io.izzel.taboolib.util.lite.Materials;
 import ink.ptms.cronus.util.Utils;
 import io.izzel.taboolib.module.tellraw.TellrawJson;
 import io.izzel.taboolib.util.item.ItemBuilder;
@@ -38,7 +38,7 @@ public class Item extends TaskData {
     @Override
     public org.bukkit.inventory.ItemStack getItem() {
         ink.ptms.cronus.internal.bukkit.ItemStack cronusItem = data == null ? null : BukkitParser.toItemStack(data);
-        return new ItemBuilder(MaterialControl.APPLE.parseMaterial())
+        return new ItemBuilder(Materials.APPLE.parseMaterial())
                 .name("§7目标物品")
                 .lore(
                         "",
@@ -60,9 +60,9 @@ public class Item extends TaskData {
                     .rows(3)
                     .items("#########", "$$$$%$$$$", "####@####")
                     .put('%', cronusItem != null && cronusItem.getBukkitItem() != null ? cronusItem.getBukkitItem() : null)
-                    .put('#', new ItemBuilder(MaterialControl.BLACK_STAINED_GLASS_PANE.parseItem()).build())
-                    .put('$', new ItemBuilder(MaterialControl.BLUE_STAINED_GLASS_PANE.parseItem()).build())
-                    .put('@', new ItemBuilder(MaterialControl.RED_STAINED_GLASS_PANE.parseItem()).name("§c上级目录").lore("", "§7点击").build())
+                    .put('#', new ItemBuilder(Materials.BLACK_STAINED_GLASS_PANE.parseItem()).build())
+                    .put('$', new ItemBuilder(Materials.BLUE_STAINED_GLASS_PANE.parseItem()).build())
+                    .put('@', new ItemBuilder(Materials.RED_STAINED_GLASS_PANE.parseItem()).name("§c上级目录").lore("", "§7点击").build())
                     .event(c -> {
                         if (c.getClickType() == ClickType.CLICK) {
                             int slot = c.castClick().getRawSlot();

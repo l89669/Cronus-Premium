@@ -5,6 +5,7 @@ import ink.ptms.cronus.Cronus;
 import ink.ptms.cronus.builder.element.BuilderQuest;
 import ink.ptms.cronus.command.CronusCommand;
 import io.izzel.taboolib.module.command.base.*;
+import io.izzel.taboolib.module.db.local.SecuredFile;
 import io.izzel.taboolib.util.Files;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -45,7 +46,7 @@ public class CommandBuilder extends CronusCommand {
                 error(sender, "任务 §7" + args[0] + " §c已存在.");
                 return;
             }
-            YamlConfiguration yaml = new YamlConfiguration();
+            YamlConfiguration yaml = new SecuredFile();
             yaml.createSection(args[0]);
             try {
                 yaml.save(file);

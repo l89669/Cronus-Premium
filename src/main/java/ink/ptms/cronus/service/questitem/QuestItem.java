@@ -5,8 +5,10 @@ import ink.ptms.cronus.Cronus;
 import ink.ptms.cronus.event.CronusReloadServiceEvent;
 import ink.ptms.cronus.service.Service;
 import ink.ptms.cronus.uranus.annotations.Auto;
+import ink.ptms.cronus.util.UtilsKt;
 import io.izzel.taboolib.module.inject.TSchedule;
 import io.izzel.taboolib.util.item.Items;
+import io.izzel.taboolib.util.lite.Servers;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
@@ -30,7 +32,7 @@ import java.util.List;
 @Auto
 public class QuestItem implements Service, Listener {
 
-    private List<QuestItemData> items = Lists.newArrayList();
+    private final List<QuestItemData> items = Lists.newArrayList();
 
     @Override
     public void init() {
@@ -43,7 +45,6 @@ public class QuestItem implements Service, Listener {
 
     @Override
     public void cancel() {
-
     }
 
     @TSchedule(period = 100)
@@ -60,24 +61,32 @@ public class QuestItem implements Service, Listener {
     @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
     public void e(ItemSpawnEvent e) {
         ItemStack dropItem = e.getEntity().getItemStack();
-        items.stream().filter(item -> item.getItem().isSimilar(dropItem)).map(item -> true).forEach(e::setCancelled);
+        if (UtilsKt.INSTANCE.any(items, i -> i.getItem().isSimilar(dropItem))) {
+            e.setCancelled(true);
+        }
     }
 
     @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
     public void e(PlayerDropItemEvent e) {
         ItemStack dropItem = e.getItemDrop().getItemStack();
-        items.stream().filter(item -> item.getItem().isSimilar(dropItem)).map(item -> true).forEach(e::setCancelled);
+        if (UtilsKt.INSTANCE.any(items, i -> i.getItem().isSimilar(dropItem))) {
+            e.setCancelled(true);
+        }
     }
 
     @EventHandler
     public void e(PlayerInteractEvent e) {
-        items.stream().filter(item -> item.getSlot() == e.getPlayer().getInventory().getHeldItemSlot() && item.getItem().isSimilar(e.getPlayer().getItemInHand())).findFirst().ifPresent(item -> {
-            e.setCancelled(true);
-            // 如果启用则执行动作
-            if (item.isEnable()) {
-                item.getEffect().eval(e.getPlayer());
+        for (QuestItemData item : items) {
+            // 在正确的位置交互正确的物品
+            if (item.getSlot() == e.getPlayer().getInventory().getHeldItemSlot() && item.getItem().isSimilar(e.getPlayer().getItemInHand())) {
+                e.setCancelled(true);
+                // 如果启用则执行动作
+                if (item.isEnable()) {
+                    item.getEffect().eval(e.getPlayer());
+                }
+                return;
             }
-        });
+        }
     }
 
     @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)

@@ -9,7 +9,7 @@ import ink.ptms.cronus.builder.task.data.expression.ExpressionLevel;
 import ink.ptms.cronus.builder.task.data.location.LocationEnchant;
 import ink.ptms.cronus.internal.QuestTask;
 import ink.ptms.cronus.internal.task.item.TaskItemEnchant;
-import ink.ptms.cronus.internal.version.MaterialControl;
+import io.izzel.taboolib.util.lite.Materials;
 import ink.ptms.cronus.uranus.annotations.Auto;
 import io.izzel.taboolib.util.item.ItemBuilder;
 import org.bukkit.inventory.ItemFlag;
@@ -33,7 +33,7 @@ public class ItemEnchant extends TaskEntry {
 
     @Override
     public ItemStack getItem() {
-        return new ItemBuilder(MaterialControl.ENCHANTING_TABLE.parseMaterial()).name("§f物品附魔").lore("", "§7点击选择").flags(ItemFlag.values()).build();
+        return new ItemBuilder(Materials.ENCHANTING_TABLE.parseMaterial()).name("§f物品附魔").lore("", "§7点击选择").flags(ItemFlag.values()).build();
     }
 
     @Override

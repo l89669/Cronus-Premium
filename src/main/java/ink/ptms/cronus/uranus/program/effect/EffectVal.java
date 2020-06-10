@@ -5,6 +5,7 @@ import ink.ptms.cronus.internal.variable.impl.EngineY;
 import ink.ptms.cronus.uranus.annotations.Auto;
 import ink.ptms.cronus.uranus.function.FunctionParser;
 import ink.ptms.cronus.uranus.program.Program;
+import io.izzel.taboolib.module.db.local.SecuredFile;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.util.regex.Matcher;
@@ -16,7 +17,7 @@ import java.util.regex.Matcher;
 @Auto
 public class EffectVal extends Effect {
 
-    private static YamlConfiguration data = new YamlConfiguration();
+    private static final YamlConfiguration data = new SecuredFile();
     private String name;
     private String symbol;
     private String value;

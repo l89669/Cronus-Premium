@@ -24,9 +24,9 @@ import java.util.Map;
 @Auto
 public class EntitySelector implements Service {
 
-    private List<Selector> selectors = Lists.newArrayList();
-    private Map<String, EntityCache> entityCache = Maps.newHashMap();
-    private Map<String, ink.ptms.cronus.internal.bukkit.Entity> entityMap = Maps.newHashMap();
+    private final List<Selector> selectors = Lists.newArrayList();
+    private final Map<String, EntityCache> entityCache = Maps.newHashMap();
+    private final Map<String, ink.ptms.cronus.internal.bukkit.Entity> entityMap = Maps.newHashMap();
 
     @Override
     public void init() {
