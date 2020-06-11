@@ -3,40 +3,34 @@ package ink.ptms.cronus.event;
 import ink.ptms.cronus.CronusAPI;
 import ink.ptms.cronus.database.data.DataQuest;
 import ink.ptms.cronus.internal.Quest;
+import io.izzel.taboolib.module.event.EventNormal;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-import org.bukkit.event.HandlerList;
-import org.bukkit.event.player.PlayerEvent;
 
-public class CronusQuestFailureEvent extends PlayerEvent {
+public class CronusQuestFailureEvent extends EventNormal<CronusQuestFailureEvent> {
 
-    private static final HandlerList handlers = new HandlerList();
-    private Quest quest;
+    private final Player player;
+    private final Quest quest;
 
     public CronusQuestFailureEvent(Player who, Quest quest) {
-        super(who);
+        async(!Bukkit.isPrimaryThread());
+        this.player = who;
         this.quest = quest;
     }
 
     public static CronusQuestFailureEvent call(Player who, Quest quest) {
-        CronusQuestFailureEvent event = new CronusQuestFailureEvent(who, quest);
-        Bukkit.getPluginManager().callEvent(event);
-        return event;
+        return new CronusQuestFailureEvent(who, quest).call();
     }
 
-    public DataQuest getDataQuest() {
-        return CronusAPI.getData(player).getQuest(quest.getId());
+    public Player getPlayer() {
+        return player;
     }
 
     public Quest getQuest() {
         return quest;
     }
 
-    public HandlerList getHandlers() {
-        return handlers;
-    }
-
-    public static HandlerList getHandlerList() {
-        return handlers;
+    public DataQuest getDataQuest() {
+        return CronusAPI.getData(player).getQuest(quest.getId());
     }
 }

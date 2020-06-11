@@ -64,7 +64,7 @@ public class CronusLoader {
         loadQuest(folder);
         loadQuestBook();
         logger.info(Cronus.getCronusService().getRegisteredQuest().size() + " Quest Loaded. (" + (System.currentTimeMillis() - time + "ms)"));
-        CronusReloadEvent.call();
+        new CronusReloadEvent().call();
     }
 
     public void loadQuestBook() {

@@ -1,6 +1,5 @@
 package ink.ptms.cronus.internal.program.effect.impl;
 
-import ink.ptms.cronus.internal.program.QuestProgram;
 import ink.ptms.cronus.uranus.annotations.Auto;
 import ink.ptms.cronus.uranus.program.Program;
 import ink.ptms.cronus.uranus.program.effect.Effect;

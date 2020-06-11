@@ -8,7 +8,6 @@ import ink.ptms.cronus.uranus.event.UranusScriptEvalEvent;
 import io.izzel.taboolib.module.inject.PlayerContainer;
 import io.izzel.taboolib.module.inject.TListener;
 import io.izzel.taboolib.module.inject.TSchedule;
-import lilypad.client.connect.api.event.EventListener;
 import org.bukkit.Sound;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Firework;

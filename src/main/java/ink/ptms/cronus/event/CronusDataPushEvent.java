@@ -1,36 +1,30 @@
 package ink.ptms.cronus.event;
 
 import ink.ptms.cronus.database.data.DataPlayer;
+import io.izzel.taboolib.module.event.EventNormal;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-import org.bukkit.event.HandlerList;
-import org.bukkit.event.player.PlayerEvent;
 
-public class CronusDataPushEvent extends PlayerEvent {
+public class CronusDataPushEvent extends EventNormal<CronusDataPushEvent> {
 
-    private static final HandlerList handlers = new HandlerList();
-    private DataPlayer dataPlayer;
+    private final Player player;
+    private final DataPlayer dataPlayer;
 
     public CronusDataPushEvent(Player who, DataPlayer dataPlayer) {
-        super(who);
+        async(!Bukkit.isPrimaryThread());
+        this.player = who;
         this.dataPlayer = dataPlayer;
     }
 
     public static CronusDataPushEvent call(Player who, DataPlayer dataPlayer) {
-        CronusDataPushEvent event = new CronusDataPushEvent(who, dataPlayer);
-        Bukkit.getPluginManager().callEvent(event);
-        return event;
+        return new CronusDataPushEvent(who, dataPlayer).call();
+    }
+
+    public Player getPlayer() {
+        return player;
     }
 
     public DataPlayer getDataPlayer() {
         return dataPlayer;
-    }
-
-    public static HandlerList getHandlerList() {
-        return handlers;
-    }
-
-    public HandlerList getHandlers() {
-        return handlers;
     }
 }

@@ -1,7 +1,6 @@
 package ink.ptms.cronus.uranus.function.impl;
 
 import com.google.common.collect.Maps;
-import ink.ptms.cronus.internal.program.QuestProgram;
 import ink.ptms.cronus.uranus.Uranus;
 import ink.ptms.cronus.uranus.annotations.Auto;
 import ink.ptms.cronus.uranus.event.UranusScriptEvalEvent;

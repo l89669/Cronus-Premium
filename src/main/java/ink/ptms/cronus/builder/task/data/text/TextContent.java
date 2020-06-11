@@ -17,7 +17,7 @@ public class TextContent extends TaskText {
 
     @Override
     public String getDisplay() {
-        return "书本内容";
+        return "内容";
     }
 
     @Override

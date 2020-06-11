@@ -5,33 +5,31 @@ import ink.ptms.cronus.database.data.DataQuest;
 import ink.ptms.cronus.internal.Quest;
 import ink.ptms.cronus.internal.QuestStage;
 import ink.ptms.cronus.internal.QuestTask;
+import io.izzel.taboolib.module.event.EventNormal;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-import org.bukkit.event.HandlerList;
-import org.bukkit.event.player.PlayerEvent;
 
-public class CronusTaskSuccessEvent extends PlayerEvent {
+public class CronusTaskSuccessEvent extends EventNormal<CronusTaskSuccessEvent> {
 
-    private static final HandlerList handlers = new HandlerList();
-    private Quest quest;
-    private QuestStage questStage;
-    private QuestTask questTask;
+    private final Player player;
+    private final Quest quest;
+    private final QuestStage questStage;
+    private final QuestTask<?> questTask;
 
-    public CronusTaskSuccessEvent(Player who, Quest quest, QuestStage questStage, QuestTask questTask) {
-        super(who);
+    public CronusTaskSuccessEvent(Player who, Quest quest, QuestStage questStage, QuestTask<?> questTask) {
+        async(!Bukkit.isPrimaryThread());
+        this.player = who;
         this.quest = quest;
         this.questStage = questStage;
         this.questTask = questTask;
     }
 
-    public static CronusTaskSuccessEvent call(Player who, Quest quest, QuestStage questStage, QuestTask questTask) {
-        CronusTaskSuccessEvent event = new CronusTaskSuccessEvent(who, quest, questStage, questTask);
-        Bukkit.getPluginManager().callEvent(event);
-        return event;
+    public static CronusTaskSuccessEvent call(Player who, Quest quest, QuestStage questStage, QuestTask<?> questTask) {
+        return new CronusTaskSuccessEvent(who, quest, questStage, questTask).call();
     }
 
-    public DataQuest getDataQuest() {
-        return CronusAPI.getData(player).getQuest(quest.getId());
+    public Player getPlayer() {
+        return player;
     }
 
     public Quest getQuest() {
@@ -42,15 +40,11 @@ public class CronusTaskSuccessEvent extends PlayerEvent {
         return questStage;
     }
 
-    public QuestTask getQuestTask() {
+    public QuestTask<?> getQuestTask() {
         return questTask;
     }
 
-    public HandlerList getHandlers() {
-        return handlers;
-    }
-
-    public static HandlerList getHandlerList() {
-        return handlers;
+    public DataQuest getDataQuest() {
+        return CronusAPI.getData(player).getQuest(quest.getId());
     }
 }

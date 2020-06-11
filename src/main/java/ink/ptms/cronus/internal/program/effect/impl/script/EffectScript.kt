@@ -8,9 +8,8 @@ import ink.ptms.cronus.uranus.program.Program
 import ink.ptms.cronus.uranus.program.effect.Effect
 import io.izzel.taboolib.module.locale.logger.TLoggerManager
 import io.izzel.taboolib.util.lite.Scripts
-
-import javax.script.CompiledScript
 import java.util.regex.Matcher
+import javax.script.CompiledScript
 import javax.script.ScriptException
 import javax.script.SimpleBindings
 

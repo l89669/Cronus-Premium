@@ -1,24 +1,11 @@
-package ink.ptms.cronus.event;
+package ink.ptms.cronus.event
 
-import org.bukkit.Bukkit;
-import org.bukkit.event.Event;
-import org.bukkit.event.HandlerList;
+import io.izzel.taboolib.module.event.EventNormal
+import org.bukkit.Bukkit
 
-public class CronusReloadEvent extends Event {
+class CronusReloadEvent : EventNormal<CronusReloadEvent>() {
 
-    private static final HandlerList handlers = new HandlerList();
-
-    public static CronusReloadEvent call() {
-        CronusReloadEvent event = new CronusReloadEvent();
-        Bukkit.getPluginManager().callEvent(event);
-        return event;
-    }
-
-    public static HandlerList getHandlerList() {
-        return handlers;
-    }
-
-    public HandlerList getHandlers() {
-        return handlers;
+    init {
+        async(!Bukkit.isPrimaryThread())
     }
 }

@@ -1,7 +1,6 @@
 package ink.ptms.cronus.util;
 
 import io.izzel.taboolib.TabooLib;
-import io.izzel.taboolib.util.lite.SoundPack;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;

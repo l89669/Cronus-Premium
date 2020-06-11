@@ -15,16 +15,13 @@ import ink.ptms.cronus.internal.program.QuestProgram;
 import ink.ptms.cronus.service.globalevent.GlobalEvent;
 import ink.ptms.cronus.service.guide.GuideWay;
 import ink.ptms.cronus.service.guide.GuideWayData;
-import io.izzel.taboolib.Version;
 import io.izzel.taboolib.module.locale.TLocale;
 import io.izzel.taboolib.util.book.BookFormatter;
 import io.izzel.taboolib.util.book.builder.BookBuilder;
 import io.izzel.taboolib.util.book.builder.PageBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.inventory.ItemStack;
 import org.spigotmc.AsyncCatcher;
 

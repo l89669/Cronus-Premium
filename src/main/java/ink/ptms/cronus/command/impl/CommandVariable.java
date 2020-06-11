@@ -1,7 +1,6 @@
 package ink.ptms.cronus.command.impl;
 
 import com.google.common.collect.Lists;
-import ink.ptms.cronus.Cronus;
 import ink.ptms.cronus.CronusAPI;
 import ink.ptms.cronus.command.CronusCommand;
 import ink.ptms.cronus.database.data.DataPlayer;

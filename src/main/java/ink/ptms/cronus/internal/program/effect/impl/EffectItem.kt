@@ -9,10 +9,7 @@ import ink.ptms.cronus.uranus.program.Program
 import ink.ptms.cronus.uranus.program.effect.Effect
 import io.izzel.taboolib.cronus.CronusUtils
 import io.izzel.taboolib.util.item.Items
-import org.bukkit.Material
-import org.bukkit.entity.Player
 import org.bukkit.util.NumberConversions
-
 import java.util.regex.Matcher
 
 /**

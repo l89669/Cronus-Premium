@@ -1,59 +1,41 @@
 package ink.ptms.cronus.event;
 
 import ink.ptms.cronus.service.dialog.DialogPack;
+import io.izzel.taboolib.module.event.EventCancellable;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Cancellable;
-import org.bukkit.event.HandlerList;
-import org.bukkit.event.player.PlayerEvent;
 
-public class CronusDialogInteractEvent extends PlayerEvent implements Cancellable {
+public class CronusDialogInteractEvent extends EventCancellable<CronusDialogInteractEvent> {
 
-    private static final HandlerList handlers = new HandlerList();
+    private final Player player;
+    private final Entity target;
     private DialogPack pack;
-    private Entity target;
-    private boolean cancelled;
 
     public CronusDialogInteractEvent(Player who, DialogPack pack, Entity target) {
-        super(who);
-        this.pack = pack;
+        async(!Bukkit.isPrimaryThread());
+        this.player = who;
         this.target = target;
+        this.pack = pack;
     }
 
     public static CronusDialogInteractEvent call(DialogPack pack, Entity target, Player player) {
-        CronusDialogInteractEvent event = new CronusDialogInteractEvent(player, pack, target);
-        Bukkit.getPluginManager().callEvent(event);
-        return event;
+        return new CronusDialogInteractEvent(player, pack, target).call();
     }
 
-    public DialogPack getPack() {
-        return pack;
+    public Player getPlayer() {
+        return player;
     }
 
     public Entity getTarget() {
         return target;
     }
 
+    public DialogPack getPack() {
+        return pack;
+    }
+
     public void setPack(DialogPack pack) {
         this.pack = pack;
-    }
-
-    public static HandlerList getHandlerList() {
-        return handlers;
-    }
-
-    public HandlerList getHandlers() {
-        return handlers;
-    }
-
-    @Override
-    public boolean isCancelled() {
-        return cancelled;
-    }
-
-    @Override
-    public void setCancelled(boolean b) {
-        cancelled = b;
     }
 }

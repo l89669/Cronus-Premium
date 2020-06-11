@@ -1,6 +1,5 @@
 package ink.ptms.cronus.internal.program.effect.impl.mm;
 
-import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import ink.ptms.cronus.Cronus;
 import ink.ptms.cronus.internal.program.TargetProgram;
@@ -10,13 +9,9 @@ import ink.ptms.cronus.uranus.program.effect.Effect;
 import io.lumine.xikage.mythicmobs.MythicMobs;
 import io.lumine.xikage.mythicmobs.adapters.AbstractEntity;
 import io.lumine.xikage.mythicmobs.adapters.AbstractLocation;
-import io.lumine.xikage.mythicmobs.adapters.AbstractPlayer;
 import io.lumine.xikage.mythicmobs.adapters.bukkit.BukkitAdapter;
-import io.lumine.xikage.mythicmobs.adapters.bukkit.BukkitEntity;
-import io.lumine.xikage.mythicmobs.adapters.bukkit.BukkitLocation;
 import io.lumine.xikage.mythicmobs.adapters.bukkit.BukkitPlayer;
 import io.lumine.xikage.mythicmobs.mobs.GenericCaster;
-import io.lumine.xikage.mythicmobs.skills.SkillManager;
 import io.lumine.xikage.mythicmobs.skills.SkillMechanic;
 import io.lumine.xikage.mythicmobs.skills.SkillMetadata;
 import io.lumine.xikage.mythicmobs.skills.SkillTrigger;
@@ -24,7 +19,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.util.HashSet;
-import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.stream.Collectors;
 

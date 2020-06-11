@@ -2,34 +2,28 @@ package ink.ptms.cronus.event;
 
 import ink.ptms.cronus.CronusAPI;
 import ink.ptms.cronus.database.data.DataPlayer;
+import io.izzel.taboolib.module.event.EventNormal;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-import org.bukkit.event.HandlerList;
-import org.bukkit.event.player.PlayerEvent;
 
-public class CronusVisibleToggleEvent extends PlayerEvent {
+public class CronusVisibleToggleEvent extends EventNormal<CronusVisibleToggleEvent> {
 
-    private static final HandlerList handlers = new HandlerList();
+    private final Player player;
 
     public CronusVisibleToggleEvent(Player who) {
-        super(who);
+        async(!Bukkit.isPrimaryThread());
+        this.player = who;
     }
 
     public static CronusVisibleToggleEvent call(Player who) {
-        CronusVisibleToggleEvent event = new CronusVisibleToggleEvent(who);
-        Bukkit.getPluginManager().callEvent(event);
-        return event;
+        return new CronusVisibleToggleEvent(who).call();
+    }
+
+    public Player getPlayer() {
+        return player;
     }
 
     public DataPlayer getDataPlayer() {
         return CronusAPI.getData(player);
-    }
-
-    public static HandlerList getHandlerList() {
-        return handlers;
-    }
-
-    public HandlerList getHandlers() {
-        return handlers;
     }
 }

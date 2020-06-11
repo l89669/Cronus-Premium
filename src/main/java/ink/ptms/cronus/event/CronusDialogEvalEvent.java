@@ -1,27 +1,27 @@
 package ink.ptms.cronus.event;
 
 import ink.ptms.cronus.service.dialog.DialogPack;
+import io.izzel.taboolib.module.event.EventCancellable;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Cancellable;
-import org.bukkit.event.HandlerList;
-import org.bukkit.event.player.PlayerEvent;
 
-public class CronusDialogEvalEvent extends PlayerEvent implements Cancellable {
+public class CronusDialogEvalEvent extends EventCancellable<CronusDialogEvalEvent> {
 
-    private static final HandlerList handlers = new HandlerList();
+    private final Player player;
     private DialogPack pack;
-    private boolean cancelled;
 
     public CronusDialogEvalEvent(Player who, DialogPack pack) {
-        super(who);
+        async(!Bukkit.isPrimaryThread());
+        this.player = who;
         this.pack = pack;
     }
 
     public static CronusDialogEvalEvent call(DialogPack pack, Player player) {
-        CronusDialogEvalEvent event = new CronusDialogEvalEvent(player, pack);
-        Bukkit.getPluginManager().callEvent(event);
-        return event;
+        return new CronusDialogEvalEvent(player, pack).call();
+    }
+
+    public Player getPlayer() {
+        return player;
     }
 
     public DialogPack getPack() {
@@ -30,23 +30,5 @@ public class CronusDialogEvalEvent extends PlayerEvent implements Cancellable {
 
     public void setPack(DialogPack pack) {
         this.pack = pack;
-    }
-
-    public static HandlerList getHandlerList() {
-        return handlers;
-    }
-
-    public HandlerList getHandlers() {
-        return handlers;
-    }
-
-    @Override
-    public boolean isCancelled() {
-        return cancelled;
-    }
-
-    @Override
-    public void setCancelled(boolean b) {
-        cancelled = b;
     }
 }

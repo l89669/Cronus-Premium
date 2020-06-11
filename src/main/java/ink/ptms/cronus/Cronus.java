@@ -8,7 +8,6 @@ import io.izzel.taboolib.module.locale.logger.TLogger;
 import io.izzel.taboolib.util.Strings;
 import io.izzel.taboolib.util.lite.Catchers;
 import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;

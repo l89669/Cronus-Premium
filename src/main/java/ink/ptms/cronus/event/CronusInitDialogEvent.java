@@ -1,31 +1,20 @@
 package ink.ptms.cronus.event;
 
 import ink.ptms.cronus.service.dialog.DialogGroup;
+import io.izzel.taboolib.module.event.EventNormal;
 import org.bukkit.Bukkit;
-import org.bukkit.event.Event;
-import org.bukkit.event.HandlerList;
 
-public class CronusInitDialogEvent extends Event {
+public class CronusInitDialogEvent extends EventNormal<CronusInitDialogEvent> {
 
-    private static final HandlerList handlers = new HandlerList();
-    private DialogGroup dialogGroup;
+    private final DialogGroup dialogGroup;
 
     public CronusInitDialogEvent(DialogGroup dialogGroup) {
+        async(!Bukkit.isPrimaryThread());
         this.dialogGroup = dialogGroup;
     }
 
     public static CronusInitDialogEvent call(DialogGroup dialogGroup) {
-        CronusInitDialogEvent event = new CronusInitDialogEvent(dialogGroup);
-        Bukkit.getPluginManager().callEvent(event);
-        return event;
-    }
-
-    public static HandlerList getHandlerList() {
-        return handlers;
-    }
-
-    public HandlerList getHandlers() {
-        return handlers;
+        return new CronusInitDialogEvent(dialogGroup).call();
     }
 
     public DialogGroup getDialogGroup() {

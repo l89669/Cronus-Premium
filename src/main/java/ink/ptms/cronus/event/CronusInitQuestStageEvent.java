@@ -1,31 +1,20 @@
 package ink.ptms.cronus.event;
 
 import ink.ptms.cronus.internal.QuestStage;
+import io.izzel.taboolib.module.event.EventNormal;
 import org.bukkit.Bukkit;
-import org.bukkit.event.Event;
-import org.bukkit.event.HandlerList;
 
-public class CronusInitQuestStageEvent extends Event {
+public class CronusInitQuestStageEvent extends EventNormal<CronusInitQuestStageEvent> {
 
-    private static final HandlerList handlers = new HandlerList();
-    private QuestStage quest;
+    private final QuestStage quest;
 
     public CronusInitQuestStageEvent(QuestStage quest) {
+        async(!Bukkit.isPrimaryThread());
         this.quest = quest;
     }
 
     public static CronusInitQuestStageEvent call(QuestStage quest) {
-        CronusInitQuestStageEvent event = new CronusInitQuestStageEvent(quest);
-        Bukkit.getPluginManager().callEvent(event);
-        return event;
-    }
-
-    public static HandlerList getHandlerList() {
-        return handlers;
-    }
-
-    public HandlerList getHandlers() {
-        return handlers;
+        return new CronusInitQuestStageEvent(quest).call();
     }
 
     public QuestStage getQuestStage() {

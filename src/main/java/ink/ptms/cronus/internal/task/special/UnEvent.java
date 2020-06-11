@@ -1,8 +1,8 @@
 package ink.ptms.cronus.internal.task.special;
 
 import ink.ptms.cronus.database.data.DataQuest;
-import ink.ptms.cronus.internal.event.EventPeriod;
 import ink.ptms.cronus.internal.QuestTask;
+import ink.ptms.cronus.internal.event.EventPeriod;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 

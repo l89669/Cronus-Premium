@@ -3,7 +3,6 @@ package ink.ptms.cronus.database.data.item.hook;
 import com.google.common.collect.Lists;
 import ink.ptms.cronus.database.data.item.ItemStorage;
 import io.lumine.xikage.mythicmobs.MythicMobs;
-import me.asgard.sacreditem.item.SacredItemManager;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.List;

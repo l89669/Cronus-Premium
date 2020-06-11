@@ -3,13 +3,13 @@ package ink.ptms.cronus.builder;
 import com.google.common.collect.Lists;
 import ink.ptms.cronus.Cronus;
 import ink.ptms.cronus.builder.task.TaskEntry;
-import io.izzel.taboolib.util.lite.Materials;
 import ink.ptms.cronus.uranus.annotations.Auto;
 import io.izzel.taboolib.TabooLibLoader;
 import io.izzel.taboolib.module.inject.TFunction;
 import io.izzel.taboolib.util.item.inventory.ClickTask;
 import io.izzel.taboolib.util.item.inventory.CloseTask;
 import io.izzel.taboolib.util.item.inventory.MenuBuilder;
+import io.izzel.taboolib.util.lite.Materials;
 import org.bukkit.inventory.Inventory;
 
 import java.util.List;

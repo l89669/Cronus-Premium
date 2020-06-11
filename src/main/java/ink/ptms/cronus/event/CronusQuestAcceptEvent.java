@@ -3,31 +3,27 @@ package ink.ptms.cronus.event;
 import ink.ptms.cronus.CronusAPI;
 import ink.ptms.cronus.database.data.DataQuest;
 import ink.ptms.cronus.internal.Quest;
+import io.izzel.taboolib.module.event.EventCancellable;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Cancellable;
-import org.bukkit.event.HandlerList;
-import org.bukkit.event.player.PlayerEvent;
 
-public class CronusQuestAcceptEvent extends PlayerEvent implements Cancellable {
+public class CronusQuestAcceptEvent extends EventCancellable<CronusQuestAcceptEvent> {
 
-    private static final HandlerList handlers = new HandlerList();
-    private boolean isCancelled = false;
+    private final Player player;
     private Quest quest;
 
     public CronusQuestAcceptEvent(Player who, Quest quest) {
-        super(who);
+        async(!Bukkit.isPrimaryThread());
+        this.player = who;
         this.quest = quest;
     }
 
     public static CronusQuestAcceptEvent call(Player who, Quest quest) {
-        CronusQuestAcceptEvent event = new CronusQuestAcceptEvent(who, quest);
-        Bukkit.getPluginManager().callEvent(event);
-        return event;
+        return new CronusQuestAcceptEvent(who, quest).call();
     }
 
-    public DataQuest getDataQuest() {
-        return CronusAPI.getData(player).getQuest(quest.getId());
+    public Player getPlayer() {
+        return player;
     }
 
     public Quest getQuest() {
@@ -38,19 +34,7 @@ public class CronusQuestAcceptEvent extends PlayerEvent implements Cancellable {
         this.quest = quest;
     }
 
-    public boolean isCancelled() {
-        return this.isCancelled;
-    }
-
-    public void setCancelled(boolean cancel) {
-        this.isCancelled = cancel;
-    }
-
-    public HandlerList getHandlers() {
-        return handlers;
-    }
-
-    public static HandlerList getHandlerList() {
-        return handlers;
+    public DataQuest getDataQuest() {
+        return CronusAPI.getData(player).getQuest(quest.getId());
     }
 }

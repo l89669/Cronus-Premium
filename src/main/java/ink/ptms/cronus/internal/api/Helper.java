@@ -1,9 +1,7 @@
 package ink.ptms.cronus.internal.api;
 
 import ink.ptms.cronus.util.Utils;
-import io.izzel.taboolib.module.inject.TInject;
 import io.izzel.taboolib.module.locale.TLocale;
-import io.izzel.taboolib.util.lite.cooldown.Cooldown;
 import org.bukkit.Sound;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;

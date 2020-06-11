@@ -1,11 +1,13 @@
 package ink.ptms.cronus.command.impl;
 
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import ink.ptms.cronus.Cronus;
 import ink.ptms.cronus.CronusMirror;
 import ink.ptms.cronus.command.CronusCommand;
 import ink.ptms.cronus.database.data.DataQuest;
+import ink.ptms.cronus.event.CronusBroadcastEvent;
 import ink.ptms.cronus.internal.condition.Cond;
 import ink.ptms.cronus.internal.condition.CondNull;
 import ink.ptms.cronus.internal.condition.Condition;
@@ -13,7 +15,6 @@ import ink.ptms.cronus.internal.condition.ConditionParser;
 import ink.ptms.cronus.internal.program.QuestProgram;
 import ink.ptms.cronus.internal.program.effect.EffectNull;
 import ink.ptms.cronus.internal.program.effect.EffectParser;
-import io.izzel.taboolib.util.lite.Materials;
 import ink.ptms.cronus.uranus.program.ProgramLoader;
 import ink.ptms.cronus.uranus.program.effect.Effect;
 import ink.ptms.cronus.util.Utils;
@@ -24,6 +25,7 @@ import io.izzel.taboolib.util.book.BookFormatter;
 import io.izzel.taboolib.util.book.builder.BookBuilder;
 import io.izzel.taboolib.util.book.builder.PageBuilder;
 import io.izzel.taboolib.util.chat.ComponentSerializer;
+import io.izzel.taboolib.util.lite.Materials;
 import io.izzel.taboolib.util.lite.Numbers;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -370,6 +372,42 @@ public class CommandTest extends CronusCommand {
                     .append(targetBlock.getType().name()).hoverText("§f点击复制").clickSuggest(targetBlock.getType().name())
                     .append(" §8(data: " + targetBlock.getData() + ")")
                     .send(sender);
+        }
+
+        @Override
+        public CommandType getType() {
+            return CommandType.PLAYER;
+        }
+    };
+
+    @SubCommand
+    BaseSubCommand broadcast = new BaseSubCommand() {
+
+        @Override
+        public String getDescription() {
+            return "全局广播";
+        }
+
+        @Override
+        public Argument[] getArguments() {
+            return new Argument[] {new Argument("玩家"), new Argument("内容")};
+        }
+
+        @Override
+        public void onCommand(CommandSender sender, Command command, String s, String[] args) {
+            if (args[0].equals("all") || args[0].equals("*")) {
+                new CronusBroadcastEvent(Lists.newArrayList(Bukkit.getOnlinePlayers()), ArrayUtil.arrayJoin(args, 1)).call();
+            } else {
+                Player playerExact = Bukkit.getPlayerExact(args[0]);
+                if (playerExact != null) {
+                    new CronusBroadcastEvent(Lists.newArrayList(playerExact), ArrayUtil.arrayJoin(args, 1)).call();
+                } else {
+                    error(sender, "无效的玩家.");
+                }
+            }
+            if (sender instanceof Player) {
+                normal(sender, "发送广播: &f" + ArrayUtil.arrayJoin(args, 1));
+            }
         }
 
         @Override

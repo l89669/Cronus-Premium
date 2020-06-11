@@ -2,11 +2,13 @@ package ink.ptms.cronus.internal.task.listener
 
 import ink.ptms.cronus.Cronus
 import ink.ptms.cronus.CronusAPI
+import ink.ptms.cronus.event.CronusBroadcastEvent
 import ink.ptms.cronus.internal.task.player.*
 import ink.ptms.cronus.internal.task.player.damage.TaskPlayerAttack
 import ink.ptms.cronus.internal.task.player.damage.TaskPlayerDamaged
 import ink.ptms.cronus.internal.task.player.damage.TaskPlayerDeath
 import ink.ptms.cronus.internal.task.player.damage.TaskPlayerKill
+import ink.ptms.cronus.internal.task.player.total.TaskBroadcast
 import ink.ptms.cronus.internal.task.player.total.TaskPlayerExp
 import io.izzel.taboolib.common.event.PlayerJumpEvent
 import io.izzel.taboolib.module.inject.TListener
@@ -14,8 +16,6 @@ import io.izzel.taboolib.util.item.Items
 import io.izzel.taboolib.util.lite.Servers
 import org.bukkit.Bukkit
 import org.bukkit.Material
-import org.bukkit.entity.Entity
-import org.bukkit.entity.LivingEntity
 import org.bukkit.entity.Player
 import org.bukkit.entity.Tameable
 import org.bukkit.event.EventHandler
@@ -37,6 +37,11 @@ import org.bukkit.event.vehicle.VehicleMoveEvent
  */
 @TListener
 class ListenerPlayer : Listener {
+
+    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
+    fun e(e: CronusBroadcastEvent) {
+        Bukkit.getScheduler().runTaskAsynchronously(Cronus.getInst()) { e.players.forEach { CronusAPI.stageHandle(it, e, TaskBroadcast::class.java) } }
+    }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     fun e(e: PlayerTeleportEvent) {
@@ -217,7 +222,7 @@ class ListenerPlayer : Listener {
     fun e(e: PlayerMoveEvent) {
         if (e.from.block != e.to!!.block) {
             // 异步计算
-            Bukkit.getScheduler().runTaskAsynchronously(Cronus.getInst(), Runnable { CronusAPI.stageHandle(e.player, e, TaskPlayerWalk::class.java, TaskPlayerSwim::class.java, TaskPlayerRide::class.java, TaskPlayerElytra::class.java, TaskPlayerLeash::class.java) })
+            Bukkit.getScheduler().runTaskAsynchronously(Cronus.getInst()) { CronusAPI.stageHandle(e.player, e, TaskPlayerWalk::class.java, TaskPlayerSwim::class.java, TaskPlayerRide::class.java, TaskPlayerElytra::class.java, TaskPlayerLeash::class.java) }
         }
     }
 
@@ -226,7 +231,7 @@ class ListenerPlayer : Listener {
         if (e.from.block != e.to.block) {
             for (passenger in e.vehicle.passengers.filter { it is Player }) {
                 // 异步计算
-                Bukkit.getScheduler().runTaskAsynchronously(Cronus.getInst(), Runnable { CronusAPI.stageHandle(passenger as Player, e, TaskPlayerVehicle::class.java) })
+                Bukkit.getScheduler().runTaskAsynchronously(Cronus.getInst()) { CronusAPI.stageHandle(passenger as Player, e, TaskPlayerVehicle::class.java) }
             }
         }
     }

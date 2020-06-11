@@ -15,7 +15,6 @@ import io.izzel.taboolib.module.inject.TInject;
 import io.izzel.taboolib.module.locale.logger.TLogger;
 import io.izzel.taboolib.util.Files;
 import io.izzel.taboolib.util.lite.cooldown.Cooldown;
-import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.event.EventHandler;
@@ -37,11 +36,11 @@ public class Dialog implements Service, Listener {
     @TInject
     private static TLogger logger;
     @TInject
-    private static Cooldown cooldown = new Cooldown("cronus|dialog", 200);
+    private static final Cooldown cooldown = new Cooldown("cronus|dialog", 200);
 
     private File folder;
-    private List<DialogGroup> dialogs = Lists.newCopyOnWriteArrayList();
-    private List<DisplayBase> registeredBase = Lists.newCopyOnWriteArrayList();
+    private final List<DialogGroup> dialogs = Lists.newCopyOnWriteArrayList();
+    private final List<DisplayBase> registeredBase = Lists.newCopyOnWriteArrayList();
     private boolean init;
 
     @Override
@@ -75,22 +74,20 @@ public class Dialog implements Service, Listener {
         if (cooldown.isCooldown(e.getPlayer().getName(), 0)) {
             return;
         }
-        Bukkit.getScheduler().runTaskAsynchronously(Cronus.getInst(), () -> {
-            EntitySelector selector = Cronus.getCronusService().getService(EntitySelector.class);
-            for (DialogGroup dialog : dialogs) {
-                if (selector.isSelect(e.getRightClicked(), dialog.getTarget()) && (dialog.getCondition() == null || dialog.getCondition().check(e.getPlayer()))) {
-                    CronusDialogInteractEvent dialogEvent = CronusDialogInteractEvent.call(dialog.getDialog(), e.getRightClicked(), e.getPlayer());
-                    if (!dialogEvent.isCancelled()) {
-                        try {
-                            dialog.getDialog().display(e.getPlayer());
-                        } catch (Throwable t) {
-                            t.printStackTrace();
-                        }
+        EntitySelector selector = Cronus.getCronusService().getService(EntitySelector.class);
+        for (DialogGroup dialog : dialogs) {
+            if (selector.isSelect(e.getRightClicked(), dialog.getTarget()) && (dialog.getCondition() == null || dialog.getCondition().check(e.getPlayer()))) {
+                CronusDialogInteractEvent dialogEvent = CronusDialogInteractEvent.call(dialog.getDialog(), e.getRightClicked(), e.getPlayer());
+                if (!dialogEvent.isCancelled()) {
+                    try {
+                        dialog.getDialog().display(e.getPlayer());
+                    } catch (Throwable t) {
+                        t.printStackTrace();
                     }
-                    return;
                 }
+                return;
             }
-        });
+        }
     }
 
     public String getDialogStyle() {
@@ -115,11 +112,7 @@ public class Dialog implements Service, Listener {
     }
 
     public void unregisterDisplay(String id) {
-        for (DisplayBase registered : registeredBase) {
-            if (registered.getName().equalsIgnoreCase(id)) {
-                registeredBase.remove(registered);
-            }
-        }
+        registeredBase.removeIf(registered -> registered.getName().equalsIgnoreCase(id));
     }
 
     public void loadDialog(File file) {
@@ -144,7 +137,12 @@ public class Dialog implements Service, Listener {
     }
 
     public DialogGroup getDialog(String id) {
-        return dialogs.stream().filter(d -> d.getId().equals(id)).findFirst().orElse(null);
+        for (DialogGroup dialogGroup : dialogs) {
+            if (dialogGroup.getId().equals(id)) {
+                return dialogGroup;
+            }
+        }
+        return null;
     }
 
     public List<DialogGroup> getDialogs() {

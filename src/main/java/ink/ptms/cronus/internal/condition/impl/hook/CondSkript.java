@@ -1,9 +1,9 @@
 package ink.ptms.cronus.internal.condition.impl.hook;
 
 import ink.ptms.cronus.database.data.DataQuest;
-import ink.ptms.cronus.internal.hook.HookSkript;
 import ink.ptms.cronus.internal.condition.Cond;
 import ink.ptms.cronus.internal.condition.Condition;
+import ink.ptms.cronus.internal.hook.HookSkript;
 import io.izzel.taboolib.module.locale.TLocale;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;

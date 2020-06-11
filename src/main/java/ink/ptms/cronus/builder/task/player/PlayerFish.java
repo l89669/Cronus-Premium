@@ -2,14 +2,14 @@ package ink.ptms.cronus.builder.task.player;
 
 import ink.ptms.cronus.builder.task.TaskEntry;
 import ink.ptms.cronus.builder.task.data.Count;
+import ink.ptms.cronus.builder.task.data.entity.EntityCaught;
 import ink.ptms.cronus.builder.task.data.enums.FishState;
 import ink.ptms.cronus.builder.task.data.item.ItemFishingRod;
-import ink.ptms.cronus.builder.task.data.entity.EntityCaught;
 import ink.ptms.cronus.internal.QuestTask;
 import ink.ptms.cronus.internal.task.player.TaskPlayerFish;
-import io.izzel.taboolib.util.lite.Materials;
 import ink.ptms.cronus.uranus.annotations.Auto;
 import io.izzel.taboolib.util.item.ItemBuilder;
+import io.izzel.taboolib.util.lite.Materials;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 

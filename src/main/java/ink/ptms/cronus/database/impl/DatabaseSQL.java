@@ -9,7 +9,6 @@ import io.izzel.taboolib.module.db.sql.SQLColumn;
 import io.izzel.taboolib.module.db.sql.SQLColumnType;
 import io.izzel.taboolib.module.db.sql.SQLHost;
 import io.izzel.taboolib.module.db.sql.SQLTable;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import javax.sql.DataSource;
