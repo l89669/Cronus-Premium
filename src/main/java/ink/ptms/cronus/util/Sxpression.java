@@ -14,8 +14,8 @@ import java.util.regex.Pattern;
 public class Sxpression {
 
     @TInject
-    private static TLogger logger;
-    private static Pattern pattern = Pattern.compile("(?<symbol>>=|>|<=|<|==|=|!=|≈≈|≈|!≈)[ ]?(?<number>.+)");
+    private static final TLogger logger = null;
+    private static final Pattern pattern = Pattern.compile("(?<symbol>>=|>|<=|<|==|=|!=|≈≈|≈|!≈)[ ]?(?<number>.+)");
     private String symbol;
     private Strumber number;
 

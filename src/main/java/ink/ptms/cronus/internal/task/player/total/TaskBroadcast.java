@@ -28,7 +28,7 @@ public class TaskBroadcast extends Uncountable<CronusBroadcastEvent> {
 
     @Override
     public void init(Map<String, Object> data) {
-        super.init(data);
+        total = new Sxpression(data.getOrDefault("total", ">0"));
         content = data.containsKey("content") ? data.get("content").toString() : null;
     }
 
