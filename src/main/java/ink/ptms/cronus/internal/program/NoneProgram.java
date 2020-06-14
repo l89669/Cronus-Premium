@@ -2,6 +2,7 @@ package ink.ptms.cronus.internal.program;
 
 import ink.ptms.cronus.database.data.DataQuest;
 import org.bukkit.entity.Player;
+import org.bukkit.event.Event;
 
 /**
  * @Author 坏黑
@@ -13,5 +14,9 @@ public class NoneProgram extends QuestProgram {
 
     public NoneProgram(Player player) {
         super(player, GLOBAL);
+    }
+
+    public NoneProgram(Player player, Event event) {
+        super(player, GLOBAL, event);
     }
 }

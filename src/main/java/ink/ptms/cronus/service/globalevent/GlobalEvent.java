@@ -5,6 +5,7 @@ import ink.ptms.cronus.CronusMirror;
 import ink.ptms.cronus.event.CronusReloadServiceEvent;
 import ink.ptms.cronus.internal.QuestTask;
 import ink.ptms.cronus.internal.condition.ConditionParser;
+import ink.ptms.cronus.internal.program.NoneProgram;
 import ink.ptms.cronus.internal.program.QuestEffect;
 import ink.ptms.cronus.internal.task.Task;
 import ink.ptms.cronus.service.Service;
@@ -115,7 +116,7 @@ public class GlobalEvent implements Service, Listener {
                             // 数据
                             && (eventPack.getQuestTask() == null || eventPack.getQuestTask().check(player, event))) {
                         try {
-                            eventPack.getEffect().eval(player);
+                            new NoneProgram(player, event).eval(eventPack.getEffect().getEffect());
                         } catch (Throwable t) {
                             t.printStackTrace();
                         }

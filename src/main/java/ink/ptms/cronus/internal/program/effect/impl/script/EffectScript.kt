@@ -1,6 +1,7 @@
 package ink.ptms.cronus.internal.program.effect.impl.script
 
 import ink.ptms.cronus.Cronus
+import ink.ptms.cronus.internal.program.QuestProgram
 import ink.ptms.cronus.uranus.Uranus
 import ink.ptms.cronus.uranus.annotations.Auto
 import ink.ptms.cronus.uranus.event.UranusScriptEvalEvent
@@ -55,6 +56,6 @@ class EffectScript : Effect() {
     }
 
     override fun toString(): String {
-        return "EffectScript{" + "compiledScript=" + compiledScript + '}'.toString()
+        return "EffectScript{compiledScript=$compiledScript}"
     }
 }

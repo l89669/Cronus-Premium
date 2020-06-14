@@ -46,7 +46,7 @@ public class FunctionPlayer extends Function {
                 case "level":
                     return player.getLevel();
                 case "world":
-                    return player.getWorld();
+                    return player.getWorld().getName();
                 case "health":
                     return player.getHealth();
                 case "health.max":
