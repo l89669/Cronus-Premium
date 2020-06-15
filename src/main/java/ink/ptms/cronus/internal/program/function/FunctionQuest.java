@@ -1,6 +1,7 @@
 package ink.ptms.cronus.internal.program.function;
 
 import ink.ptms.cronus.Cronus;
+import ink.ptms.cronus.CronusAPI;
 import ink.ptms.cronus.database.data.DataPlayer;
 import ink.ptms.cronus.database.data.DataQuest;
 import ink.ptms.cronus.internal.Quest;
@@ -9,8 +10,10 @@ import ink.ptms.cronus.uranus.annotations.Auto;
 import ink.ptms.cronus.uranus.function.Function;
 import ink.ptms.cronus.uranus.program.Program;
 import io.izzel.taboolib.module.locale.TLocale;
+import org.bukkit.entity.Player;
 
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * @Author 坏黑
@@ -58,7 +61,7 @@ public class FunctionQuest extends Function {
                 case "current": {
                     for (Map.Entry<String, DataQuest> pair : dataPlayer.getQuest().entrySet()) {
                         Quest q = pair.getValue().getQuest();
-                        if (q != null && (q.getId().equals(args[1]) || q.getLabel().equals(args[1]) || q.getBookTag().contains(args[1]))) {
+                        if (q != null && (q.getId().equals(args[1]) || Objects.equals(q.getLabel(), args[1]) || q.getBookTag().contains(args[1]))) {
                             return "true";
                         }
                     }
@@ -67,7 +70,7 @@ public class FunctionQuest extends Function {
                 case "completed": {
                     for (String id : dataPlayer.getQuestCompleted().keySet()) {
                         Quest q = Cronus.getCronusService().getRegisteredQuest().get(id);
-                        if (q != null && (q.getId().equals(args[1]) || q.getLabel().equals(args[1]) || q.getBookTag().contains(args[1]))) {
+                        if (q != null && (q.getId().equals(args[1]) || Objects.equals(q.getLabel(), args[1]) || q.getBookTag().contains(args[1]))) {
                             return "true";
                         }
                     }
@@ -77,7 +80,7 @@ public class FunctionQuest extends Function {
                     int i = 0;
                     for (Map.Entry<String, DataQuest> pair : dataPlayer.getQuest().entrySet()) {
                         Quest q = pair.getValue().getQuest();
-                        if (q != null && (q.getId().equals(args[1]) || q.getLabel().equals(args[1]) || q.getBookTag().contains(args[1]))) {
+                        if (q != null && (q.getId().equals(args[1]) || Objects.equals(q.getLabel(), args[1]) || q.getBookTag().contains(args[1]))) {
                             i++;
                         }
                     }
@@ -87,7 +90,7 @@ public class FunctionQuest extends Function {
                     int i = 0;
                     for (String id : dataPlayer.getQuestCompleted().keySet()) {
                         Quest q = Cronus.getCronusService().getRegisteredQuest().get(id);
-                        if (q != null && (q.getId().equals(args[1]) || q.getLabel().equals(args[1]) || q.getBookTag().contains(args[1]))) {
+                        if (q != null && (q.getId().equals(args[1]) || Objects.equals(q.getLabel(), args[1]) || q.getBookTag().contains(args[1]))) {
                             i++;
                         }
                     }
