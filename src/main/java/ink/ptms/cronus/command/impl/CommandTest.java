@@ -409,11 +409,6 @@ public class CommandTest extends CronusCommand {
                 normal(sender, "发送广播: &f" + ArrayUtil.arrayJoin(args, 1));
             }
         }
-
-        @Override
-        public CommandType getType() {
-            return CommandType.PLAYER;
-        }
     };
 
     private String format(String example) {
