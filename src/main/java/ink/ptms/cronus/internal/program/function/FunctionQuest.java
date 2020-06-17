@@ -61,7 +61,7 @@ public class FunctionQuest extends Function {
                 case "current": {
                     for (Map.Entry<String, DataQuest> pair : dataPlayer.getQuest().entrySet()) {
                         Quest q = pair.getValue().getQuest();
-                        if (q != null && (q.getId().equals(args[1]) || Objects.equals(q.getLabel(), args[1]) || q.getBookTag().contains(args[1]))) {
+                        if (!dataPlayer.isQuestCompleted(pair.getKey()) && q != null && (q.getId().equals(args[1]) || Objects.equals(q.getLabel(), args[1]) || q.getBookTag().contains(args[1]))) {
                             return "true";
                         }
                     }
@@ -80,7 +80,7 @@ public class FunctionQuest extends Function {
                     int i = 0;
                     for (Map.Entry<String, DataQuest> pair : dataPlayer.getQuest().entrySet()) {
                         Quest q = pair.getValue().getQuest();
-                        if (q != null && (q.getId().equals(args[1]) || Objects.equals(q.getLabel(), args[1]) || q.getBookTag().contains(args[1]))) {
+                        if (!dataPlayer.isQuestCompleted(pair.getKey()) && q != null && (q.getId().equals(args[1]) || Objects.equals(q.getLabel(), args[1]) || q.getBookTag().contains(args[1]))) {
                             i++;
                         }
                     }
