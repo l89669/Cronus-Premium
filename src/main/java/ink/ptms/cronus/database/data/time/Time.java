@@ -59,9 +59,9 @@ public class Time {
             Calendar startCal = (Calendar) calendar.clone();
             startCal.setTimeInMillis(start);
             this.end = (Calendar) calendar.clone();
-            this.cacheEnd.put(start, this.end);
             this.end.set(Calendar.SECOND, 0);
             this.end.set(Calendar.MILLISECOND, 0);
+            this.cacheEnd.put(start, this.end);
             if (this.type != TimeType.TIME) {
                 switch (this.type) {
                     case DAY:
@@ -98,20 +98,7 @@ public class Time {
     }
 
     public boolean isTimeout() {
-        Calendar calendar = Calendar.getInstance();
-        switch (type) {
-            case DAY: {
-                return calendar.after(this.end);
-            }
-            case WEEK: {
-                return calendar.after(this.end);
-            }
-            case MONTH: {
-                return calendar.after(this.end);
-            }
-            default:
-                return false;
-        }
+        return Calendar.getInstance().after(this.end);
     }
 
     public boolean isEquals() {
