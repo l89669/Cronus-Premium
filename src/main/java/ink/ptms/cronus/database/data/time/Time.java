@@ -55,10 +55,9 @@ public class Time {
         if (this.cacheEnd.containsKey(start)) {
             this.end = this.cacheEnd.get(start);
         } else {
-            Calendar calendar = Calendar.getInstance();
-            Calendar startCal = (Calendar) calendar.clone();
+            Calendar startCal = Calendar.getInstance();
             startCal.setTimeInMillis(start);
-            this.end = (Calendar) calendar.clone();
+            this.end = startCal;
             this.end.set(Calendar.SECOND, 0);
             this.end.set(Calendar.MILLISECOND, 0);
             this.cacheEnd.put(start, this.end);
@@ -67,7 +66,7 @@ public class Time {
                     case DAY:
                         this.end.set(Calendar.HOUR_OF_DAY, hour);
                         this.end.set(Calendar.MINUTE, minute);
-                        if (startCal.after(this.end)) {
+                        if (Calendar.getInstance().after(this.end)) {
                             this.end.add(Calendar.DATE, 1);
                         }
                         break;
@@ -75,7 +74,7 @@ public class Time {
                         this.end.set(Calendar.DAY_OF_WEEK, day + 1);
                         this.end.set(Calendar.HOUR_OF_DAY, hour);
                         this.end.set(Calendar.MINUTE, minute);
-                        if (startCal.after(this.end)) {
+                        if (Calendar.getInstance().after(this.end)) {
                             this.end.add(Calendar.DATE, 7);
                         }
                         break;
@@ -83,7 +82,7 @@ public class Time {
                         this.end.set(Calendar.DAY_OF_MONTH, day);
                         this.end.set(Calendar.HOUR_OF_DAY, hour);
                         this.end.set(Calendar.MINUTE, minute);
-                        if (startCal.after(this.end)) {
+                        if (Calendar.getInstance().after(this.end)) {
                             this.end.add(Calendar.MONTH, 1);
                         }
                         break;
@@ -182,5 +181,31 @@ public class Time {
 
     public String getOrigin() {
         return origin;
+    }
+
+    public static Map<String, Time> getCacheMap() {
+        return cacheMap;
+    }
+
+    public Map<Long, Calendar> getCacheEnd() {
+        return cacheEnd;
+    }
+
+    public Calendar getEnd() {
+        return end;
+    }
+
+    @Override
+    public String toString() {
+        return "Time{" +
+                "type=" + type +
+                ", day=" + day +
+                ", hour=" + hour +
+                ", minute=" + minute +
+                ", time=" + time +
+                ", cacheEnd=" + cacheEnd +
+                ", end=" + end +
+                ", origin='" + origin + '\'' +
+                '}';
     }
 }

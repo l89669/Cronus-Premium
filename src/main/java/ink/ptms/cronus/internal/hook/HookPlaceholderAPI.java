@@ -12,9 +12,13 @@ import ink.ptms.cronus.internal.task.special.Countable;
 import ink.ptms.cronus.internal.task.special.Damageable;
 import ink.ptms.cronus.internal.task.special.Uncountable;
 import ink.ptms.cronus.uranus.function.FunctionParser;
+import io.izzel.taboolib.cronus.CronusUtils;
 import io.izzel.taboolib.module.inject.THook;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import org.bukkit.entity.Player;
+import org.bukkit.util.NumberConversions;
+
+import java.text.DecimalFormat;
 
 /**
  * @Author 坏黑
@@ -63,23 +67,23 @@ public class HookPlaceholderAPI extends PlaceholderExpansion {
         DataPlayer dataPlayer = CronusAPI.getData(player);
         String in = s.toLowerCase();
         if (in.startsWith("server_val_")) {
-            return String.valueOf(Cronus.getCronusService().getDatabase().getGlobalVariable(s.substring("server_val_".length())));
+            return format(String.valueOf(Cronus.getCronusService().getDatabase().getGlobalVariable(s.substring("server_val_".length()))));
         }
         if (in.startsWith("player_val_")) {
-            return String.valueOf(dataPlayer.getDataGlobal().get(s.substring("player_val_".length())));
+            return format(String.valueOf(dataPlayer.getDataGlobal().get(s.substring("player_val_".length()))));
         }
         if (in.startsWith("player_var_")) {
-            return String.valueOf(dataPlayer.getDataTemp().get(s.substring("player_var_".length())));
+            return format(String.valueOf(dataPlayer.getDataTemp().get(s.substring("player_var_".length()))));
         }
         if (in.startsWith("quest_val_")) {
             String[] v = s.substring("quest_val_".length()).split(":");
             DataQuest quest = dataPlayer.getQuest().get(v[0]);
-            return quest == null && v.length == 1 ? "-" : String.valueOf(quest.getDataQuest().get(v[1]));
+            return quest == null && v.length == 1 ? "-" : format(String.valueOf(quest.getDataQuest().get(v[1])));
         }
         if (in.startsWith("quest_var_")) {
             String[] v = s.substring("quest_var_".length()).split(":");
             DataQuest quest = dataPlayer.getQuest().get(v[0]);
-            return quest == null && v.length == 1 ? "-" : String.valueOf(quest.getDataStage().get(v[1]));
+            return quest == null && v.length == 1 ? "-" : format(String.valueOf(quest.getDataStage().get(v[1])));
         }
         if (in.startsWith("quest_stage_index")) {
             DataQuest dataQuest = dataPlayer.getQuest().get(s.substring("quest_stage_".length()));
@@ -117,13 +121,13 @@ public class HookPlaceholderAPI extends PlaceholderExpansion {
                 if (questStage == null) {
                     return "<Error-Stage>";
                 }
-                for (QuestTask questTask : questStage.getTask()) {
+                for (QuestTask<?> questTask : questStage.getTask()) {
                     if (questTask.getId().equals(v[1])) {
                         return questTask.isCompleted(dataQuest) ? "true" : "false";
                     }
                 }
             }
-            return "false";
+            return "<ERROR>";
         }
         if (in.startsWith("progress")) {
             String[] v = s.substring("progress_".length()).split(":");
@@ -136,12 +140,12 @@ public class HookPlaceholderAPI extends PlaceholderExpansion {
                 if (questStage == null) {
                     return "<Error-Stage>";
                 }
-                for (QuestTask questTask : questStage.getTask()) {
+                for (QuestTask<?> questTask : questStage.getTask()) {
                     if (questTask.getId().equals(v[1])) {
                         if (questTask instanceof Countable) {
-                            return String.valueOf(((Countable) questTask).getCount(dataQuest));
+                            return String.valueOf(((Countable<?>) questTask).getCount(dataQuest));
                         } else if (questTask instanceof Uncountable) {
-                            return String.valueOf(((Uncountable) questTask).getTotal(dataQuest));
+                            return String.valueOf(((Uncountable<?>) questTask).getTotal(dataQuest));
                         } else if (questTask instanceof Damageable) {
                             return String.valueOf(((Damageable) questTask).getDamage(dataQuest));
                         } else {
@@ -155,5 +159,17 @@ public class HookPlaceholderAPI extends PlaceholderExpansion {
             return "-1";
         }
         return "<Error-Placeholder>";
+    }
+
+    DecimalFormat intFormat = new DecimalFormat("#");
+
+    public String format(String o) {
+        if (CronusUtils.isDouble(o)) {
+            double v = NumberConversions.toDouble(o);
+            if (CronusUtils.isInt(v)) {
+                return intFormat.format(v);
+            }
+        }
+        return o;
     }
 }
