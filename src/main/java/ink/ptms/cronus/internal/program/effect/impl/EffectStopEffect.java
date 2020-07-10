@@ -10,22 +10,22 @@ import ink.ptms.cronus.uranus.program.effect.Effect;
  * @Since 2019-05-11 15:24
  */
 @Auto
-public class EffectStop extends Effect {
+public class EffectStopEffect extends Effect {
 
     @Override
     public String pattern() {
-        return "^stop$";
+        return "^stop[. ]effect";
     }
 
     @Override
     public String getExample() {
-        return "stop";
+        return "stop.effect";
     }
 
     @Override
     public void eval(Program program) {
         if (program instanceof QuestProgram) {
-            ((QuestProgram) program).getDataPlayer().stopQuest(((QuestProgram) program).getDataQuest().getQuest());
+            ((QuestProgram) program).setCancel(true);
         }
     }
 }

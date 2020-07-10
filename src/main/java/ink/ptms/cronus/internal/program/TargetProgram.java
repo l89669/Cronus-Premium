@@ -14,8 +14,8 @@ import java.util.Set;
 public class TargetProgram extends QuestProgram {
 
     private static final DataQuest GLOBAL = new DataQuest("null", "null");
-    private Set<Entity> entities;
-    private Set<Location> locations;
+    private final Set<Entity> entities;
+    private final Set<Location> locations;
 
     public TargetProgram(Player player, Set<Entity> entities, Set<Location> locations) {
         super(player, GLOBAL);

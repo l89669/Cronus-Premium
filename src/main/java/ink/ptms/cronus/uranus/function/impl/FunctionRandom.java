@@ -20,7 +20,7 @@ public class FunctionRandom extends Function {
 
     @Override
     public Object eval(Program program, String... args) {
-        Weights collection = new Weights();
+        Weights<String> collection = new Weights<>();
         for (String arg : args) {
             String[] split = arg.split("\\^");
             collection.add(split.length > 1 ? NumberConversions.toInt(split[1]) : 1, split[0]);

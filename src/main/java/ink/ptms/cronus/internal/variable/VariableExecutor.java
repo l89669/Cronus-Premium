@@ -1,6 +1,7 @@
 package ink.ptms.cronus.internal.variable;
 
 import com.google.common.collect.Lists;
+import ink.ptms.cronus.event.CronusVariableUpdateEvent;
 import ink.ptms.cronus.util.Strumber;
 import io.izzel.taboolib.module.inject.TInject;
 import io.izzel.taboolib.module.locale.logger.TLogger;
@@ -23,23 +24,32 @@ public class VariableExecutor {
                     engine.modify(key, Lists.newArrayList(), VariableType.LIST);
                 } else {
                     Strumber stringNumber = new Strumber(value);
-                    engine.modify(key, stringNumber.get(), stringNumber.getType().toVariableType());
+                    CronusVariableUpdateEvent event = new CronusVariableUpdateEvent(engine, key, stringNumber, CronusVariableUpdateEvent.Type.MODIFY).call();
+                    if (event.nonCancelled()) {
+                        engine.modify(event.getKey(), event.getValue().get(), event.getValue().getType().toVariableType());
+                    }
                 }
                 break;
             }
             case "+": {
                 Strumber stringNumber = new Strumber(value);
-                if (!engine.increase(key, stringNumber.get(), stringNumber.getType().toVariableType())) {
-                    VariableResult result = engine.select(key);
-                    logger.warn("Expression \"" + key + " " + symbol + " " + value + "\" unable to support existing variable: " + result.getValue() + " (" + result.getType() + ")");
+                CronusVariableUpdateEvent event = new CronusVariableUpdateEvent(engine, key, stringNumber, CronusVariableUpdateEvent.Type.INCREASE).call();
+                if (event.nonCancelled()) {
+                    if (!engine.increase(event.getKey(), event.getValue().get(), event.getValue().getType().toVariableType())) {
+                        VariableResult result = engine.select(key);
+                        logger.warn("Expression \"" + key + " " + symbol + " " + value + "\" unable to support existing variable: " + result.getValue() + " (" + result.getType() + ")");
+                    }
                 }
                 break;
             }
             case "-": {
                 Strumber stringNumber = new Strumber(value);
-                if (!engine.decrease(key, stringNumber.get(), stringNumber.getType().toVariableType())) {
-                    VariableResult result = engine.select(key);
-                    logger.warn("Expression \"" + key + " " + symbol + " " + value + "\" unable to support existing variable: " + result.getValue() + " (" + result.getType() + ")");
+                CronusVariableUpdateEvent event = new CronusVariableUpdateEvent(engine, key, stringNumber, CronusVariableUpdateEvent.Type.DECREASE).call();
+                if (event.nonCancelled()) {
+                    if (!engine.decrease(event.getKey(), event.getValue().get(), event.getValue().getType().toVariableType())) {
+                        VariableResult result = engine.select(key);
+                        logger.warn("Expression \"" + key + " " + symbol + " " + value + "\" unable to support existing variable: " + result.getValue() + " (" + result.getType() + ")");
+                    }
                 }
                 break;
             }

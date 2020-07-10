@@ -143,3 +143,33 @@ QuestItem:
     # 动作
     effect:
       - 'command.player CronusQuestBook def_0'
+
+# 经验系统
+# 将指定的变量设定为经验与等级
+CustomLevel:
+  # 经验系统序号
+  # 变量：
+  # 当前等级 —— {player.val:CustomLevel.d1.level}
+  # 当前经验 —— {player.val:CustomLevel.d1.expression}
+  # 函数：
+  # 当前等级 —— {CustomLevel:level.current|d1}
+  # 最大等级 —— {CustomLevel:level.maximum|d1}
+  # 当前经验 —— {CustomLevel:expression.current|d1}
+  # 最大经验 —— {CustomLevel:expression.maximum|d1}
+  d1:
+    # 起始等级
+    default: 0
+    # 最大等级
+    maximum: 99
+    # 经验规则
+    experience: 'level * 1000'
+
+# 变量系统
+# 用于组合由多条动作构成的结果，可传入自定义参数
+# 函数：{CustomFunction:p1|50}
+CustomFunction:
+  p1:
+    - 'script.define.v1 = 200'
+    - 'script.define.v2 = 100'
+    - 'script.define.v3 = {var:argument.0}'
+    - 'return {script:v2 + v1 * v3}'

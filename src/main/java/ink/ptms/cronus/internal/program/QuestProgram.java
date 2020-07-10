@@ -20,9 +20,10 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 public class QuestProgram extends Program {
 
-    private AtomicInteger delay = new AtomicInteger(0);
-    private DataQuest dataQuest;
+    private final AtomicInteger delay = new AtomicInteger(0);
+    private final DataQuest dataQuest;
     private Event event;
+    private boolean cancel;
 
     public QuestProgram(Player player, DataQuest dataQuest) {
         this.dataQuest = dataQuest;
@@ -39,9 +40,19 @@ public class QuestProgram extends Program {
         delay.set(0);
         for (Effect effect : effects) {
             if (delay.get() == 0 || effect instanceof EffectDelay) {
-                eval(effect);
+                if (!cancel) {
+                    eval(effect);
+                }
             } else {
-                Bukkit.getScheduler().runTaskLater(Cronus.getInst(), () -> eval(effect), delay.get());
+                Bukkit.getScheduler().runTaskLater(Cronus.getInst(), new Runnable() {
+
+                    @Override
+                    public void run() {
+                        if (!cancel) {
+                            QuestProgram.this.eval(effect);
+                        }
+                    }
+                }, delay.get());
             }
         }
     }
@@ -50,7 +61,7 @@ public class QuestProgram extends Program {
         try {
             effect.eval(this);
         } catch (Throwable t) {
-            logger.error("程序 \"" + effect.getSource() + "\" 执行异常: " + t.getMessage());
+            logger.error("程序 \"" + effect.getSource() + ":" + line + "\" 执行时出现异常: " + t.getMessage());
         }
     }
 
@@ -80,5 +91,13 @@ public class QuestProgram extends Program {
 
     public void setEvent(Event event) {
         this.event = event;
+    }
+
+    public boolean isCancel() {
+        return cancel;
+    }
+
+    public void setCancel(boolean cancel) {
+        this.cancel = cancel;
     }
 }

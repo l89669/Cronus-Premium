@@ -9,9 +9,9 @@ import org.bukkit.configuration.file.YamlConfiguration;
  */
 public class ProgramFile {
 
-    private String name;
-    private YamlConfiguration conf;
-    private ProgramLine program;
+    private final String name;
+    private final ProgramLine program;
+    private final YamlConfiguration conf;
 
     public ProgramFile(String name, YamlConfiguration conf, ProgramLine program) {
         this.name = name;

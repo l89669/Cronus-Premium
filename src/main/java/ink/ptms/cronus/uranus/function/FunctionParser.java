@@ -12,23 +12,29 @@ public class FunctionParser {
         return contains(in, '{') && contains(in, '}') && contains(in, ':');
     }
 
-    public static String parseAll(Program program, String in) {
-        String parsed = hasFunction(in) ? parseFirst(program, in) : in;
-        while (hasFunction(parsed)) {
+    public static Object parse(Program program, String in) {
+        Object parsed = hasFunction(in) ? parseFirst(program, in) : in;
+        while (hasFunction(parsed.toString())) {
             parsed = parseFirst(program, parsed);
         }
         return parsed;
     }
 
-    public static String parseFirst(Program program, String in) {
-        Result result = check(in);
+    @Deprecated
+    public static String parseAll(Program program, String in) {
+        return parse(program, in).toString();
+    }
+
+    public static Object parseFirst(Program program, Object in) {
+        Result result = check(in.toString());
         if (result == null) {
             return in;
         }
         String name = result.getCenter().substring(0, result.getCenter().indexOf(":"));
         String argument = result.getCenter().substring(result.getCenter().indexOf(":") + 1);
-        Function functionObj = FunctionLoader.getFunction(name);
-        return result.replace(String.valueOf(functionObj == null ? "<Null.Function>" : functionObj.eval(program, functionObj.allowArguments() ? argument.split("\\|") : new String[] {argument})));
+        Function function = FunctionLoader.getFunction(name);
+        Object output = function == null ? "<Null.Function>" : function.eval(program, function.allowArguments() ? argument.split("\\|") : new String[] {argument});
+        return result.isEmpty() ? output : result.replace(String.valueOf(output));
     }
 
     public static Result check(String in) {

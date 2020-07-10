@@ -1,11 +1,14 @@
 package ink.ptms.cronus.uranus.program;
 
+import com.google.common.collect.Maps;
 import io.izzel.taboolib.module.db.local.SecuredFile;
 import io.izzel.taboolib.module.inject.TInject;
 import io.izzel.taboolib.module.locale.logger.TLogger;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
+
+import java.util.Map;
 
 /**
  * @Author 坏黑
@@ -21,6 +24,8 @@ public class Program {
     protected String[] args;
     protected Object result;
     protected int line;
+
+    protected Map<String, Object> scriptDefinedMap = Maps.newHashMap();
 
     public Object eval(ProgramFile programFile, CommandSender sender, String... args) {
         if (programFile.getProgram() == null) {
@@ -79,5 +84,9 @@ public class Program {
 
     public void setResult(Object result) {
         this.result = result;
+    }
+
+    public Map<String, Object> getScriptDefinedMap() {
+        return scriptDefinedMap;
     }
 }

@@ -46,6 +46,7 @@ class EffectScript : Effect() {
                     "bukkit" to Uranus.getInst().server,
                     "plugin" to Uranus.getInst(),
                     "program" to program,
+                    *program.scriptDefinedMap.map { it.key to it.value }.toTypedArray(),
                     *EffectScriptImport.API.imports.map { it.value.javaClass.simpleName to it.value }.toTypedArray()
             )), script, compiledScript).call().run {
                 this.compiledScript.eval(this.bindings)

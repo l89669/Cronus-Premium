@@ -26,8 +26,15 @@ public class FunctionChar extends Function {
         switch (args[0].toLowerCase()) {
             case "space":
                 return " ";
-            default:
-                return "<invalid>";
+            case "left":
+                return "{";
+            case "right":
+                return "}";
+            case "middle":
+                return ":";
+            case "next":
+                return "\n";
         }
+        return "<invalid>";
     }
 }

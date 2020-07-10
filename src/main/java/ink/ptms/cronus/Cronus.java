@@ -17,7 +17,7 @@ import java.nio.charset.StandardCharsets;
  * @Author 坏黑
  * @Since 2019-05-23 18:06
  */
-@Plugin.Version(5.28)
+@Plugin.Version(5.31)
 @Dependency(maven = "com.mongodb:mongodb:3.12.2", url = "https://skymc.oss-cn-shanghai.aliyuncs.com/libs/mongo-java-driver-3.12.2.jar")
 public class Cronus extends Plugin {
 
@@ -28,7 +28,7 @@ public class Cronus extends Plugin {
     @TInject(state = TInject.State.LOADING, init = "init", active = "start")
     private static CronusLoader cronusLoader;
     private static CronusVersion cronusVersion;
-    @TInject(value = "config.yml")
+    @TInject(value = "config.yml", migrate = true)
     private static TConfig conf;
     @TInject
     private static TLogger logger;

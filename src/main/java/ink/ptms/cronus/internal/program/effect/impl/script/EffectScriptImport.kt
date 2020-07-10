@@ -17,11 +17,11 @@ class EffectScriptImport : Effect() {
     var import: String? = null
 
     override fun pattern(): String {
-        return "(script|js)-import (?<class>.+)"
+        return "(script|js)[-.]import (?<class>.+)"
     }
 
     override fun getExample(): String {
-        return "script-import [class]"
+        return "script.import [class]"
     }
 
     override fun match(matcher: Matcher) {

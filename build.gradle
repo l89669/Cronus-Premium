@@ -32,7 +32,7 @@ dependencies {
     compile 'ink.ptms.core:v11300:11300:all'
     compile 'ink.ptms.core:v10800:10800:all'
     compile 'ink.ptms.core:v11400:11400:all'
-    compile 'io.izzel.taboolib:TabooLib:5.28:all'
+    compile 'io.izzel.taboolib:TabooLib:5.31:all'
     compile 'io.izzel.taboolib:TabooLibLoader:2.0:all'
     compile "org.jetbrains.kotlin:kotlin-stdlib:1.2.41"
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.2.41"

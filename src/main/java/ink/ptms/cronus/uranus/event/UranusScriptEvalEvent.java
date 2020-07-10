@@ -11,9 +11,9 @@ import javax.script.SimpleBindings;
 public class UranusScriptEvalEvent extends Event {
 
     private static final HandlerList handlers = new HandlerList();
-    private Program program;
+    private final Program program;
+    private final String script;
     private SimpleBindings bindings;
-    private String script;
     private CompiledScript compiledScript;
 
     public UranusScriptEvalEvent(Program program, SimpleBindings bindings, String script, CompiledScript compiledScript) {

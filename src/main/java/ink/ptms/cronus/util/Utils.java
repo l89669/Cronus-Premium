@@ -1,9 +1,14 @@
 package ink.ptms.cronus.util;
 
+import com.google.gson.JsonParser;
+import com.google.gson.JsonPrimitive;
+import com.google.gson.internal.bind.TypeAdapters;
 import io.izzel.taboolib.module.inject.TInject;
+import io.izzel.taboolib.module.nms.nbt.NBTBase;
 import io.izzel.taboolib.util.Strings;
 import io.izzel.taboolib.util.lite.Numbers;
 import io.izzel.taboolib.util.lite.cooldown.Cooldown;
+import org.bson.json.Converter;
 import org.bukkit.Color;
 import org.bukkit.FireworkEffect;
 import org.bukkit.Location;
@@ -78,14 +83,11 @@ public class Utils {
     }
 
     public static String fromLocation(Location location) {
-        return location.getWorld().getName()
-                + "," + (isInt(location.getX()) ? NumberConversions.toInt(location.getX()) : location.getX())
-                + "," + (isInt(location.getY()) ? NumberConversions.toInt(location.getY()) : location.getY())
-                + "," + (isInt(location.getZ()) ? NumberConversions.toInt(location.getZ()) : location.getZ()) ;
+        return location.getWorld().getName() + "," + parseInt(location.getX()) + "," + parseInt(location.getY()) + "," + parseInt(location.getZ()) ;
     }
 
     public static Object parseInt(double in) {
-        return isInt(in) ? (int) in : in;
+        return isInt(in) ? (long) in : in;
     }
 
     public static boolean next(int page, int size, int entry) {
@@ -93,12 +95,21 @@ public class Utils {
     }
 
     public static boolean isInt(double in) {
-        return NumberConversions.toInt(in) == in;
+        return NumberConversions.toLong(in) == in;
     }
 
     public static boolean isInt(String in) {
         try {
             Integer.parseInt(in);
+            return true;
+        } catch (Throwable ignored) {
+        }
+        return false;
+    }
+
+    public static boolean isLong(String in) {
+        try {
+            Long.parseLong(in);
             return true;
         } catch (Throwable ignored) {
         }

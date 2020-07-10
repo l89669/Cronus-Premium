@@ -5,11 +5,16 @@
       <w>bukkit</w>
       <w>cooldown</w>
       <w>crit</w>
+      <w>customlevel</w>
+      <w>gamemode</w>
+      <w>protocolsupport</w>
       <w>purtmars</w>
+      <w>strumber</w>
       <w>sudoskill</w>
       <w>sumber</w>
       <w>sxpression</w>
       <w>teleport</w>
+      <w>viaversion</w>
     </words>
   </dictionary>
 </component>

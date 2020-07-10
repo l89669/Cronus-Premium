@@ -7,6 +7,8 @@ import io.izzel.taboolib.TabooLibAPI;
 import io.izzel.taboolib.cronus.CronusUtils;
 import org.bukkit.entity.Player;
 
+import java.util.List;
+
 /**
  * @Author 坏黑
  * @Since 2019-05-11 13:16
@@ -91,6 +93,13 @@ public class FunctionPlayer extends Function {
                 case "money":
                 case "balance":
                     return TabooLibAPI.getPluginBridge().economyLook(player);
+                case "region":
+                    List<String> region = TabooLibAPI.getPluginBridge().worldguardGetRegion(player.getWorld(), player.getLocation());
+                    return region.isEmpty() ? "__global__" : region;
+                case "version.viaversion":
+                    return TabooLibAPI.getPluginBridge().viaVersionPlayerVersion(player);
+                case "version.protocolsupport":
+                    return TabooLibAPI.getPluginBridge().protocolSupportPlayerVersion(player);
                 default:
                     return "<invalid>";
             }
