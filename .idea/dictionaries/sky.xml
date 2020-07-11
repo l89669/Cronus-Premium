@@ -5,6 +5,7 @@
       <w>bukkit</w>
       <w>cooldown</w>
       <w>crit</w>
+      <w>customfunction</w>
       <w>customlevel</w>
       <w>gamemode</w>
       <w>protocolsupport</w>
@@ -15,6 +16,7 @@
       <w>sxpression</w>
       <w>teleport</w>
       <w>viaversion</w>
+      <w>zaphkiel</w>
     </words>
   </dictionary>
 </component>

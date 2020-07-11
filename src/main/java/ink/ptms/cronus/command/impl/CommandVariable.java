@@ -48,7 +48,7 @@ public class CommandVariable extends CronusCommand {
                 return;
             }
             DataPlayer dataPlayer = CronusAPI.getData(player);
-            VariableExecutor.update(new EngineY(dataPlayer.getDataTemp()), args[1], args[2], FunctionParser.parseAll(new NoneProgram(player), ArrayUtil.arrayJoin(args, 3)));
+            VariableExecutor.update(new EngineY(dataPlayer.getDataTemp(), player), args[1], args[2], FunctionParser.parseAll(new NoneProgram(player), ArrayUtil.arrayJoin(args, 3)));
             dataPlayer.push();
         }
     };
@@ -74,7 +74,7 @@ public class CommandVariable extends CronusCommand {
                 return;
             }
             DataPlayer dataPlayer = CronusAPI.getData(player);
-            VariableExecutor.update(new EngineY(dataPlayer.getDataGlobal()), args[1], args[2], FunctionParser.parseAll(new NoneProgram(player), ArrayUtil.arrayJoin(args, 3)));
+            VariableExecutor.update(new EngineY(dataPlayer.getDataGlobal(), player), args[1], args[2], FunctionParser.parseAll(new NoneProgram(player), ArrayUtil.arrayJoin(args, 3)));
             dataPlayer.push();
         }
     };
@@ -105,7 +105,7 @@ public class CommandVariable extends CronusCommand {
                 error(sender, "任务 &7" + args[1] + " &c无效.");
                 return;
             }
-            VariableExecutor.update(new EngineY(playerQuest.getDataStage()), args[2], args[3], FunctionParser.parseAll(new NoneProgram(player), ArrayUtil.arrayJoin(args, 4)));
+            VariableExecutor.update(new EngineY(playerQuest.getDataStage(), player), args[2], args[3], FunctionParser.parseAll(new NoneProgram(player), ArrayUtil.arrayJoin(args, 4)));
             dataPlayer.push();
         }
     };
@@ -136,7 +136,7 @@ public class CommandVariable extends CronusCommand {
                 error(sender, "任务 &7" + args[1] + " &c无效.");
                 return;
             }
-            VariableExecutor.update(new EngineY(playerQuest.getDataQuest()), args[2], args[3], FunctionParser.parseAll(new NoneProgram(player), ArrayUtil.arrayJoin(args, 4)));
+            VariableExecutor.update(new EngineY(playerQuest.getDataQuest(), player), args[2], args[3], FunctionParser.parseAll(new NoneProgram(player), ArrayUtil.arrayJoin(args, 4)));
             dataPlayer.push();
         }
     };

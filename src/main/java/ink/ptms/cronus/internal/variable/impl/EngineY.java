@@ -5,6 +5,7 @@ import ink.ptms.cronus.internal.variable.VariableResult;
 import ink.ptms.cronus.internal.variable.VariableType;
 import ink.ptms.cronus.util.Utils;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Player;
 import org.bukkit.util.NumberConversions;
 
 import java.util.List;
@@ -16,9 +17,15 @@ import java.util.List;
 public class EngineY extends VariableEngine {
 
     private final YamlConfiguration yaml;
+    private final Player player;
 
     public EngineY(YamlConfiguration yaml) {
+        this(yaml, null);
+    }
+
+    public EngineY(YamlConfiguration yaml, Player player) {
         this.yaml = yaml;
+        this.player = player;
     }
 
     @Override
@@ -81,5 +88,13 @@ public class EngineY extends VariableEngine {
     @Override
     public VariableResult select(String key) {
         return null;
+    }
+
+    public YamlConfiguration getYaml() {
+        return yaml;
+    }
+
+    public Player getPlayer() {
+        return player;
     }
 }

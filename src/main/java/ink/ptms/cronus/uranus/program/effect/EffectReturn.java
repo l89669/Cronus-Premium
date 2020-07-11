@@ -1,12 +1,9 @@
 package ink.ptms.cronus.uranus.program.effect;
 
-import ink.ptms.cronus.internal.program.QuestProgram;
 import ink.ptms.cronus.uranus.annotations.Auto;
 import ink.ptms.cronus.uranus.function.FunctionParser;
 import ink.ptms.cronus.uranus.program.Program;
 import ink.ptms.cronus.util.Strumber;
-import ink.ptms.cronus.util.Utils;
-import org.bukkit.util.NumberConversions;
 
 import java.util.regex.Matcher;
 
@@ -18,6 +15,7 @@ import java.util.regex.Matcher;
 public class EffectReturn extends Effect {
 
     private String value;
+    private Object parsed;
     private boolean hasFunction;
 
     @Override
@@ -34,6 +32,9 @@ public class EffectReturn extends Effect {
     public void match(Matcher matcher) {
         value = matcher.group("value");
         hasFunction = FunctionParser.hasFunction(value);
+        if (!hasFunction) {
+            parsed = new Strumber(value).get();
+        }
     }
 
     @Override
@@ -41,7 +42,7 @@ public class EffectReturn extends Effect {
         if (hasFunction) {
             program.setResult(FunctionParser.parse(program, value));
         } else {
-            program.setResult(new Strumber(value).get());
+            program.setResult(parsed);
         }
     }
 

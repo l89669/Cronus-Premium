@@ -16,6 +16,7 @@ class EffectScriptDefine : Effect() {
 
     var name: String? = null
     var value: String? = null
+    var parsed: Any? = null
     var hasFunction = false
 
     override fun pattern(): String {
@@ -30,13 +31,16 @@ class EffectScriptDefine : Effect() {
         name = matcher.group("name")
         value = matcher.group("value")
         hasFunction = FunctionParser.hasFunction(value)
+        if (!hasFunction) {
+            parsed = Strumber(value).get()
+        }
     }
 
     override fun eval(program: Program) {
         if (hasFunction) {
             program.scriptDefinedMap[name] = FunctionParser.parse(program, value)
         } else {
-            program.scriptDefinedMap[name] = Strumber(value).get()
+            program.scriptDefinedMap[name] = parsed
         }
     }
 

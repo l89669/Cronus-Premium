@@ -3,6 +3,8 @@ package ink.ptms.cronus.service.custom
 import ink.ptms.cronus.Cronus
 import ink.ptms.cronus.CronusAPI
 import ink.ptms.cronus.event.CronusVariableUpdateEvent
+import ink.ptms.cronus.event.CronusVariableUpdateEvent.Type.*
+import ink.ptms.cronus.internal.variable.impl.EngineY
 import ink.ptms.cronus.service.Service
 import ink.ptms.cronus.uranus.annotations.Auto
 import io.izzel.taboolib.util.lite.Scripts
@@ -32,7 +34,26 @@ class CustomLevel : Service, Listener {
 
     @EventHandler
     fun e(e: CronusVariableUpdateEvent) {
-
+        if (e.engine is EngineY && e.engine.player != null) {
+            val args = e.key.split("\\.")
+            if (args[0].equals("CustomLevel", true) && args.size == 3) {
+                val type = registeredLevel[args[1]] ?: return
+                when (e.type) {
+                    MODIFY -> when (args[2]) {
+                        "level" -> setLevel(e.engine.player, type.id, e.value.number.toInt())
+                        "experience" -> setExp(e.engine.player, type.id, e.value.number.toInt())
+                    }
+                    INCREASE -> when (args[2]) {
+                        "level" -> addLevel(e.engine.player, type.id, e.value.number.toInt())
+                        "experience" -> addExp(e.engine.player, type.id, e.value.number.toInt())
+                    }
+                    DECREASE -> when (args[2]) {
+                        "level" -> addLevel(e.engine.player, type.id, -e.value.number.toInt())
+                        "experience" -> addExp(e.engine.player, type.id, -e.value.number.toInt())
+                    }
+                }
+            }
+        }
     }
 
     fun addExp(player: Player, id: String, value: Int) {

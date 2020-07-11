@@ -11,6 +11,7 @@ import ink.ptms.cronus.database.data.item.ItemStorageCronus;
 import ink.ptms.cronus.database.data.item.hook.StorageAsgard;
 import ink.ptms.cronus.database.data.item.hook.StorageMythicMobs;
 import ink.ptms.cronus.database.data.item.hook.StoragePurtmars;
+import ink.ptms.cronus.database.data.item.hook.StorageZaphkiel;
 import ink.ptms.cronus.database.impl.DatabaseMongoDB;
 import ink.ptms.cronus.database.impl.DatabaseSQL;
 import ink.ptms.cronus.database.impl.DatabaseYAML;
@@ -57,6 +58,7 @@ public class CronusService {
     public CronusService() {
         registeredItemStorage.add(new StorageAsgard());
         registeredItemStorage.add(new StoragePurtmars());
+        registeredItemStorage.add(new StorageZaphkiel());
         registeredItemStorage.add(new StorageMythicMobs());
         registeredItemStorage.add(new ItemStorageCronus());
     }

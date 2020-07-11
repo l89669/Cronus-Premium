@@ -18,6 +18,8 @@ import io.izzel.taboolib.util.book.builder.PageBuilder
 import io.izzel.taboolib.util.chat.ComponentSerializer
 import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender
+import org.bukkit.configuration.ConfigurationSection
+import org.bukkit.configuration.file.FileConfiguration
 import org.bukkit.entity.Player
 import java.text.SimpleDateFormat
 import java.util.*
@@ -65,48 +67,72 @@ open class Command : CronusCommand() {
                 error(sender, "玩家 &7" + args[0] + " &c离线.")
                 return
             }
+            normal(sender, "正在创建缓存...")
             val playerData = CronusAPI.getData(player)
             val bookBuilder = BookFormatter.writtenBook()
-            bookBuilder.addPages(PageBuilder()
-                    .add("").newLine()
-                    .add("").newLine()
-                    .add("      §lPlayer Database").newLine()
-                    .add("").newLine()
-                    .add("         玩家数据").newLine()
-                    .build())
-            bookBuilder.addPages(ComponentSerializer.parse(TellrawJson.create()
-                    .append("").newLine()
-                    .append(" §l基本数据").newLine()
-                    .append("").newLine()
-                    .append(" 全局变量 ").append("§7[...]").hoverText(Utils.NonNull(playerData.dataGlobal.saveToString())).newLine()
-                    .append(" 临时变量 ").append("§7[...]").hoverText(Utils.NonNull(playerData.dataTemp.saveToString())).newLine()
-                    .append("").newLine()
-                    .append(" 完成任务 ").append("§7[...]").hoverText(playerData.questCompleted.map { "${it.key} : ${dateFormat.format(it.value)}" }.joinToString("\n")).newLine()
-                    .append(" 隐藏任务 ").append("§7[...]").hoverText(playerData.questHide.joinToString("\n")).newLine()
-                    .append("").newLine()
-                    .append(" 物品冷却 ").append("§7[...]").hoverText(playerData.itemCooldown.map { "${it.key} : ${dateFormat.format(it.value)}" }.joinToString("\n")).newLine()
-                    .toRawMessage()))
-            var index = 1
-            playerData.quest.forEach { k, v ->
+            Bukkit.getScheduler().runTaskAsynchronously(Cronus.getPlugin(), Runnable {
+                bookBuilder.addPages(PageBuilder()
+                        .add("").newLine()
+                        .add("").newLine()
+                        .add("      §lPlayer Database").newLine()
+                        .add("").newLine()
+                        .add("         玩家数据").newLine()
+                        .build())
                 bookBuilder.addPages(ComponentSerializer.parse(TellrawJson.create()
                         .append("").newLine()
-                        .append(" §l任务数据 §r§7(${index++}/${playerData.quest.size})").newLine()
-                        .append(" §8§n$k").newLine()
+                        .append(" §l基本数据").newLine()
                         .append("").newLine()
-                        .append(" 任务变量 ").append("§7[...]").hoverText(Utils.NonNull(v.dataQuest.saveToString())).newLine()
-                        .append(" 阶段数据 ").append("§7[...]").hoverText(Utils.NonNull(v.dataStage.saveToString())).newLine()
+                        .append(" 全局变量 ").append("§7[...]").hoverText(Utils.NonNull(playerData.dataGlobal.build())).append(" §c[player.val]").newLine()
+                        .append(" 临时变量 ").append("§7[...]").hoverText(Utils.NonNull(playerData.dataTemp.build())).append(" §c[player.var]").newLine()
                         .append("").newLine()
-                        .append(" 当前阶段 §7${v.currentStage}").newLine()
+                        .append(" 完成任务 ").append("§7[...]").hoverText(Utils.NonNull(playerData.questCompleted.map { "${it.key} : ${dateFormat.format(it.value)}" }.joinToString("\n"))).newLine()
+                        .append(" 隐藏任务 ").append("§7[...]").hoverText(Utils.NonNull(playerData.questHide.joinToString("\n"))).newLine()
                         .append("").newLine()
-                        .append(" 开始时间 ").append("§7[...]").hoverText(dateFormat.format(v.timeStart)).newLine()
-                        .append(" 结束时间 ").append("§7[...]").hoverText(if (playerData.isQuestCompleted(k)) dateFormat.format(playerData.questCompleted[k]) else "-").newLine()
+                        .append(" 物品冷却 ").append("§7[...]").hoverText(Utils.NonNull(playerData.itemCooldown.map { "${it.key} : ${dateFormat.format(it.value)}" }.joinToString("\n"))).newLine()
                         .toRawMessage()))
-            }
-            BookFormatter.forceOpen(sender as Player, bookBuilder.build())
+                var index = 1
+                playerData.quest.forEach { k, v ->
+                    bookBuilder.addPages(ComponentSerializer.parse(TellrawJson.create()
+                            .append("").newLine()
+                            .append(" §l任务数据 §r§7(${index++}/${playerData.quest.size})").newLine()
+                            .append(" §8§n$k").newLine()
+                            .append("").newLine()
+                            .append(" 任务变量 ").append("§7[...]").hoverText(Utils.NonNull(v.dataQuest.build())).append(" §c[quest.val]").newLine()
+                            .append(" 阶段变量 ").append("§7[...]").hoverText(Utils.NonNull(v.dataStage.build())).append(" §c[quest.var]").newLine()
+                            .append("").newLine()
+                            .append(" 当前阶段 §7${v.currentStage}").newLine()
+                            .append("").newLine()
+                            .append(" 开始时间 ").append("§7[...]").hoverText(dateFormat.format(v.timeStart)).newLine()
+                            .append(" 结束时间 ").append("§7[...]").hoverText(if (playerData.isQuestCompleted(k)) dateFormat.format(playerData.questCompleted[k]) else "-").newLine()
+                            .toRawMessage()))
+                }
+                Bukkit.getScheduler().runTask(Cronus.getPlugin(), Runnable {
+                    BookFormatter.forceOpen(sender as Player, bookBuilder.build())
+                })
+            })
         }
 
         override fun getType(): CommandType {
             return CommandType.PLAYER;
+        }
+
+        fun FileConfiguration.build(): String {
+            return this.getValues(true).toList().filter { it.second !is ConfigurationSection }.joinToString("\n") {
+                if (it.second is List<*>) {
+                    "${it.first.colored()}§8: \n${(it.second as List<Any>).joinToString("\n") { element -> "§8- §f${element}" }}"
+                } else {
+                    "${it.first.colored()}§8: §f${it.second}"
+                }
+            }
+        }
+        
+        fun String.colored(): String {
+            val i = this.indexOf(".")
+            return if (i == -1) {
+                "§7§n$this"
+            } else {
+                "§7§n${this.substring(0, i)}.§7${this.substring(i).replace(".", "§8.§7")}"
+            }
         }
     }
 

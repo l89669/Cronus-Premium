@@ -28,7 +28,7 @@ public class Cronus extends Plugin {
     @TInject(state = TInject.State.LOADING, init = "init", active = "start")
     private static CronusLoader cronusLoader;
     private static CronusVersion cronusVersion;
-    @TInject(value = "config.yml", migrate = true)
+    @TInject(value = "config.yml")
     private static TConfig conf;
     @TInject
     private static TLogger logger;

@@ -41,7 +41,7 @@ public class EffectQuestVal extends Effect {
     @Override
     public void eval(Program program) {
         if (program instanceof QuestProgram) {
-            VariableExecutor.update(new EngineY(((QuestProgram) program).getDataQuest().getDataQuest()), name, symbol, FunctionParser.parseAll(program, value));
+            VariableExecutor.update(new EngineY(((QuestProgram) program).getDataQuest().getDataQuest(), ((QuestProgram) program).getPlayer()), name, symbol, FunctionParser.parseAll(program, value));
         }
     }
 

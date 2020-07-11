@@ -13,7 +13,7 @@ import java.util.List;
  */
 public class ItemStorageCronus extends ItemStorage {
 
-    private FileConfiguration items = Local.get().addFile("data/items.yml");
+    private final FileConfiguration items = Local.get().addFile("data/items.yml");
 
     @Override
     public ItemStack getItem(String name) {

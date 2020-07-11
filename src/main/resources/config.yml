@@ -153,9 +153,10 @@ CustomLevel:
   # 当前经验 —— {player.val:CustomLevel.d1.expression}
   # 函数：
   # 当前等级 —— {CustomLevel:level.current|d1}
-  # 最大等级 —— {CustomLevel:level.maximum|d1}
+  # 最搞等级 —— {CustomLevel:level.maximum|d1}
+  # 基础等级 —— {CustomLevel:level.default|d1}
   # 当前经验 —— {CustomLevel:expression.current|d1}
-  # 最大经验 —— {CustomLevel:expression.maximum|d1}
+  # 最高经验 —— {CustomLevel:expression.maximum|d1}
   d1:
     # 起始等级
     default: 0
@@ -171,5 +172,5 @@ CustomFunction:
   p1:
     - 'script.define.v1 = 200'
     - 'script.define.v2 = 100'
-    - 'script.define.v3 = {var:argument.0}'
+    - 'script.define.v3 = {var:args.0}'
     - 'return {script:v2 + v1 * v3}'

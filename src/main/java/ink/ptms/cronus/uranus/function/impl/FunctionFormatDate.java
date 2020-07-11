@@ -16,7 +16,7 @@ import java.util.Map;
 @Auto
 public class FunctionFormatDate extends Function {
 
-    private Map<String, SimpleDateFormat> formats = Maps.newHashMap();
+    private final Map<String, SimpleDateFormat> formats = Maps.newHashMap();
 
     @Override
     public String getName() {
