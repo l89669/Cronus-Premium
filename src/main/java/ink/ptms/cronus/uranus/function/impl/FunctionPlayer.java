@@ -79,6 +79,9 @@ public class FunctionPlayer extends Function {
                 case "loc.block.z":
                 case "location.block.z":
                     return player.getLocation().getBlockZ();
+                case "loc.biome":
+                case "location.biome":
+                    return player.getLocation().getBlock().getBiome().name();
                 case "fire.tick":
                     return player.getFireTicks();
                 case "ip":

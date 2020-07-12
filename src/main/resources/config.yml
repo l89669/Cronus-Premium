@@ -44,7 +44,7 @@ Database:
   # 调试模式
   debug: false
   # UUID 模式
-  # 如果你是正版服务器，则开启 SQL 储存并启用该模式
+  # 这个选项仅在 MySQL、MongoDB 模式下有效，Yaml 模式下需要在 TabooLib 配置中修改。
   uniqueId: false
   # 储存类型
   # 可用类型 YAML、SQL、MongoDB
