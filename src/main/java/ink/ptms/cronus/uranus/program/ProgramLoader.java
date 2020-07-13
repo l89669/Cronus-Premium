@@ -26,8 +26,8 @@ public class ProgramLoader {
 
     @TInject
     private static TLogger logger;
-    private static List<Effect> effects = Lists.newArrayList();
-    private static List<ProgramFile> programFiles = Lists.newArrayList();
+    private static final List<Effect> effects = Lists.newCopyOnWriteArrayList();
+    private static final List<ProgramFile> programFiles = Lists.newCopyOnWriteArrayList();
 
     private static void init() {
         TabooLibLoader.getPluginClasses(Uranus.getInst()).ifPresent(classes -> {
@@ -63,7 +63,7 @@ public class ProgramLoader {
         if (program instanceof ConfigurationSection) {
             map = ((ConfigurationSection) program).getValues(false);
         } else if (program instanceof Map) {
-            map = (Map) program;
+            map = (Map<String, Object>) program;
         } else {
             throw new ProgramLoadException("Invalid Program: " + program);
         }
@@ -99,6 +99,14 @@ public class ProgramLoader {
         } catch (Throwable t) {
             t.printStackTrace();
             System.out.println(effectClass);
+        }
+    }
+
+    public static void unregisterEffect(Class<? extends Effect> effectClass) {
+        try {
+            effects.removeIf(e -> e.getClass().getSimpleName().equals(effectClass.getSimpleName()));
+        } catch (Throwable t) {
+            t.printStackTrace();
         }
     }
 

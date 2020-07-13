@@ -114,7 +114,6 @@ quest_0:
 
           # 任务条目引导
           # 插件将会创造动态的引导指引玩家前往这里
-          # 耗能较高，请勿大量使用
           guide:
             # 显示距离
             distance: 2
@@ -137,8 +136,7 @@ quest_0:
           # 当条件满足时任务条目自动重置
           restart: 'player.level > 100'
 
-          # 任务状态显示
-          # 当启用 bossbar 或 actionbar 时则显示下方内容
+          # 任务状态显示内容
           status: '主线任务 - 开采石头 : {quest.var:t0.count|0}/10'
 
           # 任务状态接口
