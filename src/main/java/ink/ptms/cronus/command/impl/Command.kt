@@ -5,6 +5,7 @@ import ink.ptms.cronus.Cronus
 import ink.ptms.cronus.CronusAPI
 import ink.ptms.cronus.CronusMirror
 import ink.ptms.cronus.command.CronusCommand
+import ink.ptms.cronus.database.DataMigration
 import ink.ptms.cronus.database.data.DataQuest
 import ink.ptms.cronus.event.CronusVisibleToggleEvent
 import ink.ptms.cronus.internal.program.Action
@@ -113,7 +114,7 @@ open class Command : CronusCommand() {
         }
 
         override fun getType(): CommandType {
-            return CommandType.PLAYER;
+            return CommandType.PLAYER
         }
 
         fun FileConfiguration.build(): String {
@@ -474,6 +475,26 @@ open class Command : CronusCommand() {
             Cronus.getConf().reload()
             Cronus.reloadQuest()
             normal(sender, "重载完成.")
+        }
+    }
+
+    @SubCommand
+    var migration: BaseSubCommand = object : BaseSubCommand() {
+
+        override fun getType(): CommandType {
+            return CommandType.CONSOLE
+        }
+
+        override fun hideInHelp(): Boolean {
+            return true
+        }
+
+        override fun getDescription(): String {
+            return "迁移数据."
+        }
+
+        override fun onCommand(sender: CommandSender, command: org.bukkit.command.Command, s: String, args: Array<String>) {
+            DataMigration.toMongoDB()
         }
     }
 }

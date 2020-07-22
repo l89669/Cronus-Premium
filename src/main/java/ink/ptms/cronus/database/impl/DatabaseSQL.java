@@ -25,6 +25,7 @@ public class DatabaseSQL extends Database {
     private SQLTable tableVar;
     private DataSource dataSource;
     private boolean uniqueId;
+    private boolean connected = false;
 
     @Override
     public void init() {
@@ -35,6 +36,7 @@ public class DatabaseSQL extends Database {
             dataSource = DBSource.create(host);
             table.executeUpdate(table.createQuery()).dataSource(dataSource).run();
             tableVar.executeUpdate(tableVar.createQuery()).dataSource(dataSource).run();
+            connected = true;
         } catch (Throwable t) {
             t.printStackTrace();
         }
@@ -121,5 +123,29 @@ public class DatabaseSQL extends Database {
 
     public String toName(Player player) {
         return uniqueId ? player.getUniqueId().toString() : player.getName();
+    }
+
+    public boolean isConnected() {
+        return connected;
+    }
+
+    public SQLHost getHost() {
+        return host;
+    }
+
+    public SQLTable getTable() {
+        return table;
+    }
+
+    public SQLTable getTableVar() {
+        return tableVar;
+    }
+
+    public DataSource getDataSource() {
+        return dataSource;
+    }
+
+    public boolean isUniqueId() {
+        return uniqueId;
     }
 }

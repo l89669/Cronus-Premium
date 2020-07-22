@@ -1,9 +1,11 @@
 package ink.ptms.cronus.internal.task.listener;
 
 import ink.ptms.cronus.CronusAPI;
+import ink.ptms.cronus.internal.task.block.TaskBlockInteract;
 import ink.ptms.cronus.internal.task.item.*;
 import ink.ptms.cronus.internal.task.player.total.TaskItemDamage;
 import io.izzel.taboolib.module.inject.TListener;
+import io.izzel.taboolib.util.item.Items;
 import org.bukkit.block.BlockState;
 import org.bukkit.block.Furnace;
 import org.bukkit.entity.HumanEntity;
@@ -11,6 +13,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.enchantment.EnchantItemEvent;
 import org.bukkit.event.inventory.CraftItemEvent;
 import org.bukkit.event.inventory.FurnaceSmeltEvent;
@@ -64,6 +67,13 @@ public class ListenerItem implements Listener {
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void e(PlayerDropItemEvent e) {
         CronusAPI.stageHandle(e.getPlayer(), e, TaskItemDrop.class);
+    }
+
+    @EventHandler
+    public void e(PlayerInteractEvent e) {
+        if (e.getAction() != Action.PHYSICAL && Items.nonNull(e.getItem())) {
+            CronusAPI.stageHandle(e.getPlayer(), e, TaskItemUse.class);
+        }
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)

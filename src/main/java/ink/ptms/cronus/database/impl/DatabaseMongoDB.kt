@@ -32,6 +32,9 @@ class DatabaseMongoDB : Database() {
             .registerTypeAdapter(YamlConfiguration::class.java, JsonSerializer<YamlConfiguration> { a, _, _ -> JsonPrimitive(a.saveToString()) })
             .registerTypeAdapter(YamlConfiguration::class.java, JsonDeserializer<YamlConfiguration> { a, _, _ -> SecuredFile.loadConfiguration(a.asString) }).create()
 
+    var connected = false
+        private set
+
     override fun init() {
         uniqueId = Cronus.getConf().getBoolean("Database.uniqueId")
         mongoClient = MongoClients.create(ConnectionString(Cronus.getConf().getString("Database.mongodb.client")!!))
@@ -40,6 +43,7 @@ class DatabaseMongoDB : Database() {
         if (mongoCollectionData!!.listIndexes().none { it.get("key", Document::class.java).containsKey("player") }) {
             mongoCollectionData!!.createIndex(Indexes.ascending("player"))
         }
+        connected = true
     }
 
     override fun cancel() {
