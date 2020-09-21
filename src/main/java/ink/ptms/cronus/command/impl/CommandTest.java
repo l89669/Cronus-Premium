@@ -260,7 +260,7 @@ public class CommandTest extends CronusCommand {
                 return;
             }
             Firework firework = Utils.spawnFirework(player.getLocation());
-            firework.setMetadata("no_damage", new FixedMetadataValue(Cronus.getPlugin(), 1));
+            firework.setMetadata("no_damage", new FixedMetadataValue(Cronus.getInst(), 1));
             if (args.length > 1 && args[1].equalsIgnoreCase("-a")) {
                 Bukkit.getScheduler().runTaskLater(Cronus.getInst(), firework::detonate, 1);
             }

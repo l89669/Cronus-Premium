@@ -75,7 +75,7 @@ public class Scoreboard implements Service, Listener {
 
     public void update(Player player) {
         if (isEnabled()) {
-            Bukkit.getScheduler().runTaskAsynchronously(Cronus.getPlugin(), () -> {
+            Bukkit.getScheduler().runTaskAsynchronously(Cronus.getInst(), () -> {
                 List<String> build = build(player);
                 // 空行检查
                 for (int i = 0; i < build.size(); i++) {

@@ -60,7 +60,7 @@ public class GuideWayData {
             Location midPoint = getMidPoint(player.getEyeLocation(), target, distance);
             if (midPoint != null) {
                 String distance = doubleFormat.format(player.getLocation().distance(target));
-                Bukkit.getScheduler().runTask(Cronus.getPlugin(), () -> {
+                Bukkit.getScheduler().runTask(Cronus.getInst(), () -> {
                     for (int i = 0; i < entity.size(); i++) {
                         entity.get(i).flash(text.get(i).replace("{distance}", distance));
                         entity.get(i).flash(midPoint.clone().add(0, i * -0.3 - 0.5, 0));
@@ -77,8 +77,8 @@ public class GuideWayData {
     }
 
     public void display() {
-        if (player == null || !player.isOnline()) {
-            player.spawnParticle(Version.isAfter(Version.v1_9) ? Particle.END_ROD : Particle.CLOUD, target, 500, 0, 100, 0, 0);
+        if (player != null && player.isOnline()) {
+            player.spawnParticle(Version.isAfter(Version.v1_9) ? Particle.END_ROD : Particle.CLOUD, target, 500, 0.05, 100, 0.05, 0);
         }
     }
 

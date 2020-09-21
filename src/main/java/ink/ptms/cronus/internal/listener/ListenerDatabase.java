@@ -34,6 +34,6 @@ public class ListenerDatabase implements Listener {
         if (dataPlayer != null) {
             dataPlayer.push();
         }
-        e.getPlayer().removeMetadata("cronus:downloaded", Cronus.getPlugin());
+        e.getPlayer().removeMetadata("cronus:downloaded", Cronus.getInst());
     }
 }

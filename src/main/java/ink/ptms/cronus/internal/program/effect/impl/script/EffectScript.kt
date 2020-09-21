@@ -52,7 +52,7 @@ class EffectScript : Effect() {
                 this.compiledScript.eval(this.bindings)
             }
         } catch (t: ScriptException) {
-            TLoggerManager.getLogger(Cronus.getPlugin()).error("脚本执行出错: " + t.message)
+            TLoggerManager.getLogger(Cronus.getInst()).error("脚本执行出错: " + t.message)
         }
     }
 

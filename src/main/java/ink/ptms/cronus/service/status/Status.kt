@@ -42,7 +42,7 @@ class Status : Service, Listener {
     var sound: SoundPack? = null
 
     init {
-        Bukkit.getScheduler().runTaskTimer(Cronus.getPlugin(), {
+        Bukkit.getScheduler().runTaskTimer(Cronus.getInst(), {
             barMap.filterValues { System.currentTimeMillis() > it.right }.forEach { (k, _) -> barMap.remove(k)!!.left.removeAll() }
         }, 20, 20);
     }

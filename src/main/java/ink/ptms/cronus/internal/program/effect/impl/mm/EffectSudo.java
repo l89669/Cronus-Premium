@@ -66,7 +66,7 @@ public class EffectSudo extends Effect {
                     entities,
                     location,
                     0);
-            Bukkit.getScheduler().runTask(Cronus.getPlugin(), () -> {
+            Bukkit.getScheduler().runTask(Cronus.getInst(), () -> {
                 mechanic.executeSkills(skillMetadata);
             });
         }

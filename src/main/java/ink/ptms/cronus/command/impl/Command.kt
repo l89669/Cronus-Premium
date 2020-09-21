@@ -71,7 +71,7 @@ open class Command : CronusCommand() {
             normal(sender, "正在创建缓存...")
             val playerData = CronusAPI.getData(player)
             val bookBuilder = BookFormatter.writtenBook()
-            Bukkit.getScheduler().runTaskAsynchronously(Cronus.getPlugin(), Runnable {
+            Bukkit.getScheduler().runTaskAsynchronously(Cronus.getInst(), Runnable {
                 bookBuilder.addPages(PageBuilder()
                         .add("").newLine()
                         .add("").newLine()
@@ -107,7 +107,7 @@ open class Command : CronusCommand() {
                             .append(" 结束时间 ").append("§7[...]").hoverText(if (playerData.isQuestCompleted(k)) dateFormat.format(playerData.questCompleted[k]) else "-").newLine()
                             .toRawMessage()))
                 }
-                Bukkit.getScheduler().runTask(Cronus.getPlugin(), Runnable {
+                Bukkit.getScheduler().runTask(Cronus.getInst(), Runnable {
                     BookFormatter.forceOpen(sender as Player, bookBuilder.build())
                 })
             })

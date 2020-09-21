@@ -25,7 +25,7 @@ public abstract class Database implements Service {
         CronusMirror.getMirror("Database:AsyncDownload").start();
         DataPlayer dataPlayer = download0(player);
         CronusMirror.getMirror("Database:AsyncDownload").stop();
-        player.setMetadata("cronus:downloaded", new FixedMetadataValue(Cronus.getPlugin(), true));
+        player.setMetadata("cronus:downloaded", new FixedMetadataValue(Cronus.getInst(), true));
         return dataPlayer;
     }
 

@@ -1,6 +1,7 @@
 package ink.ptms.cronus.uranus;
 
 import ink.ptms.cronus.Cronus;
+import io.izzel.taboolib.loader.PluginBase;
 
 /**
  * @Author 坏黑
@@ -8,7 +9,7 @@ import ink.ptms.cronus.Cronus;
  */
 public class Uranus {
 
-    public static Cronus getInst() {
+    public static PluginBase getInst() {
         return Cronus.getInst();
     }
 
