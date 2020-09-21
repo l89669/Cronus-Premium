@@ -2,6 +2,7 @@ package ink.ptms.cronus;
 
 import io.izzel.taboolib.loader.Plugin;
 import io.izzel.taboolib.loader.PluginBase;
+import io.izzel.taboolib.loader.PluginBoot;
 import io.izzel.taboolib.module.config.TConfig;
 import io.izzel.taboolib.module.dependency.Dependency;
 import io.izzel.taboolib.module.inject.TInject;
@@ -21,8 +22,6 @@ import java.nio.charset.StandardCharsets;
 @Dependency(maven = "com.mongodb:mongodb:3.12.2", url = "https://skymc.oss-cn-shanghai.aliyuncs.com/libs/mongo-java-driver-3.12.2.jar")
 public class Cronus extends Plugin {
 
-    @TInject
-    private static Cronus inst;
     @TInject(state = TInject.State.LOADING, init = "init", active = "active", cancel = "cancel")
     private static CronusService cronusService;
     @TInject(state = TInject.State.LOADING, init = "init", active = "start")
@@ -62,7 +61,7 @@ public class Cronus extends Plugin {
     // *********************************
 
     public static PluginBase getInst() {
-        return inst.getPlugin();
+        return PluginBoot.getPlugin();
     }
 
     public static CronusLoader getCronusLoader() {
