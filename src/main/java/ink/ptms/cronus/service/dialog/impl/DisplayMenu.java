@@ -4,10 +4,13 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import ink.ptms.cronus.Cronus;
+import ink.ptms.cronus.internal.program.NoneProgram;
+import ink.ptms.cronus.internal.program.QuestProgram;
 import ink.ptms.cronus.service.dialog.DialogPack;
 import ink.ptms.cronus.service.dialog.api.DisplayBase;
 import ink.ptms.cronus.service.dialog.api.Reply;
 import ink.ptms.cronus.service.dialog.api.ReplyMap;
+import ink.ptms.cronus.uranus.function.FunctionParser;
 import io.izzel.taboolib.util.item.Items;
 import io.izzel.taboolib.util.item.inventory.ClickType;
 import io.izzel.taboolib.util.item.inventory.MenuBuilder;
@@ -81,11 +84,11 @@ public class DisplayMenu extends DisplayBase {
                 .items()
                 .build();
         // 对话物品
-        inventory.setItem(slotMessage, toItem(Materials.matchMaterials(dialogPack.getConfig().getOrDefault("item", "BOOK").toString()).orElse(Materials.STONE), dialogPack.getText()));
+        inventory.setItem(slotMessage, toItem(player, Materials.matchMaterials(dialogPack.getConfig().getOrDefault("item", "BOOK").toString()).orElse(Materials.STONE), dialogPack.getText()));
         // 回复物品
         for (int i = 0; i < slotReply.length && i < replyMap.getReply().size(); i++) {
             DialogPack reply = replyMap.getReply().get(i).getDialogPack();
-            inventory.setItem(slotReply[i], toItem(Materials.matchMaterials(reply.getConfig().getOrDefault("item", reply.isQuest() ? "MAP" : "PAPER").toString()).orElse(Materials.STONE), reply.getText()));
+            inventory.setItem(slotReply[i], toItem(player, Materials.matchMaterials(reply.getConfig().getOrDefault("item", reply.isQuest() ? "MAP" : "PAPER").toString()).orElse(Materials.STONE), reply.getText()));
             slots.put(slotReply[i], replyMap.getReply().get(i));
         }
         player.openInventory(inventory);
@@ -100,10 +103,14 @@ public class DisplayMenu extends DisplayBase {
         return 0;
     }
 
-    public ItemStack toItem(Materials material, List<String> list) {
+    public ItemStack toItem(Player player, Materials material, List<String> list) {
+        NoneProgram program = new NoneProgram(player);
+        for (int i = 0; i < list.size(); i++) {
+            list.set(i, FunctionParser.parse(program, list.get(i)).toString());
+        }
         ItemStack itemStack = material.parseItem();
         if (Items.isNull(itemStack)) {
-            itemStack.setType(Material.STONE);
+            itemStack = new ItemStack(Material.STONE);
         }
         if (list.size() > 0) {
             ItemMeta itemMeta = itemStack.getItemMeta();
