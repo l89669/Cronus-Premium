@@ -15,6 +15,7 @@ import ink.ptms.cronus.service.Service
 import ink.ptms.cronus.uranus.annotations.Auto
 import ink.ptms.cronus.uranus.function.FunctionParser
 import io.izzel.taboolib.internal.apache.lang3.tuple.MutablePair
+import io.izzel.taboolib.module.inject.TSchedule
 import io.izzel.taboolib.module.locale.TLocale
 import io.izzel.taboolib.util.lite.SoundPack
 import org.bukkit.Bukkit
@@ -36,15 +37,18 @@ import java.util.concurrent.TimeUnit
 class Status : Service, Listener {
 
     var type: StatusType? = null
-    val barMap = ConcurrentHashMap<String, MutablePair<BossBar, Long>>()
     var barColor: BarColor? = null
     var barStyle: BarStyle? = null
     var sound: SoundPack? = null
 
-    init {
-        Bukkit.getScheduler().runTaskTimer(Cronus.getInst(), {
+    companion object {
+
+        val barMap = ConcurrentHashMap<String, MutablePair<BossBar, Long>>()
+
+        @TSchedule(period = 20)
+        fun remove() {
             barMap.filterValues { System.currentTimeMillis() > it.right }.forEach { (k, _) -> barMap.remove(k)!!.left.removeAll() }
-        }, 20, 20);
+        }
     }
 
     override fun init() {

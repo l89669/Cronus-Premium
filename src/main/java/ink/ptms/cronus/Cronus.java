@@ -6,7 +6,6 @@ import io.izzel.taboolib.loader.PluginBoot;
 import io.izzel.taboolib.module.config.TConfig;
 import io.izzel.taboolib.module.dependency.Dependency;
 import io.izzel.taboolib.module.inject.TInject;
-import io.izzel.taboolib.module.inject.TSchedule;
 import io.izzel.taboolib.module.locale.logger.TLogger;
 import io.izzel.taboolib.util.Strings;
 import io.izzel.taboolib.util.lite.Catchers;
@@ -23,9 +22,9 @@ import java.nio.charset.StandardCharsets;
 @Dependency(maven = "com.mongodb:mongodb:3.12.2", url = "https://skymc.oss-cn-shanghai.aliyuncs.com/libs/mongo-java-driver-3.12.2.jar")
 public class Cronus extends Plugin {
 
-    @TInject(state = TInject.State.LOADING, init = "init", cancel = "cancel")
+    @TInject(state = TInject.State.LOADING, load = "load", init = "init", active = "active", cancel = "cancel")
     private static CronusService cronusService;
-    @TInject(state = TInject.State.LOADING, init = "init")
+    @TInject(state = TInject.State.LOADING, load = "load", init = "init", active = "start")
     private static CronusLoader cronusLoader;
     private static CronusVersion cronusVersion;
     @TInject(value = "config.yml")
@@ -49,12 +48,6 @@ public class Cronus extends Plugin {
     @Override
     public void onDisable() {
         Catchers.getPlayerdata().clear();
-    }
-
-    @TSchedule(delay = 20)
-    public void onActive() {
-        cronusService.active();
-        cronusLoader.start();
     }
 
     public static void reloadQuest() {

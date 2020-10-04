@@ -22,6 +22,8 @@ import ink.ptms.cronus.internal.condition.ConditionCache;
 import ink.ptms.cronus.internal.task.TaskCache;
 import ink.ptms.cronus.service.Service;
 import ink.ptms.cronus.uranus.annotations.Auto;
+import io.izzel.taboolib.TabooLib;
+import io.izzel.taboolib.TabooLibAPI;
 import io.izzel.taboolib.TabooLibLoader;
 import io.izzel.taboolib.module.inject.TInject;
 import io.izzel.taboolib.module.locale.logger.TLogger;
@@ -39,8 +41,7 @@ import java.util.concurrent.ConcurrentSkipListSet;
  */
 public class CronusService {
 
-    @TInject
-    private static TLogger logger;
+    private static final TLogger logger = TLogger.getUnformatted(Cronus.getInst());
     @TInject("SacredItem")
     private static boolean asgardHooked;
     @TInject("PurtmarsItem")
@@ -63,7 +64,33 @@ public class CronusService {
         registeredItemStorage.add(new ItemStorageCronus());
     }
 
+    void load() {
+        // 引路
+        TabooLibLoader.getPluginClasses(Cronus.getInst()).ifPresent(classes -> {
+            classes.stream().filter(pClass -> Service.class.isAssignableFrom(pClass) && pClass.isAnnotationPresent(Auto.class)).forEach(pClass -> {
+                try {
+                    Service service = (Service) pClass.newInstance();
+                    if (service instanceof Listener) {
+                        TabooLibLoader.runTask(() -> {
+                            Bukkit.getPluginManager().registerEvents((Listener) service, Cronus.getInst());
+                        });
+                    }
+                    services.put(pClass.getSimpleName(), service);
+                } catch (Throwable t) {
+                    logger.info("Service " + pClass.getSimpleName() + " initialization failed.");
+                    t.printStackTrace();
+                }
+            });
+        });
+        logger.info(services.size() + " Service Registered.");
+    }
+
     void init() {
+        // 加载
+        services.values().forEach(Service::init);
+    }
+
+    void active() {
         // 数据储存
         databaseType = Enums.getIfPresent(DatabaseType.class, Cronus.getConf().getString("Database.type").toUpperCase()).or(DatabaseType.YAML);
         switch (databaseType) {
@@ -88,31 +115,10 @@ public class CronusService {
                 break;
             }
         }
-        // 引路
-        TabooLibLoader.getPluginClasses(Cronus.getInst()).ifPresent(classes -> {
-            classes.stream().filter(pClass -> Service.class.isAssignableFrom(pClass) && pClass.isAnnotationPresent(Auto.class)).forEach(pClass -> {
-                try {
-                    Service service = (Service) pClass.newInstance();
-                    if (service instanceof Listener) {
-                        Bukkit.getPluginManager().registerEvents((Listener) service, Cronus.getInst());
-                    }
-                    services.put(pClass.getSimpleName(), service);
-                } catch (Throwable t) {
-                    logger.info("Service " + pClass.getSimpleName() + " initialization failed.");
-                    t.printStackTrace();
-                }
-            });
-        });
-        logger.info(services.size() + " Service Registered.");
-        // 加载
-        services.values().forEach(Service::init);
-        // 下载数据
-        Bukkit.getOnlinePlayers().forEach(this::refreshData);
-    }
-
-    void active() {
         // 运行
         services.values().forEach(Service::active);
+        // 下载数据
+        Bukkit.getOnlinePlayers().forEach(this::refreshData);
     }
 
     void cancel() {

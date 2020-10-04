@@ -30,11 +30,10 @@ import java.util.List;
  */
 public class CronusLoader {
 
-    @TInject
-    private static TLogger logger;
+    private static final TLogger logger = TLogger.getUnformatted(Cronus.getInst());
     private File folder;
 
-    void init() {
+    void load() {
         TabooLibLoader.getPluginClasses(Cronus.getInst()).ifPresent(classes -> {
             for (Class<?> pClass : classes) {
                 // task
@@ -49,8 +48,12 @@ public class CronusLoader {
                 }
             }
         });
-        logger.info(Cronus.getCronusService().getRegisteredCondition().size() + " Condition Registered.");
         logger.info(Cronus.getCronusService().getRegisteredTask().size() + " Task Registered.");
+        logger.info(Cronus.getCronusService().getRegisteredCondition().size() + " Condition Registered.");
+    }
+
+    void init() {
+
     }
 
     public void start() {
